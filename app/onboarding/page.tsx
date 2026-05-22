@@ -4,10 +4,14 @@ const links = {
   program: "/program",
   onboarding: "/onboarding",
   telegramCommunity: "https://t.me/rejutokencommunity",
+
+  bookAdminPayment: "#",
+  directProgramPayment: "#",
+  verificationForm: "#",
 };
 
 const buttonClass =
-  "rounded-full border border-[#f5c26b] px-8 py-3 font-semibold text-[#f5c26b] transition duration-300 hover:bg-[#f5c26b] hover:text-black";
+  "rounded-full border border-[#f5c26b] px-8 py-3 text-center font-semibold text-[#f5c26b] transition duration-300 hover:bg-[#f5c26b] hover:text-black";
 
 export default function Onboarding() {
   return (
@@ -33,21 +37,15 @@ export default function Onboarding() {
         </h1>
 
         <p className="mx-auto mt-6 max-w-3xl text-lg font-semibold leading-relaxed text-gray-100 md:text-xl">
-          Enrollment begins with the required $69 REJU Guide + Admin Registration. After that, choose your entry path: lock REJU for 6 months or enter directly through the standard program path.
+          Start with the required $69 Book + Admin Registration. Then choose your entry path: lock REJU for 6 months through the crypto path, or enter directly through the standard program path.
         </p>
 
         <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-gray-300 md:text-lg">
-          After registration, submit your verification so your participation can be reviewed and your cohort access can be approved.
+          After payment and registration, submit your verification so your cohort access can be reviewed and approved.
         </p>
-
-        <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
-          <a href="#enrollment-steps" className={buttonClass}>View Enrollment Steps</a>
-          <a href={links.program} className={buttonClass}>View Program</a>
-          <a href={links.telegramCommunity} target="_blank" rel="noopener noreferrer" className={buttonClass}>Join Telegram</a>
-        </div>
       </section>
 
-      <section id="enrollment-steps" className="px-6 py-10">
+      <section className="px-6 py-8">
         <div className="mx-auto max-w-6xl rounded-3xl border border-[#f5c26b]/30 bg-[#120904]/90 p-8 shadow-[0_0_40px_rgba(245,194,107,0.14)] backdrop-blur-md md:p-10">
           <div className="text-center">
             <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#f5c26b]">
@@ -62,26 +60,26 @@ export default function Onboarding() {
           <div className="mt-10 grid gap-6">
             <Step
               number="1"
-              title="Purchase the REJU Guide + Admin Registration"
-              text="All participants begin by paying the required $69 registration amount. This covers the REJU guide/book and administrative onboarding."
+              title="Pay the $69 Book + Admin Registration"
+              text="This payment is required for all participants and covers the book/program guide and administrative onboarding."
             />
 
             <Step
               number="2"
               title="Choose Your Entry Path"
-              text="Crypto participants may enter by locking REJU for 6 months. This makes the program practically free because participation is connected to the REJU ecosystem. Non-crypto participants may choose direct program entry."
+              text="Crypto users may lock REJU for 6 months. Non-crypto users may enter through the direct program payment path."
             />
 
             <Step
               number="3"
               title="Submit Verification"
-              text="After registering, submit your payment confirmation and, when applicable, your REJU lock verification. This allows the team to confirm your entry path."
+              text="Submit your payment confirmation and, when applicable, your REJU lock verification."
             />
 
             <Step
               number="4"
               title="Receive Cohort Access"
-              text="Once verification is approved, you will receive the next onboarding instructions and access to the REJU Rejuvenation Event™ cohort."
+              text="Once verification is approved, you will receive the next instructions to enter the REJU Rejuvenation Event™."
             />
           </div>
         </div>
@@ -92,24 +90,36 @@ export default function Onboarding() {
           <PathCard
             title="Crypto Entry Path"
             subtitle="Lock REJU for 6 Months"
+            description="For participants entering through REJU token participation."
             items={[
-              "$69 guide + admin registration required",
+              "Pay $69 Book + Admin Registration",
+              "Buy or hold the required REJU amount",
               "Lock REJU for 6 months",
-              "Submit lock verification",
+              "Submit payment and lock verification",
               "Receive cohort access after approval",
-              "Designed for REJU ecosystem participants",
+            ]}
+            buttons={[
+              { label: "Pay $69 Book + Admin", href: links.bookAdminPayment },
+              { label: "Buy / Lock REJU", href: links.buy },
+              { label: "Submit Verification", href: links.verificationForm },
             ]}
           />
 
           <PathCard
             title="Direct Entry Path"
             subtitle="Standard Program Enrollment"
+            description="For participants entering without using crypto."
             items={[
-              "$69 guide + admin registration required",
-              "Direct program entry for non-crypto users",
-              "No REJU lock required",
-              "Submit registration verification",
+              "Pay $69 Book + Admin Registration",
+              "Pay direct program entry fee",
+              "Submit payment verification",
               "Receive cohort access after approval",
+              "Designed for participants entering without REJU lock",
+            ]}
+            buttons={[
+              { label: "Pay $69 Book + Admin", href: links.bookAdminPayment },
+              { label: "Pay Program Entry", href: links.directProgramPayment },
+              { label: "Submit Verification", href: links.verificationForm },
             ]}
           />
         </div>
@@ -121,12 +131,12 @@ export default function Onboarding() {
         </h2>
 
         <p className="mx-auto mt-4 max-w-2xl text-gray-300">
-          Start with registration, choose your path, submit verification, and enter the REJU Rejuvenation Event™.
+          Complete the payment steps for your entry path, submit verification, and enter the REJU Rejuvenation Event™ after approval.
         </p>
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
-          <a href={links.buy} className={buttonClass}>Buy / Lock REJU</a>
-          <a href={links.program} className={buttonClass}>View Program</a>
+          <a href={links.bookAdminPayment} className={buttonClass}>Pay $69 Book + Admin</a>
+          <a href={links.verificationForm} className={buttonClass}>Submit Verification</a>
           <a href={links.telegramCommunity} target="_blank" rel="noopener noreferrer" className={buttonClass}>
             Join Telegram Community
           </a>
@@ -162,11 +172,15 @@ function Step({
 function PathCard({
   title,
   subtitle,
+  description,
   items,
+  buttons,
 }: {
   title: string;
   subtitle: string;
+  description: string;
   items: string[];
+  buttons: { label: string; href: string }[];
 }) {
   return (
     <div className="rounded-3xl border border-[#f5c26b]/25 bg-[#160b05]/85 p-8 shadow-[0_0_30px_rgba(245,194,107,0.10)]">
@@ -178,6 +192,10 @@ function PathCard({
         {subtitle}
       </h3>
 
+      <p className="mt-4 text-gray-300">
+        {description}
+      </p>
+
       <ul className="mt-6 space-y-3 text-left text-gray-300">
         {items.map((item, index) => (
           <li key={index} className="flex gap-3">
@@ -186,6 +204,14 @@ function PathCard({
           </li>
         ))}
       </ul>
+
+      <div className="mt-8 flex flex-col gap-3">
+        {buttons.map((button, index) => (
+          <a key={index} href={button.href} className={buttonClass}>
+            {button.label}
+          </a>
+        ))}
+      </div>
     </div>
   );
 }
