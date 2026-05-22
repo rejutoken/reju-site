@@ -41,13 +41,25 @@ export default function Home() {
           Rejuvenation Ecosystem™
         </h2>
 
-        <p className="mx-auto mt-4 max-w-5xl text-xl font-semibold leading-relaxed text-white">
-          Introducing Rejunomics™ — Transparent Holdings-Release Disclosure designed to show investors not only what REJU holds, but why it is held, how it may release, and what that reveals about long-term intent.
-        </p>
+     
 
-        <p className="mx-auto mt-6 max-w-4xl text-lg leading-relaxed text-gray-300">
-          REJU combines a participation-driven rejuvenation ecosystem with controlled circulation, verifiable locks, qualification-based rewards, delayed release behavior, and long-term ecosystem alignment.
-        </p>
+        <div className="mx-auto mt-10 max-w-6xl rounded-3xl border border-[#f5c26b]/50 bg-[#f5c26b]/10 p-6 shadow-[0_0_45px_rgba(245,194,107,0.22)] backdrop-blur-md md:p-8">
+          <p className="text-sm font-bold uppercase tracking-[0.28em] text-[#f5c26b]">
+            REJU Differentiator
+          </p>
+
+          <h3 className="mt-4 text-2xl font-bold leading-snug text-[#f5c26b] md:text-4xl">
+            A token engineered to be sustained by its ecosystem.
+          </h3>
+
+          <p className="mx-auto mt-5 max-w-5xl text-lg font-semibold leading-relaxed text-gray-100 md:text-xl">
+            REJU was designed as a regenerative ecosystem where utility, participation, and ecosystem activity reinforce long-term sustainability beyond speculation.
+          </p>
+
+          <p className="mx-auto mt-5 max-w-5xl text-lg font-semibold leading-relaxed text-gray-100 md:text-xl">
+            Unlike traditional token models dependent on hype cycles, REJU integrates token participation into an operational structure engineered for long-term continuity.
+          </p>
+        </div>
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
           <a href={links.buy} className={buttonClass}>Buy REJU</a>
@@ -135,7 +147,7 @@ export default function Home() {
               percent="15%"
               title="Team & Development"
               purpose={["Development", "Operations", "Infrastructure", "Long-term execution"]}
-              behavior={["Locked for 6 months", "Released progressively after lock", "1% released monthly", "Structured for delayed circulation"]}
+              behavior={["Locked for 12 months", "Released progressively after lock", "1% released monthly", "Structured for delayed circulation"]}
               signal={["Shows long-term team commitment", "Reduces early destabilizing pressure", "Aligns developers with investors", "Supports healthier token growth"]}
             />
 
