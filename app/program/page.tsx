@@ -223,7 +223,7 @@ export default function ProgramPage() {
 
             <Info
               title="REJU Lock Path"
-              text="Program access included with a $600 REJU lock commitment for 24 months through Streamflow."
+              text="Program access included with a $600 REJU lock commitment for 6 months through Streamflow."
             />
 
             <Info
