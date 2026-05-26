@@ -25,7 +25,7 @@ export default function ProgramPage() {
             REJU Rejuvenation Event™
           </h1>
 
-          <h2 className="mt-4 text-4xl font-bold md:text-4xl">
+          <h2 className="mt-4 text-4xl text-[#f5c26b] md:text-4xl">
             A Structured 6-Week Rejuvenation Experience
           </h2>
 
@@ -57,7 +57,7 @@ export default function ProgramPage() {
         <section className="grid gap-8 lg:grid-cols-2">
 
           <Card>
-            <h2 className="text-4xl font-bold text-[#f5c26b]">
+            <h2 className="text-3xl font-bold text-[#f5c26b]">
               Rejuvenating From the Inside Out
             </h2>
 
@@ -133,11 +133,11 @@ export default function ProgramPage() {
           </Card>
 
           <Card>
-            <h2 className="text-4xl font-bold text-[#f5c26b]">
+            <h2 className="text-3xl font-bold text-[#f5c26b]">
               The REJU Rejuvenation Journey™
             </h2>
 
-            <div className="mt-6 space-y-6">
+            <div className="mt-10 space-y-10">
               <JourneyWeek
                 title="Week 1 — Establishing Your Starting Point"
                 text="Participants document their current condition through daily pictures, journaling, and personal reflections describing energy, emotional state, habits, physical condition, and overall well-being."
@@ -220,7 +220,7 @@ export default function ProgramPage() {
               </a>
 
               <a href={links.onboarding} className={buttonClass}>
-                Join the Guided program
+                Enter the Program
               </a>
             </div>
           </div>
@@ -230,12 +230,12 @@ export default function ProgramPage() {
 
           <div className="text-center">
             <h2 className="text-4xl font-bold text-[#f5c26b]">
-              Real Transformation. Real Discipline.
+              Real Transformation. Real Results.
             </h2>
 
             <p className="mx-auto mt-4 max-w-3xl text-lg leading-relaxed text-gray-300">
               The videos below show visible transformation, disciplined execution,
-              and the power of following the REJU structure.
+              <p>and the power of following the REJU structure.</p>
             </p>
           </div>
 

@@ -5,9 +5,9 @@ const links = {
   onboarding: "/onboarding",
   telegramCommunity: "https://t.me/rejutokencommunity",
 
-  bookAdminPayment: "#",
-  directProgramPayment: "#",
-  verificationForm: "#",
+  bookAdminPayment: "https://square.link/u/zH7dIuF5",
+  directProgramPayment: "https://square.link/u/fmBzbrPI",
+  verificationForm: "https://docs.google.com/forms/d/e/1FAIpQLSfvvLPXPEBuzDkh99vkjCD9iw-t_TOMUY6y_2qYt2CDhk_g0A/viewform?usp=header",
 };
 
 const buttonClass =
@@ -15,40 +15,48 @@ const buttonClass =
 
 export default function Onboarding() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] text-white">
+    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] text-gray-300">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
-        <a href={links.home} className="font-bold text-[#f5c26b]">REJU</a>
+        <a href={links.home} className="font-bold text-[#f5c26b]">
+          REJU
+        </a>
 
         <div className="hidden gap-6 text-sm text-gray-300 md:flex">
-          <a href={links.buy} className="hover:text-[#f5c26b]">Buy REJU</a>
-          <a href={links.program} className="hover:text-[#f5c26b]">Program</a>
-          <a href={links.onboarding} className="hover:text-[#f5c26b]">Onboarding</a>
-          <a href={links.telegramCommunity} target="_blank" rel="noopener noreferrer" className="hover:text-[#f5c26b]">Telegram</a>
+          <a href={links.buy} className="hover:text-[#f5c26b]">
+            Buy REJU
+          </a>
+          <a href={links.program} className="hover:text-[#f5c26b]">
+            Program
+          </a>
+          <a href={links.onboarding} className="hover:text-[#f5c26b]">
+            Onboarding
+          </a>
+          <a
+            href={links.telegramCommunity}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[#f5c26b]"
+          >
+            Telegram
+          </a>
         </div>
       </nav>
 
       <section className="px-6 py-16 text-center">
-        <p className="mb-4 text-sm font-semibold uppercase tracking-[0.35em] text-[#f5c26b]">
+        <p className="mb-4 text-lg font-bold uppercase tracking-[0.35em] text-[#f5c26b]">
           REJU Onboarding
         </p>
 
-        <h1 className="mx-auto max-w-5xl text-5xl font-bold leading-tight text-[#f5c26b] md:text-7xl">
+        <h1 className="mx-auto max-w-5xl text-5xl font-bold leading-tight text-[#f5c26b] md:text-5xl">
           Enter the REJU Rejuvenation Event™
         </h1>
 
-        <p className="mx-auto mt-6 max-w-3xl text-lg font-semibold leading-relaxed text-gray-100 md:text-xl">
-          Start with the required $69 Book + Admin Registration. Then choose your entry path: lock REJU for 6 months through the crypto path, or enter directly through the standard program path.
-        </p>
-
-        <p className="mx-auto mt-4 max-w-3xl text-base leading-relaxed text-gray-300 md:text-lg">
-          After payment and registration, submit your verification so your cohort access can be reviewed and approved.
-        </p>
       </section>
 
       <section className="px-6 py-8">
         <div className="mx-auto max-w-6xl rounded-3xl border border-[#f5c26b]/30 bg-[#120904]/90 p-8 shadow-[0_0_40px_rgba(245,194,107,0.14)] backdrop-blur-md md:p-10">
           <div className="text-center">
-            <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#f5c26b]">
+            <p className="text-lg font-bold uppercase tracking-[0.3em] text-[#f5c26b]">
               How to Enroll
             </p>
 
@@ -78,7 +86,7 @@ export default function Onboarding() {
 
             <Step
               number="4"
-              title="Receive Cohort Access"
+              title="Receive Program Access"
               text="Once verification is approved, you will receive the next instructions to enter the REJU Rejuvenation Event™."
             />
           </div>
@@ -96,7 +104,7 @@ export default function Onboarding() {
               "Buy or hold the required REJU amount",
               "Lock REJU for 6 months",
               "Submit payment and lock verification",
-              "Receive cohort access after approval",
+              "Receive program access after approval",
             ]}
             buttons={[
               { label: "Pay $69 Book + Admin", href: links.bookAdminPayment },
@@ -113,8 +121,8 @@ export default function Onboarding() {
               "Pay $69 Book + Admin Registration",
               "Pay direct program entry fee",
               "Submit payment verification",
-              "Receive cohort access after approval",
-              "Designed for participants entering without REJU lock",
+              "Receive program access after approval",
+              "Designed for participants entering without a REJU lock",
             ]}
             buttons={[
               { label: "Pay $69 Book + Admin", href: links.bookAdminPayment },
@@ -122,24 +130,6 @@ export default function Onboarding() {
               { label: "Submit Verification", href: links.verificationForm },
             ]}
           />
-        </div>
-      </section>
-
-      <section className="px-6 py-16 text-center">
-        <h2 className="text-4xl font-bold text-[#f5c26b]">
-          Ready to Begin?
-        </h2>
-
-        <p className="mx-auto mt-4 max-w-2xl text-gray-300">
-          Complete the payment steps for your entry path, submit verification, and enter the REJU Rejuvenation Event™ after approval.
-        </p>
-
-        <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
-          <a href={links.bookAdminPayment} className={buttonClass}>Pay $69 Book + Admin</a>
-          <a href={links.verificationForm} className={buttonClass}>Submit Verification</a>
-          <a href={links.telegramCommunity} target="_blank" rel="noopener noreferrer" className={buttonClass}>
-            Join Telegram Community
-          </a>
         </div>
       </section>
     </main>
@@ -163,7 +153,9 @@ function Step({
 
       <div>
         <h3 className="text-2xl font-bold text-[#f5c26b]">{title}</h3>
-        <p className="mt-3 text-base leading-relaxed text-gray-300 md:text-lg">{text}</p>
+        <p className="mt-3 text-base leading-relaxed text-gray-300 md:text-lg">
+          {text}
+        </p>
       </div>
     </div>
   );
@@ -188,13 +180,11 @@ function PathCard({
         {title}
       </p>
 
-      <h3 className="mt-3 text-3xl font-bold text-white">
+      <h3 className="mt-3 text-3xl font-bold text-[#f5c26b]">
         {subtitle}
       </h3>
 
-      <p className="mt-4 text-gray-300">
-        {description}
-      </p>
+      <p className="mt-4 text-gray-300">{description}</p>
 
       <ul className="mt-6 space-y-3 text-left text-gray-300">
         {items.map((item, index) => (
