@@ -14,15 +14,32 @@ export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] text-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
-        <a href={links.home} className="font-bold text-[#f5c26b]">REJU</a>
+        <a href={links.home} className="font-bold text-[#f5c26b]">
+          REJU
+        </a>
 
         <div className="hidden gap-6 text-sm text-gray-300 md:flex">
-          <a href={links.buy} className="hover:text-[#f5c26b]">Buy REJU</a>
-          <a href="#tokenomics" className="hover:text-[#f5c26b]">Tokenomics</a>
-          <a href={links.rejunomics} className="hover:text-[#f5c26b]">Rejunomics</a>
-          <a href={links.program} className="hover:text-[#f5c26b]">Program</a>
-          <a href={links.onboarding} className="hover:text-[#f5c26b]">Onboarding</a>
-          <a href={links.telegramCommunity} target="_blank" rel="noopener noreferrer" className="hover:text-[#f5c26b]">
+          <a href={links.buy} className="hover:text-[#f5c26b]">
+            Buy REJU
+          </a>
+          <a href="#tokenomics" className="hover:text-[#f5c26b]">
+            Tokenomics
+          </a>
+          <a href={links.rejunomics} className="hover:text-[#f5c26b]">
+            Rejunomics
+          </a>
+          <a href={links.program} className="hover:text-[#f5c26b]">
+            Program
+          </a>
+          <a href={links.onboarding} className="hover:text-[#f5c26b]">
+            Onboarding
+          </a>
+          <a
+            href={links.telegramCommunity}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[#f5c26b]"
+          >
             Telegram
           </a>
         </div>
@@ -36,7 +53,7 @@ export default function Home() {
         </h1>
 
         <h2 className="mt-4 text-2xl font-bold leading-relaxed text-[#f5c26b] md:text-3xl">
-          A Token With an Ecosystem™
+          Participation-Driven Ecosystem™
         </h2>
 
         <div className="mx-auto mt-10 max-w-4xl rounded-3xl border border-[#f5c26b]/15 bg-[#f5c26b]/[0.02] p-8 shadow-[0_0_10px_rgba(245,194,107,0.04)] backdrop-blur-sm">
@@ -48,44 +65,78 @@ export default function Home() {
             A token engineered to be sustained by its ecosystem.
           </h3>
 
-          <p className="mt-5 text-left text-lg font-semibold leading-relaxed text-gray-100">
-            REJU was designed as a regenerative ecosystem where utility,
-            participation, and ecosystem activity reinforce long-term
-            sustainability beyond speculation.
+          <p className="mt-5 text-left text-[1.05rem] font-normal leading-relaxed text-gray-300">
+            REJU was designed with a{" "}
+            <span className="font-bold text-[#f5c26b]">
+              Renewable Economic Engine™
+            </span>
+            , a regenerative ecosystem where utility, participation, and
+            ecosystem activity reinforce long-term sustainability beyond
+            speculation.
           </p>
 
-          <p className="mt-5 text-left text-lg font-semibold leading-relaxed text-gray-100">
-            Unlike traditional token models dependent on hype cycles, REJU
-            integrates token participation into an operational structure
-            engineered for long-term continuity and supported by a transparent
-            release disclosure system designed to reinforce investor trust.
-          </p>
+          <div className="mt-5 text-left text-[1.05rem] font-normal leading-relaxed text-gray-300">
+            <p className="mb-3">
+              Unlike traditional token models dependent on hype cycles, REJU
+              integrates:
+            </p>
+
+            <ol className="ml-6 list-decimal space-y-3">
+              <li>
+                <span className="font-bold text-[#f5c26b]">
+                  Renewable Economic Engine:
+                </span>{" "}
+                token participation integrated into an operational structure
+                engineered for long-term continuity.
+              </li>
+
+              <li>
+                <span className="font-bold text-[#f5c26b]">
+                  Transparent Release Disclosure:
+                </span>{" "}
+                a disclosure structure designed to communicate holding mechanics
+                and reinforce transparency for investors.
+              </li>
+            </ol>
+          </div>
 
           <h3 className="mt-10 text-left text-2xl font-bold leading-snug text-[#f5c26b]">
             REJU Lifecycle™
           </h3>
 
-          <p className="mt-5 text-left text-lg font-semibold leading-relaxed text-gray-100">
+          <p className="mt-5 text-left text-[1.05rem] font-normal leading-relaxed text-gray-300">
             Lock $600 in REJU for 6 months and participate in the REJU
             Rejuvenation Event™ without paying the standard program fee. At the
             end of the lock period, your REJU unlocks back to your wallet.
           </p>
         </div>
 
-        <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
-          <a href={links.buy} className={buttonClass}>Buy REJU</a>
-          <a href={links.onboarding} className={buttonClass}>Enter REJU</a>
-          <a href={links.program} className={buttonClass}>View Program</a>
+        <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:justify-center">
+          <a href={links.buy} className={buttonClass}>
+            Buy REJU
+          </a>
+
+          <a href={links.onboarding} className={buttonClass}>
+            Enter REJU
+          </a>
+
+          <a href={links.program} className={buttonClass}>
+            View Program
+          </a>
         </div>
       </section>
 
       <section className="px-6 py-12">
         <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-2">
           <SmallCard>
-            <h2 className="text-center text-2xl font-bold text-[#f5c26b]">REJU Ecosystem™</h2>
+            <h2 className="text-center text-2xl font-bold text-[#f5c26b]">
+              REJU Ecosystem™
+            </h2>
+
             <p className="mt-4 text-center text-sm text-gray-300">
-              A participation-driven rejuvenation ecosystem designed around guided cohorts,
-              accountability, certification, and long-term participation.
+              A participation-driven rejuvenation ecosystem designed around
+              guided cohorts, accountability, certification, and long-term
+              participation.
             </p>
 
             <div className="mt-6 grid gap-3">
@@ -99,10 +150,14 @@ export default function Home() {
           </SmallCard>
 
           <SmallCard>
-            <h2 className="text-center text-2xl font-bold text-[#f5c26b]">Transparent Release Disclosure</h2>
+            <h2 className="text-center text-2xl font-bold text-[#f5c26b]">
+              Transparent Release Disclosure
+            </h2>
+
             <p className="mt-4 text-center text-sm text-gray-300">
-              REJU introduces a transparent disclosure structure showing how locks,
-              rewards, reserves, and releases are designed to behave over time.
+              REJU introduces a transparent disclosure structure showing how
+              locks, rewards, reserves, and releases are designed to behave over
+              time.
             </p>
 
             <div className="mt-6 grid gap-3">
@@ -124,7 +179,8 @@ export default function Home() {
             </h2>
 
             <h3 className="mt-4 text-2xl font-bold text-[#f5c26b]">
-              Includes REJU&apos;s Transparent Release Disclosure and Renewable Economic Engine™
+              Includes REJU&apos;s Transparent Release Disclosure and Renewable
+              Economic Engine™
             </h3>
           </div>
 
@@ -186,14 +242,14 @@ export default function Home() {
                   </h4>
 
                   <p className="mt-4 text-base leading-relaxed text-gray-300">
-                    Lock $600 in REJU for 6 months and participate in the REJU
+                    Lock $600 in REJU for 6 months and participate in the
                     Rejuvenation Event™ without paying the standard program fee.
                   </p>
 
                   <p className="mt-4 text-base leading-relaxed text-gray-300">
                     At the end of the lock period, REJU unlocks back to the
-                    participant&apos;s wallet while the lifecycle structure continues
-                    regenerating ecosystem participation and activity.
+                    participant&apos;s wallet while the lifecycle structure
+                    continues regenerating ecosystem participation and activity.
                   </p>
                 </div>
 
@@ -203,23 +259,23 @@ export default function Home() {
                   </h4>
 
                   <p className="mt-4 text-base leading-relaxed text-gray-300">
-                    Qualified referral participation rewards are designed to support
-                    ecosystem expansion through aligned participation and locked
-                    engagement.
+                    Qualified referral participation rewards are designed to
+                    support ecosystem expansion through aligned participation
+                    and locked engagement.
                   </p>
 
                   <p className="mt-4 text-base leading-relaxed text-gray-300">
-                    Participation incentives strengthen REJU&apos;s economic life by
-                    encouraging verified ecosystem growth instead of short-term
-                    speculative activity.
+                    Participation incentives strengthen REJU&apos;s economic life
+                    by encouraging verified ecosystem growth instead of
+                    short-term speculative activity.
                   </p>
                 </div>
               </div>
 
               <p className="mx-auto mt-8 max-w-4xl text-center text-base font-semibold leading-relaxed text-gray-300">
-                The Renewable Economic Engine™ is designed to reinforce ecosystem
-                continuity through participation, alignment, and operational activity
-                beyond speculative cycles.
+                The Renewable Economic Engine™ is designed to reinforce
+                ecosystem continuity through participation, alignment, and
+                operational activity beyond speculative cycles.
               </p>
             </div>
           </div>
@@ -229,19 +285,31 @@ export default function Home() {
       </section>
 
       <section className="px-6 py-20 text-center">
-        <h2 className="text-4xl font-bold text-[#f5c26b]">
-          Enter the REJU Ecosystem™
-        </h2>
+        <h2 className="text-4xl font-bold text-[#f5c26b]">Enter REJU™</h2>
 
         <p className="mx-auto mt-4 max-w-2xl text-gray-300">
-          Built for participants. Structured for investors. Designed for long-term participation.
+          Participation-driven ecosystem access.
         </p>
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
-          <a href={links.buy} className={buttonClass}>Buy REJU</a>
-          <a href={links.onboarding} className={buttonClass}>Start Onboarding</a>
-          <a href={links.program} className={buttonClass}>View Program</a>
-          <a href={links.telegramCommunity} target="_blank" rel="noopener noreferrer" className={buttonClass}>
+          <a href={links.buy} className={buttonClass}>
+            Buy REJU
+          </a>
+
+          <a href={links.onboarding} className={buttonClass}>
+            Start Onboarding
+          </a>
+
+          <a href={links.program} className={buttonClass}>
+            View Program
+          </a>
+
+          <a
+            href={links.telegramCommunity}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={buttonClass}
+          >
             Join Telegram
           </a>
         </div>
@@ -254,7 +322,9 @@ function InfrastructureSection() {
   return (
     <div className="mx-auto mt-24 max-w-7xl rounded-3xl border border-[#f5c26b]/25 bg-black/60 p-8 shadow-[0_0_35px_rgba(245,194,107,0.16)]">
       <div className="text-center">
-        <h2 className="text-4xl font-bold text-white">REJU Infrastructure</h2>
+        <h2 className="text-4xl font-bold text-[#f5c26b]">
+          REJU Participation Infrastructure™
+        </h2>
 
         <p className="mt-3 text-sm font-bold uppercase tracking-[0.3em] text-[#f5c26b]">
           Three Ways to Enter REJU
@@ -262,15 +332,31 @@ function InfrastructureSection() {
       </div>
 
       <div className="mt-10 grid gap-6 lg:grid-cols-3">
-        <EntryCard letter="A" title="Buy REJU" text="Buy REJU as an investment token." items={["No lock required", "Full flexibility"]} />
+        <EntryCard
+          letter="A"
+          title="Buy REJU"
+          text="Buy REJU as an investment token."
+          items={["No lock required", "Full flexibility"]}
+        />
 
-        <EntryCard letter="B" title="Lock REJU" text="Lock $600 in REJU for 6 months and enter the ecosystem path." items={["Program participation included", "REJU stays in your wallet"]} />
+        <EntryCard
+          letter="B"
+          title="Lock REJU"
+          text="Lock $600 in REJU for 6 months and enter the ecosystem path."
+          items={["Program participation included", "REJU stays in your wallet"]}
+        />
 
-        <EntryCard letter="C" title="Direct Program Entry" text="Enter the program directly without locking REJU." items={["No REJU lock required", "Standard enrollment path"]} />
+        <EntryCard
+          letter="C"
+          title="Direct Program Entry"
+          text="Enter the program directly without locking REJU."
+          items={["No REJU lock required", "Standard enrollment path"]}
+        />
       </div>
 
-      <div className="mt-8 rounded-2xl border border-[#f5c26b]/40 bg-[#120904] p-5 text-center text-xl font-bold text-white">
-        All participants pay the <span className="text-[#f5c26b]">$69 Book + Admin fee.</span>
+      <div className="mt-8 rounded-2xl border border-[#f5c26b]/40 bg-[#120904] p-5 text-center text-xl font-bold text-gray-300">
+        All participants in groups B and C above pay the{" "}
+        <span className="text-[#f5c26b]">$69 Book + Admin fee.</span>
       </div>
 
       <h3 className="mt-12 text-center text-2xl font-bold text-[#f5c26b]">
@@ -288,7 +374,10 @@ function InfrastructureSection() {
       </div>
 
       <div className="mx-auto mt-10 max-w-3xl rounded-2xl border border-[#f5c26b]/40 bg-[#120904] p-6 text-center">
-        <h3 className="text-2xl font-bold text-[#f5c26b]">You Maintain Control</h3>
+        <h3 className="text-2xl font-bold text-[#f5c26b]">
+          You Maintain Control
+        </h3>
+
         <p className="mt-3 text-gray-300">
           REJU never takes custody of your funds. Your REJU stays in your wallet
           while the lock structure verifies participation.
@@ -307,8 +396,8 @@ function InfrastructureSection() {
         <TrustCard title="Aligned Incentives" text="Participation rewards tied to ecosystem growth." />
       </div>
 
-      <div className="mt-8 rounded-2xl border border-[#f5c26b]/30 bg-black/40 p-5 text-center font-semibold text-gray-200">
-        REJU is built on honesty, transparency, and long-term value creation.{" "}
+      <div className="mt-8 rounded-2xl border border-[#f5c26b]/30 bg-black/40 p-5 text-center font-semibold text-gray-300">
+        REJU is built on transparency and long-term value creation.{" "}
         <span className="text-[#f5c26b]">Participation-Driven Ecosystem.</span>
       </div>
     </div>
@@ -325,7 +414,7 @@ function SmallCard({ children }: { children: React.ReactNode }) {
 
 function Box({ text }: { text: string }) {
   return (
-    <div className="rounded-2xl border border-[#f5c26b]/20 bg-black/20 p-3 text-center text-sm text-gray-200">
+    <div className="rounded-2xl border border-[#f5c26b]/20 bg-black/20 p-3 text-center text-sm text-gray-300">
       {text}
     </div>
   );
@@ -346,7 +435,8 @@ function DisclosureRow({
     <div className="rounded-3xl border border-[#f5c26b]/20 bg-black/25 p-5 md:p-6">
       <div className="grid gap-4 md:grid-cols-[90px_1fr]">
         <div className="text-3xl font-bold text-[#f5c26b]">{percent}</div>
-        <h3 className="text-xl font-bold text-white">{title}</h3>
+
+        <h3 className="text-xl font-bold text-[#f5c26b]">{title}</h3>
       </div>
 
       <div className="mt-5 grid gap-4 md:grid-cols-2">
@@ -391,7 +481,10 @@ function EntryCard({
         {letter}
       </div>
 
-      <h3 className="text-left text-2xl font-bold uppercase text-[#f5c26b]">{title}</h3>
+      <h3 className="text-left text-2xl font-bold uppercase text-[#f5c26b]">
+        {title}
+      </h3>
+
       <p className="mt-3 text-left text-gray-300">{text}</p>
 
       <ul className="mt-5 space-y-2 text-sm text-gray-300">
