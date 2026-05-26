@@ -13,7 +13,7 @@ const buttonClass =
 
 export default function ProgramPage() {
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] px-6 py-20 text-white">
+    <main className="min-h-screen bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] px-6 py-20 text-gray-300">
       <section className="mx-auto max-w-7xl space-y-20">
 
         <section className="text-center">
@@ -21,33 +21,31 @@ export default function ProgramPage() {
             REJU Program
           </p>
 
-          <h1 className="text-5xl font-bold text-[#f5c26b] md:text-7xl">
+          <h1 className="text-5xl font-bold text-[#f5c26b] md:text-6xl">
             REJU Rejuvenation Event™
           </h1>
 
-          <h2 className="mt-4 text-3xl font-bold md:text-4xl">
+          <h2 className="mt-4 text-4xl font-bold md:text-4xl">
             A Structured 6-Week Rejuvenation Experience
           </h2>
 
-          <p className="mx-auto mt-6 max-w-4xl text-lg leading-relaxed text-gray-300">
+          <p className="mx-auto mt-6 max-w-4xl text-lg text-left leading-relaxed text-gray-300">
             Built from lived experience, scientific structure, disciplined execution,
             and a relentless pursuit of rejuvenation from within.
-          </p>
-
-          <p className="mx-auto mt-6 max-w-4xl text-lg leading-relaxed text-gray-300">
-            The REJU Rejuvenation Event™ is a structured metabolic and rejuvenation-focused
+        
+            <p>The REJU Rejuvenation Event™ is a structured metabolic and rejuvenation-focused
             protocol designed to help participants reconnect with energy, discipline,
             metabolic balance, visible transformation, and stronger inside-and-out results
             through guided execution and accountability.
           </p>
-
+</p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
             <a href="#proof" className={buttonClass}>
               Watch Results
             </a>
 
             <a href={links.onboarding} className={buttonClass}>
-              Enter Cohort
+              Enter Program
             </a>
 
             <a href={links.streamflowLock} className={buttonClass}>
@@ -85,6 +83,53 @@ export default function ProgramPage() {
               restored consistency, and rebuilding the relationship between the participant and their body.
               Daily pictures, journaling, and accountability create a visible transformation history.
             </p>
+			
+			<div className="mt-10 rounded-3xl border border-[#f5c26b]/20 bg-black/20 p-6">
+  <h3 className="text-3xl font-bold text-[#f5c26b]">
+    Enter the REJU Program
+  </h3>
+
+  <p className="mt-4 text-base leading-relaxed text-gray-300">
+    Join the guided 6-week rejuvenation program built around structure,
+    accountability, visible transformation, and metabolic rejuvenation.
+  </p>
+
+  <div className="mt-6 grid gap-4 md:grid-cols-2">
+
+    <Info
+      title="Program Format"
+      text="6-week guided rejuvenation program with daily structure, education, accountability, and recorded sessions."
+    />
+
+    <Info
+      title="Required Entry"
+      text="$69 book + admin fee required. The book is the guide and contains Kat’s JOL™ recipe."
+    />
+
+    <Info
+      title="REJU Lock Path"
+      text="Program access included with a $600 REJU lock commitment for 6 months through Streamflow."
+    />
+
+    <Info
+      title="Direct Entry Path"
+      text="Participants may enter directly through the $600 program entry path plus the required book/admin fee."
+    />
+  </div>
+
+  <div className="mt-8 flex flex-col gap-4 text-center sm:flex-row sm:justify-center">
+
+    <a href={links.streamflowLock} className={buttonClass}>
+      Lock REJU with Streamflow
+    </a>
+
+    <a href={links.onboarding} className={buttonClass}>
+      Start Onboarding
+    </a>
+
+  </div>
+</div>
+			
           </Card>
 
           <Card>
@@ -175,7 +220,7 @@ export default function ProgramPage() {
               </a>
 
               <a href={links.onboarding} className={buttonClass}>
-                Join the Guided Cohort
+                Join the Guided program
               </a>
             </div>
           </div>
@@ -200,50 +245,7 @@ export default function ProgramPage() {
           </div>
         </section>
 
-        <Card>
-          <h2 className="text-center text-4xl font-bold text-[#f5c26b]">
-            Enter the REJU Cohort
-          </h2>
-
-          <p className="mx-auto mt-6 max-w-4xl text-center text-lg leading-relaxed text-gray-300">
-            The REJU Rejuvenation Event™ is designed for participants ready to enter a guided
-            rejuvenation process built around structure, accountability, and visible transformation.
-          </p>
-
-          <div className="mt-8 grid gap-5 md:grid-cols-2">
-            <Info
-              title="Cohort Format"
-              text="6-week guided rejuvenation event with daily structure, education, accountability, and recorded sessions."
-            />
-
-            <Info
-              title="Required Entry"
-              text="$69 book + admin fee required. The book is the guide and contains Kat’s JOL™ recipe."
-            />
-
-            <Info
-              title="REJU Lock Path"
-              text="Program access included with a $600 REJU lock commitment for 6 months through Streamflow."
-            />
-
-            <Info
-              title="Direct Entry Path"
-              text="Participants may enter directly through the $600 program entry path plus the required book/admin fee."
-            />
-          </div>
-
-          <div className="mt-10 flex flex-col gap-4 text-center sm:flex-row sm:justify-center">
-
-            <a href={links.streamflowLock} className={buttonClass}>
-              Lock REJU with Streamflow
-            </a>
-
-            <a href={links.onboarding} className={buttonClass}>
-              Start Onboarding
-            </a>
-
-          </div>
-        </Card>
+ 
       </section>
     </main>
   );
