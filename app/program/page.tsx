@@ -1,44 +1,94 @@
 const links = {
   home: "/",
+  buy: "/buy",
   onboarding: "/onboarding",
+  program: "/program",
+  rejunomics: "/rejunomics",
+  blog: "/blog",
+
+  telegramOfficial: "https://t.me/rejuofficial",
   telegramCommunity: "https://t.me/rejutokencommunity",
+
   katShortVideo: "https://www.youtube.com/embed/qqu3x0Gy-AM",
   katLongVideo: "https://www.youtube.com/embed/pzi4Qj5HMwM",
+
   book: "https://square.link/u/zH7dIuF5",
-  streamflowLock: "#",
+  streamflowLock: "https://app.streamflow.finance/token-lock",
 };
+
 
 const buttonClass =
   "rounded-full border border-[#f5c26b] px-8 py-3 font-semibold text-[#f5c26b] transition duration-300 hover:bg-[#f5c26b] hover:text-black";
 
 export default function ProgramPage() {
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] px-6 py-20 text-gray-300">
-      <section className="mx-auto max-w-7xl space-y-20">
+  
+      <main className="min-h-screen bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] px-6 py-6 text-gray-300">
+     
+
+ <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
+        <a href={links.home} className="font-bold text-[#f5c26b]">
+          REJU
+        </a>
+
+        <div className="hidden gap-6 text-md text-gray-300 md:flex">
+          <a href={links.buy} className="hover:text-[#f5c26b]">
+            Buy REJU
+          </a>
+          <a href="/#tokenomics" className="hover:text-[#f5c26b]">
+            Tokenomics
+          </a>
+ 		  
+          <a href={links.program} className="hover:text-[#f5c26b]">
+            Program
+          </a>
+          <a href={links.onboarding} className="hover:text-[#f5c26b]">
+            Onboarding
+          </a>
+		           <a href={links.rejunomics} className="hover:text-[#f5c26b]">
+            Rejunomics
+          </a>
+		  
+		  <a href={links.blog} className="hover:text-[#f5c26b]">
+			Blog
+			</a>
+
+		  
+
+          <a href={links.telegramOfficial}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[#f5c26b]"
+          >
+            Telegram
+          </a>
+        </div>
+      </nav>
+
+	 <section className="mx-auto max-w-7xl space-y-20">
 
         <section className="text-center">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.35em] text-[#f5c26b]">
             REJU Program
           </p>
 
-          <h1 className="text-5xl font-bold text-[#f5c26b] md:text-6xl">
+          <h1 className="font-bold text-[#f5c26b] md:text-3xl">
             REJU Rejuvenation Event™
           </h1>
 
-          <h2 className="mt-4 text-4xl text-[#f5c26b] md:text-4xl">
+          <h2 className="mt-4 text-[#f5c26b] md:text-2xl">
             A Structured 6-Week Rejuvenation Experience
           </h2>
 
           <p className="mx-auto mt-6 max-w-4xl text-lg text-left leading-relaxed text-gray-300">
             Built from lived experience, scientific structure, disciplined execution,
-            and a relentless pursuit of rejuvenation from within.
+            and a relentless pursuit of rejuvenation from within.</p>
         
-            <p>The REJU Rejuvenation Event™ is a structured metabolic and rejuvenation-focused
-            protocol designed to help participants reconnect with energy, discipline,
+            <p className="mx-auto mt-6 max-w-4xl text-lg text-left leading-relaxed text-gray-300">
+			The REJU Rejuvenation Event™ is a structured metabolic and rejuvenation-focused protocol designed to help participants reconnect with energy, discipline,
             metabolic balance, visible transformation, and stronger inside-and-out results
             through guided execution and accountability.
           </p>
-</p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
             <a href="#proof" className={buttonClass}>
               Watch Results
@@ -53,11 +103,9 @@ export default function ProgramPage() {
             </a>
           </div>
         </section>
-
         <section className="grid gap-8 lg:grid-cols-2">
-
           <Card>
-            <h2 className="text-3xl font-bold text-[#f5c26b]">
+            <h2 className="text-2xl  text-[#f5c26b]">
               Rejuvenating From the Inside Out
             </h2>
 
@@ -85,7 +133,7 @@ export default function ProgramPage() {
             </p>
 			
 			<div className="mt-10 rounded-3xl border border-[#f5c26b]/20 bg-black/20 p-6">
-  <h3 className="text-3xl font-bold text-[#f5c26b]">
+  <h3 className="text-2xl text-[#f5c26b]">
     Enter the REJU Program
   </h3>
 
@@ -133,7 +181,7 @@ export default function ProgramPage() {
           </Card>
 
           <Card>
-            <h2 className="text-3xl font-bold text-[#f5c26b]">
+            <h2 className="text-2xl text-[#f5c26b]">
               The REJU Rejuvenation Journey™
             </h2>
 
@@ -178,7 +226,7 @@ export default function ProgramPage() {
               Foundational Guide — The Book
             </p>
 
-            <h2 className="mt-4 max-w-4xl text-4xl font-bold text-[#f5c26b]">
+            <h2 className="mt-4 max-w-4xl text-2xl font-bold text-[#f5c26b]">
               Kat’s Legacy: A Science-Based Path to Healing and Longevity
             </h2>
 
@@ -193,13 +241,13 @@ export default function ProgramPage() {
               </div>
 
               <div className="max-w-3xl">
-                <p className="text-lg leading-relaxed text-gray-300">
+                <p className="text-lg leading-relaxed text-left text-gray-300">
                   <em>Kat’s Legacy</em> is the foundation of the REJU Protocol™ and the starting point
                   of the REJU Ecosystem™. It contains the structure behind the rejuvenation process,
                   the self-guided version of the event, and the recipe for Kat’s JOL™ — Juice Of Life™.
                 </p>
 
-                <p className="mt-4 text-lg leading-relaxed text-gray-300">
+                <p className="mt-4 text-lg leading-relaxed text-left text-gray-300">
                   Readers can begin their rejuvenation journey directly through the book. Participants
                   who want support, accountability, daily structure, and guided execution can enter the
                   REJU Rejuvenation Event™.
@@ -229,19 +277,19 @@ export default function ProgramPage() {
         <section id="proof" className="space-y-8">
 
           <div className="text-center">
-            <h2 className="text-4xl font-bold text-[#f5c26b]">
+            <h2 className="text-2xl font-bold text-[#f5c26b]">
               Real Transformation. Real Results.
             </h2>
 
             <p className="mx-auto mt-4 max-w-3xl text-lg leading-relaxed text-gray-300">
               The videos below show visible transformation, disciplined execution,
-              <p>and the power of following the REJU structure.</p>
+              and the power of following the REJU structure.
             </p>
           </div>
 
           <div className="grid gap-6 lg:grid-cols-2">
-            <Video title="Short Transformation Video" src={links.katShortVideo} />
-            <Video title="Full Transformation Video" src={links.katLongVideo} />
+            <Video title="Short Transformation Video, Created From Full Video below" src={links.katShortVideo} />
+            <Video title="Full Transformation Video, Months Compiled Into One Video" src={links.katLongVideo} />
           </div>
         </section>
 

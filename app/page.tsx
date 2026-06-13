@@ -4,11 +4,20 @@ const links = {
   onboarding: "/onboarding",
   program: "/program",
   rejunomics: "/rejunomics",
-  telegramCommunity: "https://t.me/rejutokencommunity",
+  blog: "/blog",
+  telegramOfficial: "https://t.me/rejuofficial",
 };
 
 const buttonClass =
   "rounded-full border border-[#f5c26b] px-8 py-3 text-center font-semibold text-[#f5c26b] transition duration-300 hover:bg-[#f5c26b] hover:text-black";
+
+const tokenomics = [
+  { percent: "40%", title: "Public Market Release" },
+  { percent: "20%", title: "Ecosystem Growth & Participation Awards" },
+  { percent: "15%", title: "Team & Development" },
+  { percent: "15%", title: "Treasury" },
+  { percent: "10%", title: "Marketing & Expansion" },
+];
 
 export default function Home() {
   return (
@@ -18,24 +27,31 @@ export default function Home() {
           REJU
         </a>
 
-        <div className="hidden gap-6 text-sm text-gray-300 md:flex">
+        <div className="hidden gap-6 text-lg text-gray-300 md:flex">
           <a href={links.buy} className="hover:text-[#f5c26b]">
             Buy REJU
           </a>
           <a href="#tokenomics" className="hover:text-[#f5c26b]">
             Tokenomics
           </a>
-          <a href={links.rejunomics} className="hover:text-[#f5c26b]">
-            Rejunomics
-          </a>
+ 		  
           <a href={links.program} className="hover:text-[#f5c26b]">
             Program
           </a>
           <a href={links.onboarding} className="hover:text-[#f5c26b]">
             Onboarding
           </a>
-          <a
-            href={links.telegramCommunity}
+		           <a href={links.rejunomics} className="hover:text-[#f5c26b]">
+            Rejunomics
+          </a>
+		  
+		  <a href={links.blog} className="hover:text-[#f5c26b]">
+			Blog
+			</a>
+
+		  
+
+          <a href={links.telegramOfficial}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-[#f5c26b]"
@@ -62,7 +78,7 @@ export default function Home() {
           </p>
 
           <h3 className="mt-6 text-left text-2xl font-bold leading-snug text-[#f5c26b]">
-            A token engineered to be sustained by its ecosystem.
+            A token engineered to be supported by its ecosystem.
           </h3>
 
           <p className="mt-5 text-left text-[1.05rem] font-normal leading-relaxed text-gray-300">
@@ -70,32 +86,35 @@ export default function Home() {
             <span className="font-bold text-[#f5c26b]">
               Renewable Economic Engine™
             </span>
-            , a regenerative ecosystem where utility, participation, and
-            ecosystem activity reinforce long-term sustainability beyond
-            speculation.
+            , where participation, utility, and business activity are structured
+            to support ecosystem continuity beyond launch speculation.
           </p>
 
           <div className="mt-5 text-left text-[1.05rem] font-normal leading-relaxed text-gray-300">
-            <p className="mb-3">
-              Unlike traditional token models dependent on hype cycles, REJU
-              integrates:
-            </p>
+   
+			
+			 <h3 className="mt-8 text-left text-2xl font-bold leading-snug text-[#f5c26b]">
+            REJU integrates:
+          </h3>
+			
+              
+          
 
-            <ol className="ml-6 list-decimal space-y-3">
+            <ol className="ml-12 list-decimal text-lg text-gray-100 space-y-3">
               <li>
-                <span className="font-bold text-[#f5c26b]">
-                  Renewable Economic Engine:
+                <span className="mt-10 font-bold text-lg text-gray-100">
+                  Transparent Holdings Disclosure:
                 </span>{" "}
-                token participation integrated into an operational structure
-                engineered for long-term continuity.
+                visibility into allocations, holdings, locks, releases, and
+                reward behavior.
               </li>
 
               <li>
-                <span className="font-bold text-[#f5c26b]">
-                  Transparent Release Disclosure:
+                <span className="font-bold text-lg text-gray-100">
+                  Renewable Economic Engine™ Disclosure:
                 </span>{" "}
-                a disclosure structure designed to communicate holding mechanics
-                and reinforce transparency for investors.
+                visibility into the participation and business activity intended
+                to support ongoing ecosystem continuity.
               </li>
             </ol>
           </div>
@@ -123,159 +142,237 @@ export default function Home() {
           <a href={links.program} className={buttonClass}>
             View Program
           </a>
+		  
+		  <a href="/blog" className={buttonClass}>
+    Read REJU Research
+  </a>
+		  
         </div>
       </section>
 
-      <section className="px-6 py-12">
-        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-2">
-          <SmallCard>
-            <h2 className="text-center text-2xl font-bold text-[#f5c26b]">
-              REJU Ecosystem™
-            </h2>
+     <section className="px-4 py-12 sm:px-6">
+  <div
+    id="tokenomics"
+    className="mx-auto mt-16 w-full max-w-7xl overflow-hidden rounded-3xl border border-[#f5c26b]/20 bg-[#120904]/90 p-4 shadow-[0_0_35px_rgba(245,194,107,0.14)] backdrop-blur-md sm:p-6 md:p-8"
+  >
+    <div className="text-center">
+      <h2 className="text-3xl font-bold uppercase tracking-[0.12em] text-[#f5c26b] sm:text-4xl md:text-5xl">
+        TOKENOMICS
+      </h2>
+    </div>
 
-            <p className="mt-4 text-center text-sm text-gray-300">
-              A participation-driven rejuvenation ecosystem designed around
-              guided cohorts, accountability, certification, and long-term
-              participation.
-            </p>
+    <div className="mt-8 rounded-3xl border border-[#f5c26b]/20 bg-black/25 p-4 sm:p-6 md:p-8">
+      <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+        <div className="min-w-0">
+          <div className="mt-6 grid gap-3">
+            {tokenomics.map((item) => (
+              <div
+                key={item.title}
+                className="flex w-full items-center justify-between gap-3 rounded-2xl border border-[#f5c26b]/15 bg-[#120904]/80 p-4"
+              >
+                <span className="min-w-0 text-base font-semibold text-gray-300 sm:text-xl">
+                  {item.title}
+                </span>
 
-            <div className="mt-6 grid gap-3">
-              <Box text="REJU Rejuvenation Event™" />
-              <Box text="Kat’s Legacy foundation" />
-              <Box text="REJU Protocol™" />
-              <Box text="CRP certification structure" />
-              <Box text="Guided cohort participation" />
-              <Box text="REJU Longevity Group™" />
-            </div>
-          </SmallCard>
-
-          <SmallCard>
-            <h2 className="text-center text-2xl font-bold text-[#f5c26b]">
-              Transparent Release Disclosure
-            </h2>
-
-            <p className="mt-4 text-center text-sm text-gray-300">
-              REJU introduces a transparent disclosure structure showing how
-              locks, rewards, reserves, and releases are designed to behave over
-              time.
-            </p>
-
-            <div className="mt-6 grid gap-3">
-              <Box text="Why tokens are held" />
-              <Box text="When they may release" />
-              <Box text="Which holdings are locked" />
-              <Box text="How rewards enter circulation" />
-            </div>
-          </SmallCard>
+                <span className="shrink-0 text-lg font-bold text-[#f5c26b] sm:text-xl">
+                  {item.percent}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div
-          id="tokenomics"
-          className="mx-auto mt-16 max-w-7xl rounded-3xl border border-[#f5c26b]/20 bg-[#120904]/90 p-8 shadow-[0_0_35px_rgba(245,194,107,0.14)] backdrop-blur-md"
-        >
-          <div className="text-center">
-            <h2 className="text-4xl font-bold uppercase tracking-[0.18em] text-[#f5c26b] md:text-5xl">
-              TOKENOMICS
-            </h2>
-
-            <h3 className="mt-4 text-2xl font-bold text-[#f5c26b]">
-              Includes REJU&apos;s Transparent Release Disclosure and Renewable
-              Economic Engine™
-            </h3>
+        <div className="flex min-w-0 flex-col items-center">
+          <div className="relative h-64 w-64 rounded-full border border-[#f5c26b]/40 bg-[conic-gradient(#f5c26b_0_40%,#d89b45_40%_60%,#9f6d2e_60%_75%,#6b471d_75%_90%,#3a2410_90%_100%)] shadow-[0_0_35px_rgba(245,194,107,0.18)] sm:h-80 sm:w-80">
+            <div className="absolute left-[74%] top-[42%] text-base font-bold text-black sm:text-xl">40%</div>
+            <div className="absolute left-[47%] top-[75%] text-base font-bold text-black sm:text-xl">20%</div>
+            <div className="absolute left-[15%] top-[65%] text-base font-bold text-white sm:text-xl">15%</div>
+            <div className="absolute left-[15%] top-[32%] text-base font-bold text-white sm:text-xl">15%</div>
+            <div className="absolute left-[35%] top-[14%] text-base font-bold text-white sm:text-xl">10%</div>
           </div>
 
-          <div className="mt-10 grid gap-5">
-            <DisclosureRow
-              percent="20%"
-              title="Ecosystem Growth & Participation Awards"
-              purpose={[
-                "Participant completion awards",
-                "CRP certification awards",
-                "Referral participation awards",
-              ]}
-              behavior={[
-                "All awards issued in REJU",
-                "Participant and certification awards locked for 6 months",
-                "Referral awards distributed 33.3% immediately and 66.7% locked for 6 months",
-              ]}
-            />
+          <p className="mt-5 text-center text-base text-gray-400 sm:text-xl">
+            Allocation view
+          </p>
+        </div>
+      </div>
+    </div>
+	
+	
+	
 
-            <DisclosureRow
-              percent="40%"
-              title="Public Market Release"
-              purpose={["Initial circulation", "Public access"]}
-              behavior={["Released at launch", "Available for open market trading"]}
-            />
+            <h3 className="mt-4 font-bold text-[#f5c26b] md:text-2xl">
+                  <a
+                href={links.rejunomics}
+                className="mt-6 inline-block font-semibold text-[#f5c26b] hover:underline"
+              >Introducing REJUNOMICS™, a transparent disclosure system.</a>
+              </h3>
+		  
+		  <div className="mt-8 rounded-3xl border border-[#f5c26b]/30 bg-black/35 p-6 md:p-8">
+            <div className="text-center">
+              <p className="text-2xl font-bold uppercase tracking-[0.14em] text-[#f5c26b] sm:text-3xl sm:tracking-[0.28em]">
+                Rejunomics™
+              </p>
 
-            <DisclosureRow
-              percent="15%"
-              title="Team & Development"
-              purpose={["Development", "Infrastructure"]}
-              behavior={["Locked for 6 months", "Progressive release after lock, 1.5% monthly"]}
-            />
+              <h3 className="mt-4 font-bold text-[#f5c26b] md:text-2xl">
+                Transparency and Ecosystem Continuity Disclosure
+              </h3>
 
-            <DisclosureRow
-              percent="15%"
-              title="Treasury"
-              purpose={["Operational reserve", "Infrastructure continuity"]}
-              behavior={["Held for strategic needs", "Supports execution and stability"]}
-            />
+              <p className="mx-auto mt-6 max-w-5xl text-left text-xl text-gray-300">
+                Rejunomics™ is a transparency disclosure system for tokenomics, 
+				it expands traditional tokenomics by revealing where holdings are allocated, 
+				how they may enter circulation, and what mechanisms are intended to support 
+				token life and continuity beyond launch.
+              </p>
+			  <p className="mx-auto mt-4 max-w-5xl text-left text-xl text-gray-200">
+                Rejunomics™ was designed to expose operational intent with clarity and
+				transparency.
+              </p>
+			  
 
-            <DisclosureRow
-              percent="10%"
-              title="Marketing & Expansion"
-              purpose={["Visibility", "Community growth and expansion"]}
-              behavior={["Growth campaigns", "Expansion support"]}
-            />
+<div className="mx-auto mt-6 max-w-5xl text-left">
+  <h4 className="text-xl font-bold text-[#f5c26b]">
+    Questions Rejunomics™ answers:
+  </h4>
 
-            <div className="mt-10 rounded-3xl border border-[#f5c26b]/20 bg-black/25 p-6 md:p-8">
+  <ul className="mt-3 space-y-2 text-lg text-gray-200">
+    <li>• Where are the holdings?</li>
+    <li>• When can they enter circulation?</li>
+    <li>• Which incentives are finite?</li>
+    <li>• What remains after incentives are exhausted?</li>
+  </ul>
+</div>
+			  
+
+              <a
+                href={links.rejunomics}
+                className="mt-6 inline-block font-semibold text-[#f5c26b] hover:underline"
+              >
+                Learn more about the Rejunomics™ →
+              </a>
+            </div>
+
+           <div className="mt-10 grid gap-6 lg:grid-cols-3">
+  <FrameworkCard
+    title="Transparent Holdings Disclosure™"
+    subtitle="Where the holdings are and how they may behave."
+    items={[
+      "Allocation percentages",
+      "Designated REJU holdings",
+      "Lock periods",
+      "Release schedules",
+      "Reward distribution behavior",
+    ]}
+  />
+
+  <FrameworkCard
+    title="Token Life Disclosure™"
+    subtitle="What is intended to support token continuity beyond launch."
+    items={[
+      "Token survivability intent",
+      "Finite incentive disclosure",
+      "Post-incentive continuity",
+      "Business activity support",
+      "Long-term ecosystem participation",
+    ]}
+  />
+
+  <FrameworkCard
+    title="Renewable Economic Engine™ Disclosure"
+    subtitle="The mechanism designed to support Token Life."
+    items={[
+      "REJU Lifecycle™",
+      "Participation pathways",
+      "Incentives funded by REJU holdings",
+      "Business activity continuity",
+      "Expansion and participation mechanisms",
+    ]}
+  />
+</div>
+
+            <div className="mt-10 grid gap-5">
+              <DisclosureRow
+                percent="40%"
+                title="Public Market Release"
+                purpose={["Initial circulation", "Public access", "Market availability"]}
+                behavior={["Released at launch", "Available for open market trading"]}
+              />
+
+              <DisclosureRow
+                percent="20%"
+                title="Ecosystem Growth & Participation Awards"
+                purpose={[
+                  "Completion awards",
+                  "CRP certification awards",
+                  "Referral participation awards",
+                  "Early ecosystem growth",
+                ]}
+                behavior={[
+                  "Funded from designated REJU incentive allocations",
+                  "Available while those designated REJU allocations remain available",
+                  "Referral awards distributed 33.3% immediately and 66.7% locked for 6 months",
+                  "Startup and participation incentives may be adjusted as the ecosystem matures",
+                ]}
+              />
+
+              <DisclosureRow
+                percent="15%"
+                title="Team & Development"
+                purpose={["Development", "Infrastructure", "Execution support"]}
+                behavior={["Locked for 6 months", "Progressive release after lock, 1.5% monthly"]}
+              />
+
+              <DisclosureRow
+                percent="15%"
+                title="Treasury"
+                purpose={["Operational reserve", "Infrastructure continuity", "Strategic needs"]}
+                behavior={["Held for strategic use", "Supports execution, stability, and continuity planning"]}
+              />
+
+              <DisclosureRow
+                percent="10%"
+                title="Marketing & Expansion"
+                purpose={["Visibility", "Community growth", "Expansion support"]}
+                behavior={["Supports growth campaigns", "Supports communication, reach, and ecosystem expansion"]}
+              />
+            </div>
+
+            <div className="mt-10 rounded-3xl border border-[#f5c26b]/20 bg-[#120904]/70 p-6 md:p-8">
               <div className="text-center">
-                <h2 className="text-3xl font-bold uppercase tracking-[0.18em] text-[#f5c26b] md:text-4xl">
+                <h2 className="text-2xl font-bold uppercase tracking-[0.12em] text-[#f5c26b] sm:text-3xl md:text-4xl md:tracking-[0.18em]">
                   Renewable Economic Engine™
                 </h2>
+
+                <p className="mx-auto mt-4 max-w-4xl text-gray-300">
+                  REJU separates finite incentives from long-term business
+                  activity so investors can see what depends on designated REJU
+                  holdings and what is intended to continue through ecosystem
+                  operations.
+                </p>
               </div>
 
-              <div className="mt-8 grid gap-6 lg:grid-cols-2">
-                <div className="rounded-2xl border border-[#f5c26b]/15 bg-[#120904]/70 p-6">
-                  <h4 className="text-2xl font-bold text-[#f5c26b]">
-                    REJU Lifecycle™
-                  </h4>
+              <div className="mt-8 grid gap-6 lg:grid-cols-3">
+                <EngineCard
+                  title="REJU Lifecycle™"
+                  text="Lock $600 in REJU for 6 months and participate in the Rejuvenation Event™ without paying the standard program fee. At the end of the lock period, REJU unlocks back to the participant’s wallet."
+                />
 
-                  <p className="mt-4 text-base leading-relaxed text-gray-300">
-                    Lock $600 in REJU for 6 months and participate in the
-                    Rejuvenation Event™ without paying the standard program fee.
-                  </p>
+                <EngineCard
+                  title="Incentives Funded by REJU Holdings"
+                  text="Referral rewards, completion rewards, CRP rewards, and participation incentives are funded from designated REJU allocations and remain available while those allocations last."
+                />
 
-                  <p className="mt-4 text-base leading-relaxed text-gray-300">
-                    At the end of the lock period, REJU unlocks back to the
-                    participant&apos;s wallet while the lifecycle structure
-                    continues regenerating ecosystem participation and activity.
-                  </p>
-                </div>
-
-                <div className="rounded-2xl border border-[#f5c26b]/15 bg-[#120904]/70 p-6">
-                  <h4 className="text-2xl font-bold text-[#f5c26b]">
-                    Expansion & Participation Incentives
-                  </h4>
-
-                  <p className="mt-4 text-base leading-relaxed text-gray-300">
-                    Qualified referral participation rewards are designed to
-                    support ecosystem expansion through aligned participation
-                    and locked engagement.
-                  </p>
-
-                  <p className="mt-4 text-base leading-relaxed text-gray-300">
-                    Participation incentives strengthen REJU&apos;s economic life
-                    by encouraging verified ecosystem growth instead of
-                    short-term speculative activity.
-                  </p>
-                </div>
+                <EngineCard
+                  title="Business Activity Continuity"
+                  text="Fiat program enrollment, Rejuvenation Events, Longevity Group activity, educational services, and future ecosystem services are designed to continue independently of remaining REJU incentive allocations."
+                />
               </div>
 
               <p className="mx-auto mt-8 max-w-4xl text-center text-base font-semibold leading-relaxed text-gray-300">
-                The Renewable Economic Engine™ is designed to reinforce
-                ecosystem continuity through participation, alignment, and
-                operational activity beyond speculative cycles.
+                The Renewable Economic Engine™ is designed to connect token
+                participation with real ecosystem activity, while clearly
+                separating finite allocation-funded incentives from
+                business-funded continuity.
               </p>
             </div>
           </div>
@@ -305,7 +402,7 @@ export default function Home() {
           </a>
 
           <a
-            href={links.telegramCommunity}
+            href={links.telegramOfficial}
             target="_blank"
             rel="noopener noreferrer"
             className={buttonClass}
@@ -326,7 +423,7 @@ function InfrastructureSection() {
           REJU Participation Infrastructure™
         </h2>
 
-        <p className="mt-3 text-sm font-bold uppercase tracking-[0.3em] text-[#f5c26b]">
+        <p className="mt-3 text-lg font-bold uppercase tracking-[0.3em] text-[#f5c26b]">
           Three Ways to Enter REJU
         </p>
       </div>
@@ -373,7 +470,7 @@ function InfrastructureSection() {
         <FlowStep number="7" title="Continue in REJU" text="Continue participating in the REJU ecosystem." />
       </div>
 
-      <div className="mx-auto mt-10 max-w-3xl rounded-2xl border border-[#f5c26b]/40 bg-[#120904] p-6 text-center">
+      <div className="mx-auto mt-10 max-w-7xl rounded-2xl border border-[#f5c26b]/40 bg-[#120904] p-6 text-center">
         <h3 className="text-2xl font-bold text-[#f5c26b]">
           You Maintain Control
         </h3>
@@ -414,8 +511,31 @@ function SmallCard({ children }: { children: React.ReactNode }) {
 
 function Box({ text }: { text: string }) {
   return (
-    <div className="rounded-2xl border border-[#f5c26b]/20 bg-black/20 p-3 text-center text-sm text-gray-300">
+    <div className="rounded-2xl border border-[#f5c26b]/20 bg-black/20 p-3 text-center text-lg text-gray-300">
       {text}
+    </div>
+  );
+}
+
+function FrameworkCard({
+  title,
+  subtitle,
+  items,
+}: {
+  title: string;
+  subtitle: string;
+  items: string[];
+}) {
+  return (
+    <div className="rounded-3xl border border-[#f5c26b]/20 bg-[#120904]/75 p-6">
+      <h4 className="text-2xl font-bold text-[#f5c26b]">{title}</h4>
+      <p className="mt-3 text-lg leading-relaxed text-gray-300">{subtitle}</p>
+
+      <ul className="mt-5 space-y-2 text-lg text-gray-300">
+        {items.map((item, index) => (
+          <li key={index}>✓ {item}</li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -441,7 +561,7 @@ function DisclosureRow({
 
       <div className="mt-5 grid gap-4 md:grid-cols-2">
         <DisclosureBlock label="Purpose" items={purpose} />
-        <DisclosureBlock label="Release Behavior" items={behavior} />
+        <DisclosureBlock label="Disclosure" items={behavior} />
       </div>
     </div>
   );
@@ -452,7 +572,7 @@ function DisclosureBlock({ label, items }: { label: string; items: string[] }) {
     <div className="rounded-2xl border border-[#f5c26b]/15 bg-black/30 p-4">
       <h4 className="font-bold text-[#f5c26b]">{label}</h4>
 
-      <ul className="mt-3 space-y-2 text-sm leading-relaxed text-gray-300">
+      <ul className="mt-3 space-y-2 text-lg leading-relaxed text-gray-300">
         {items.map((item, index) => (
           <li key={index} className="flex gap-2">
             <span className="text-[#f5c26b]">•</span>
@@ -460,6 +580,15 @@ function DisclosureBlock({ label, items }: { label: string; items: string[] }) {
           </li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+function EngineCard({ title, text }: { title: string; text: string }) {
+  return (
+    <div className="rounded-2xl border border-[#f5c26b]/15 bg-black/30 p-6">
+      <h4 className="text-xl font-bold text-[#f5c26b]">{title}</h4>
+      <p className="mt-4 text-lg leading-relaxed text-gray-300">{text}</p>
     </div>
   );
 }
@@ -487,7 +616,7 @@ function EntryCard({
 
       <p className="mt-3 text-left text-gray-300">{text}</p>
 
-      <ul className="mt-5 space-y-2 text-sm text-gray-300">
+      <ul className="mt-5 space-y-2 text-lg text-gray-300">
         {items.map((item, index) => (
           <li key={index}>✓ {item}</li>
         ))}
@@ -507,12 +636,12 @@ function FlowStep({
 }) {
   return (
     <div className="rounded-2xl border border-[#f5c26b]/25 bg-[#120904]/90 p-5">
-      <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#f5c26b] text-sm font-bold text-black">
+      <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#f5c26b] text-lg font-bold text-black">
         {number}
       </div>
 
       <h4 className="font-bold text-[#f5c26b]">{title}</h4>
-      <p className="mt-2 text-sm leading-relaxed text-gray-300">{text}</p>
+      <p className="mt-2 text-lg leading-relaxed text-gray-300">{text}</p>
     </div>
   );
 }
@@ -521,7 +650,7 @@ function TrustCard({ title, text }: { title: string; text: string }) {
   return (
     <div className="rounded-2xl border border-[#f5c26b]/20 bg-black/30 p-4 text-center">
       <h4 className="font-bold text-[#f5c26b]">{title}</h4>
-      <p className="mt-2 text-sm leading-relaxed text-gray-300">{text}</p>
+      <p className="mt-2 text-lg leading-relaxed text-gray-300">{text}</p>
     </div>
   );
 }

@@ -3,11 +3,11 @@ const links = {
   buy: "/buy",
   program: "/program",
   onboarding: "/onboarding",
-  telegramCommunity: "https://t.me/rejutokencommunity",
+  telegramCommunity: "https://t.me/rejuofficial",
 
   bookAdminPayment: "https://square.link/u/zH7dIuF5",
   directProgramPayment: "https://square.link/u/fmBzbrPI",
-  verificationForm: "https://docs.google.com/forms/d/e/1FAIpQLSfvvLPXPEBuzDkh99vkjCD9iw-t_TOMUY6y_2qYt2CDhk_g0A/viewform?usp=header",
+  participantRegistration: "/participant-registration",
 };
 
 const buttonClass =
@@ -28,9 +28,7 @@ export default function Onboarding() {
           <a href={links.program} className="hover:text-[#f5c26b]">
             Program
           </a>
-          <a href={links.onboarding} className="hover:text-[#f5c26b]">
-            Onboarding
-          </a>
+
           <a
             href={links.telegramCommunity}
             target="_blank"
@@ -47,10 +45,14 @@ export default function Onboarding() {
           REJU Onboarding
         </p>
 
-        <h1 className="mx-auto max-w-5xl text-5xl font-bold leading-tight text-[#f5c26b] md:text-5xl">
+        <h1 className="mx-auto max-w-5xl text-3xl font-bold leading-tight text-[#f5c26b] md:text-3xl">
           Enter the REJU Rejuvenation Event™
         </h1>
 
+        <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-gray-300">
+          Complete your enrollment and registration process for the next REJU
+          Rejuvenation Event™.
+        </p>
       </section>
 
       <section className="px-6 py-8">
@@ -60,7 +62,7 @@ export default function Onboarding() {
               How to Enroll
             </p>
 
-            <h2 className="mt-4 text-4xl font-bold text-[#f5c26b] md:text-5xl">
+            <h2 className="mt-4 text-3xl font-bold text-[#f5c26b] md:text-3xl">
               Four Simple Steps
             </h2>
           </div>
@@ -74,20 +76,20 @@ export default function Onboarding() {
 
             <Step
               number="2"
-              title="Choose Your Entry Path"
-              text="Crypto users may lock REJU for 6 months. Non-crypto users may enter through the direct program payment path."
+              title="Complete Participant Registration"
+              text="Create your REJU participant record for enrollment, communication, and transformation tracking."
             />
 
             <Step
               number="3"
-              title="Submit Verification"
-              text="Submit your payment confirmation and, when applicable, your REJU lock verification."
+              title="Choose Your Entry Path"
+              text="Lock REJU for 6 months or enter through the direct program enrollment path."
             />
 
             <Step
               number="4"
               title="Receive Program Access"
-              text="Once verification is approved, you will receive the next instructions to enter the REJU Rejuvenation Event™."
+              text="Once enrollment is reviewed and approved, you will receive access instructions for the next REJU Rejuvenation Event™."
             />
           </div>
         </div>
@@ -101,33 +103,39 @@ export default function Onboarding() {
             description="For participants entering through REJU token participation."
             items={[
               "Pay $69 Book + Admin Registration",
+              "Complete Participant Registration",
               "Buy or hold the required REJU amount",
               "Lock REJU for 6 months",
-              "Submit payment and lock verification",
               "Receive program access after approval",
             ]}
             buttons={[
               { label: "Pay $69 Book + Admin", href: links.bookAdminPayment },
+              {
+                label: "Participant Registration",
+                href: links.participantRegistration,
+              },
               { label: "Buy / Lock REJU", href: links.buy },
-              { label: "Submit Verification", href: links.verificationForm },
             ]}
           />
 
           <PathCard
             title="Direct Entry Path"
-            subtitle="Standard Program Enrollment"
+            subtitle="Direct Program Entry"
             description="For participants entering without using crypto."
             items={[
               "Pay $69 Book + Admin Registration",
+              "Complete Participant Registration",
               "Pay direct program entry fee",
-              "Submit payment verification",
               "Receive program access after approval",
               "Designed for participants entering without a REJU lock",
             ]}
             buttons={[
               { label: "Pay $69 Book + Admin", href: links.bookAdminPayment },
+              {
+                label: "Participant Registration",
+                href: links.participantRegistration,
+              },
               { label: "Pay Program Entry", href: links.directProgramPayment },
-              { label: "Submit Verification", href: links.verificationForm },
             ]}
           />
         </div>
@@ -180,9 +188,7 @@ function PathCard({
         {title}
       </p>
 
-      <h3 className="mt-3 text-3xl font-bold text-[#f5c26b]">
-        {subtitle}
-      </h3>
+      <h3 className="mt-3 text-3xl font-bold text-[#f5c26b]">{subtitle}</h3>
 
       <p className="mt-4 text-gray-300">{description}</p>
 

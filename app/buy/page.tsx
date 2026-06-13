@@ -5,11 +5,18 @@ import { useState } from "react";
 const links = {
   home: "/",
   onboarding: "/onboarding",
-  streamflowLock: "#",
+  buy: "/buy",
+  program: "/program",
+  rejunomics: "/rejunomics",
+  blog: "/blog",
+  participantRegistration: "/participant-registration",
+  telegramOfficial: "https://t.me/rejuofficial",
+  streamflowLock: "https://app.streamflow.finance/token-lock",
 };
 
 const buttonClass =
-  "rounded-full border border-[#f5c26b] px-8 py-3 text-center font-semibold text-[#f5c26b] transition duration-300 hover:bg-[#f5c26b] hover:text-black";
+  "rounded-full border border-[#f5c26b] px-6 py-1 text-center font-semibold text-[#f5c26b] transition duration-300 hover:bg-[#f5c26b] hover:text-black";
+
 
 const exchanges = [
   { name: "Jupiter", type: "DEX Aggregator", network: "Solana", fiat: "No", status: "Primary Solana Route", link: "https://jup.ag" },
@@ -35,7 +42,40 @@ export default function BuyPage() {
         );
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] px-6 py-20 text-white">
+    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] px-6 text-white">
+	<nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
+        <a href={links.home} className="font-bold text-[#f5c26b]">
+          REJU
+        </a>
+
+        <div className="hidden gap-6 text-md text-gray-300 md:flex">
+       
+ 		  
+          <a href={links.program} className="hover:text-[#f5c26b]">
+            Program
+          </a>
+          <a href={links.onboarding} className="hover:text-[#f5c26b]">
+            Onboarding
+          </a>
+		           <a href={links.rejunomics} className="hover:text-[#f5c26b]">
+            Rejunomics
+          </a>
+		  
+		  <a href={links.blog} className="hover:text-[#f5c26b]">
+			Blog
+			</a>
+
+		  
+
+          <a href={links.telegramOfficial}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[#f5c26b]"
+          >
+            Telegram
+          </a>
+        </div>
+      </nav>
       <div className="mx-auto max-w-7xl">
         <section className="text-center">
           <img src="/logo.png" alt="REJU Logo" className="mx-auto mb-6 w-28" />
@@ -44,27 +84,61 @@ export default function BuyPage() {
             Buy REJU
           </p>
 
-          <h1 className="text-5xl font-bold text-[#f5c26b] md:text-7xl">
-            Choose Your Exchange
+          <h1 className="text-5xl font-bold text-[#f5c26b] md:text-3xl">
+            Choose Your Exchange and Lock Your REJU
           </h1>
 
-          <p className="mx-auto mt-6 max-w-3xl text-xl leading-relaxed text-gray-300">
-            Find REJU through supported exchanges, wallets, and market tools. Listings will be updated as REJU expands.
+          <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed  text-left text-gray-300">
+            Find REJU inyour prefered wallets, and market tools below. Lock you rreju by following the links provided to Streamflow our sinergy partner to help stablish execute the rejunomics methodology and keep REJU neutral from holding investors funds.
           </p>
         </section>
 
-        <section className="mt-14 rounded-3xl border border-[#f5c26b]/20 bg-[#160b05]/80 p-8 shadow-[0_0_25px_rgba(245,194,107,0.08)] backdrop-blur-md">
+         <section className="mt-14 grid gap-6 md:grid-cols-3">
+
+
+          <InfoCard
+            title="Buy With Dollars?"
+            items={[
+              "There are some exchanges that accept Dollars",
+              "Press the button buy with dollars bellow",
+            ]}
+          />
+
+          <InfoCard
+            title="Important"
+            items={[
+              "Buying REJU is separate from joining the program.",
+              "Program access requires a REJU lock wiht Streamflow.",
+        
+              ]}
+          />
+
+          <InfoCard
+            title="Participation and registration"
+            items={[
+             "Lock Your Reju with Streamflow, a neutral company to hold your REJU.",
+             "Complete the Participant Registration form",
+            ]}
+          />
+        </section>
+		
+		
+		
+		
+		
+		
+		<section className="mt-14 rounded-xl border border-[#f5c26b]/20 bg-[#160b05]/80 p-8 shadow-[0_0_25px_rgba(245,194,107,0.08)] backdrop-blur-md">
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
-              <h2 className="text-4xl font-bold text-[#f5c26b]">
+              <h2 className="text-2xl font-bold text-[#f5c26b]">
                 REJU Exchange Directory
               </h2>
-              <p className="mt-3 text-lg text-gray-300">
+              <p className="mt-3 text-md text-gray-300">
                 Filter by exchange type, wallet type, network, or fiat support.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2 text-sm">
               {["All", "DEX", "Wallet", "Market Tracker", "Solana", "Multi-chain"].map((option) => (
                 <button
                   key={option}
@@ -80,9 +154,9 @@ export default function BuyPage() {
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             <button
               onClick={() => setFilter("Yes")}
-              className="rounded-3xl border border-[#f5c26b] bg-black/30 p-6 text-center text-[#f5c26b] transition duration-300 hover:bg-[#f5c26b] hover:text-black"
+              className="rounded-xl border border-[#f5c26b] bg-black/30 p-3 text-center text-[#f5c26b] transition duration-300 hover:bg-[#f5c26b] hover:text-black"
             >
-              <h3 className="text-2xl font-bold">Buy REJU With Dollars</h3>
+              <h3 className="text-xl font-bold">Buy REJU With Dollars</h3>
               <p className="mt-3 text-sm">
                 Use supported wallets or exchanges to buy crypto with dollars, then swap into REJU.
               </p>
@@ -90,73 +164,38 @@ export default function BuyPage() {
 
             <a
               href={links.streamflowLock}
-              className="rounded-3xl border border-[#f5c26b] bg-black/30 p-6 text-center text-[#f5c26b] transition duration-300 hover:bg-[#f5c26b] hover:text-black"
+              className="rounded-xl border border-[#f5c26b] bg-black/30 p-3 text-center text-[#f5c26b] transition duration-300 hover:bg-[#f5c26b] hover:text-black"
             >
-              <h3 className="text-2xl font-bold">Lock REJU</h3>
+              <h3 className="text-xl font-bold">Lock REJU</h3>
               <p className="mt-3 text-sm">
                 Lock REJU through Streamflow for program access, verification, or future ecosystem participation.
               </p>
             </a>
           </div>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-6 md:grid-cols-2 md:grid-cols-2">
             {filtered.map((exchange) => (
               <ExchangeCard key={exchange.name} exchange={exchange} />
             ))}
           </div>
         </section>
 
-        <section className="mt-14 grid gap-6 md:grid-cols-2">
-          <InfoCard
-            title="Before You Buy"
-            items={[
-              "Confirm the official REJU contract address before trading.",
-              "Check network compatibility before sending funds.",
-              "Use only official links published by REJU.",
-              "Be cautious of fake tokens and impersonator contracts.",
-            ]}
-          />
+       
 
-          <InfoCard
-            title="Can I Buy With Dollars?"
-            items={[
-              "Yes, depending on the wallet or exchange you use.",
-              "Some wallets allow debit card, credit card, bank transfer, Apple Pay, or Google Pay purchases.",
-              "Usually, you buy SOL or another supported asset first, then swap it for REJU.",
-              "Availability depends on your country, exchange, wallet, and network.",
-            ]}
-          />
-
-          <InfoCard
-            title="Important"
-            items={[
-              "Buying REJU is separate from joining the program.",
-              "Program access requires onboarding or a qualifying REJU lock.",
-              "Solana routes are the primary launch focus.",
-              "EVM routes like Uniswap may apply only if REJU expands cross-chain.",
-            ]}
-          />
-
-          <InfoCard
-            title="Participation & Growth"
-            items={[
-              "REJU is designed around recurring participation, not passive speculation.",
-              "Cohorts, certifications, and long-term engagement expand ecosystem demand.",
-              "CRP participants help grow the REJU network through education and community support.",
-              "The REJU Longevity Group™ supports long-term ecosystem value.",
-            ]}
-          />
-        </section>
-
-        <section className="mt-16 text-center">
+        <section className="mt-6 text-center">
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
             <a href={links.onboarding} className={buttonClass}>
               Go to Onboarding
             </a>
 
-            <a href={links.home} className={buttonClass}>
-              Back to Home
+            <a href={links.streamflowLock} className={buttonClass}>
+              Lock Your REJU
             </a>
+	
+			  <a href={links.participantRegistration} className={buttonClass}>
+              participant-registration
+            </a>
+						
           </div>
         </section>
       </div>
@@ -177,18 +216,18 @@ function ExchangeCard({
   };
 }) {
   return (
-    <div className="rounded-3xl border border-[#f5c26b]/20 bg-black/20 p-7 transition hover:border-[#f5c26b]/60">
+    <div className="rounded-xl border border-[#f5c26b]/20 bg-black/20 p-7 transition hover:border-[#f5c26b]/60">
       <div className="flex items-center justify-between gap-4">
-        <h3 className="text-3xl font-bold text-[#f5c26b]">{exchange.name}</h3>
+        <h3 className="text-2xl font-bold text-[#f5c26b]">{exchange.name}</h3>
         <span className="rounded-full border border-[#f5c26b]/30 px-3 py-1 text-sm text-gray-300">
           {exchange.status}
         </span>
       </div>
 
-      <div className="mt-6 space-y-4 text-base text-gray-300">
+      <div className="mt-4 space-y-2 text-md text-gray-300">
         <Row label="Type" value={exchange.type} />
         <Row label="Network" value={exchange.network} />
-        <Row label="Fiat" value={exchange.fiat} />
+        <Row label="Pay Fiat or Dollars" value={exchange.fiat} />
       </div>
 
       <a
@@ -214,12 +253,12 @@ function Row({ label, value }: { label: string; value: string }) {
 
 function InfoCard({ title, items }: { title: string; items: string[] }) {
   return (
-    <div className="rounded-3xl border border-[#f5c26b]/20 bg-[#160b05]/80 p-8 shadow-[0_0_25px_rgba(245,194,107,0.08)] backdrop-blur-md">
-      <h2 className="text-3xl font-bold text-[#f5c26b]">{title}</h2>
+    <div className="rounded-xl border border-[#f5c26b]/20 bg-[#160b05]/80 p-8 shadow-[0_0_25px_rgba(245,194,107,0.08)] backdrop-blur-md">
+      <h2 className="text-xl font-bold text-[#f5c26b]">{title}</h2>
 
       <div className="mt-6 space-y-3">
         {items.map((item) => (
-          <div key={item} className="rounded-2xl border border-[#f5c26b]/20 bg-black/20 p-4 text-lg text-gray-300">
+          <div key={item} className="rounded-2xl border border-[#f5c26b]/20 bg-black/20 p-2 text-md text-gray-300">
             • {item}
           </div>
         ))}
