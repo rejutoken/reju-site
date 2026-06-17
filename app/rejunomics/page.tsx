@@ -1,3 +1,5 @@
+import Nav from "../components/Nav";
+
 const links = {
   home: "/",
   buy: "/buy",
@@ -12,38 +14,8 @@ const buttonClass =
 
 export default function RejunomicsPage() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] text-white">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
-        <a href={links.home} className="font-bold text-[#f5c26b]">
-          REJU
-        </a>
-
-        <div className="hidden gap-6 text-lg text-gray-300 md:flex">
-          <a href={links.buy} className="hover:text-[#f5c26b]">
-            Buy REJU
-          </a>
-          <a href="/#tokenomics" className="hover:text-[#f5c26b]">
-            Tokenomics
-          </a>
-          <a href={links.rejunomics} className="hover:text-[#f5c26b]">
-            Rejunomics
-          </a>
-          <a href={links.program} className="hover:text-[#f5c26b]">
-            Program
-          </a>
-          <a href={links.onboarding} className="hover:text-[#f5c26b]">
-            Onboarding
-          </a>
-          <a
-            href={links.telegramOfficial}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-[#f5c26b]"
-          >
-            Telegram
-          </a>
-        </div>
-      </nav>
+    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] text-white" id="main-content">
+      <Nav />
 
       <section className="px-6 py-16 text-center">
         <p className="text-lg font-bold uppercase tracking-[0.35em] text-[#f5c26b]">

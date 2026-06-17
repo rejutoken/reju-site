@@ -8,10 +8,12 @@ const links = {
 const buttonClass =
   "rounded-full border border-[#f5c26b] px-8 py-3 text-center font-semibold text-[#f5c26b] transition duration-300 hover:bg-[#f5c26b] hover:text-black";
 
+import Nav from "../components/Nav";
+
 export default function BookWelcome() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] text-gray-300">
-      <Nav links={links} />
+      <Nav />
 
       <section className="px-6 py-16 text-center">
         <p className="mb-4 text-lg font-bold uppercase tracking-[0.35em] text-[#f5c26b]">
@@ -71,19 +73,6 @@ export default function BookWelcome() {
   );
 }
 
-
-function Nav({ links }: { links: any }) {
-  return (
-    <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
-      <a href={links.home} className="font-bold text-[#f5c26b]">REJU</a>
-      <div className="hidden gap-6 text-sm text-gray-300 md:flex">
-        <a href={links.onboarding} className="hover:text-[#f5c26b]">Onboarding</a>
-        <a href={links.participantRegistration} className="hover:text-[#f5c26b]">Registration</a>
-        <a href={links.telegramOfficial} target="_blank" rel="noopener noreferrer" className="hover:text-[#f5c26b]">Telegram</a>
-      </div>
-    </nav>
-  );
-}
 
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (

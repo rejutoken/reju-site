@@ -1,3 +1,9 @@
+
+
+
+
+import Nav from "./components/Nav";
+
 const links = {
   home: "/",
   buy: "/buy",
@@ -19,56 +25,21 @@ const tokenomics = [
   { percent: "10%", title: "Marketing & Expansion" },
 ];
 
+
+
 export default function Home() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] text-white">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
-        <a href={links.home} className="font-bold text-[#f5c26b]">
-          REJU
-        </a>
-
-        <div className="hidden gap-6 text-lg text-gray-300 md:flex">
-          <a href={links.buy} className="hover:text-[#f5c26b]">
-            Buy REJU
-          </a>
-          <a href="#tokenomics" className="hover:text-[#f5c26b]">
-            Tokenomics
-          </a>
- 		  
-          <a href={links.program} className="hover:text-[#f5c26b]">
-            Program
-          </a>
-          <a href={links.onboarding} className="hover:text-[#f5c26b]">
-            Onboarding
-          </a>
-		           <a href={links.rejunomics} className="hover:text-[#f5c26b]">
-            Rejunomics
-          </a>
-		  
-		  <a href={links.blog} className="hover:text-[#f5c26b]">
-			Blog
-			</a>
-
-		  
-
-          <a href={links.telegramOfficial}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-[#f5c26b]"
-          >
-            Telegram
-          </a>
-        </div>
-      </nav>
+    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] text-white" id="main-content">
+      <Nav />
 
       <section className="px-6 py-16 text-center">
         <img src="/logo.png" alt="REJU Logo" className="mx-auto mb-6 w-32" />
 
-        <h1 className="text-6xl font-bold tracking-tight text-[#f5c26b] md:text-8xl">
+        <h1 className="text-5xl font-bold tracking-tight text-[#f5c26b] sm:text-6xl md:text-8xl">
           REJU
         </h1>
 
-        <h2 className="mt-4 text-2xl font-bold leading-relaxed text-[#f5c26b] md:text-3xl">
+        <h2 className="mt-4 text-xl font-bold leading-relaxed text-[#f5c26b] sm:text-2xl md:text-3xl">
           Participation-Driven Ecosystem™
         </h2>
 
@@ -150,7 +121,7 @@ export default function Home() {
         </div>
       </section>
 
-     <section className="px-4 py-12 sm:px-6">
+     <section className="px-4 py-8 sm:py-12">
   <div
     id="tokenomics"
     className="mx-auto mt-16 w-full max-w-7xl overflow-hidden rounded-3xl border border-[#f5c26b]/20 bg-[#120904]/90 p-4 shadow-[0_0_35px_rgba(245,194,107,0.14)] backdrop-blur-md sm:p-6 md:p-8"
@@ -183,7 +154,7 @@ export default function Home() {
         </div>
 
         <div className="flex min-w-0 flex-col items-center">
-          <div className="relative h-64 w-64 rounded-full border border-[#f5c26b]/40 bg-[conic-gradient(#f5c26b_0_40%,#d89b45_40%_60%,#9f6d2e_60%_75%,#6b471d_75%_90%,#3a2410_90%_100%)] shadow-[0_0_35px_rgba(245,194,107,0.18)] sm:h-80 sm:w-80">
+          <div className="relative h-48 w-48 rounded-full border border-[#f5c26b]/40 bg-[conic-gradient(#f5c26b_0_40%,#d89b45_40%_60%,#9f6d2e_60%_75%,#6b471d_75%_90%,#3a2410_90%_100%)] shadow-[0_0_35px_rgba(245,194,107,0.18)] sm:h-64 sm:w-64 md:h-80 md:w-80">
             <div className="absolute left-[74%] top-[42%] text-base font-bold text-black sm:text-xl">40%</div>
             <div className="absolute left-[47%] top-[75%] text-base font-bold text-black sm:text-xl">20%</div>
             <div className="absolute left-[15%] top-[65%] text-base font-bold text-white sm:text-xl">15%</div>
@@ -381,7 +352,7 @@ export default function Home() {
         <InfrastructureSection />
       </section>
 
-      <section className="px-6 py-20 text-center">
+      <section className="px-6 py-12 sm:py-20 text-center">
         <h2 className="text-4xl font-bold text-[#f5c26b]">Enter REJU™</h2>
 
         <p className="mx-auto mt-4 max-w-2xl text-gray-300">

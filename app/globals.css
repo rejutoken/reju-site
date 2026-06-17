@@ -24,3 +24,42 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Accessibility & Focus Improvements */
+:focus-visible {
+  outline: 2px solid #f5c26b;
+  outline-offset: 2px;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #f5c26b;
+  outline-offset: 2px;
+}
+
+/* Improve mobile tap targets */
+button,
+a {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Better dark mode base (site is dark-first) */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #0b0b0c;
+    color: #ededed;
+  }
+}

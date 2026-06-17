@@ -1,6 +1,8 @@
 import { getAllPosts } from '@/lib/posts';
 import Link from 'next/link';
 
+import Nav from "../components/Nav";
+
 export default async function BlogPage() {
   const posts = await getAllPosts();
 
@@ -18,29 +20,8 @@ const links = {
   const healthPosts = posts.filter(p => p.category === 'health');
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_center,#2b1a12_0%,#0b0b0c_70%)] text-white py-6">
-      <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6 px-6  text-sm">
-  <a href={links.home} className="font-bold text-[#f5c26b]">
-    REJU
-  </a>
-
-  <div className="flex flex-wrap justify-center gap-6 text-md text-gray-300">
-    <a href={links.buy} className="hover:text-[#f5c26b]">Buy REJU</a>
-    <a href="/#tokenomics" className="hover:text-[#f5c26b]">Tokenomics</a>
-    <a href={links.rejunomics} className="hover:text-[#f5c26b]">Rejunomics</a>
-    <a href={links.blog} className="hover:text-[#f5c26b]">Blog</a>
-    <a href={links.program} className="hover:text-[#f5c26b]">Program</a>
-    <a href={links.onboarding} className="hover:text-[#f5c26b]">Onboarding</a>
-    <a
-      href={links.telegramOfficial}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="hover:text-[#f5c26b]"
-    >
-      Telegram
-    </a>
-  </div>
-</nav>
+    <main className="min-h-screen bg-[radial-gradient(circle_at_center,#2b1a12_0%,#0b0b0c_70%)] text-white py-6" id="main-content">
+      <Nav />
 	  	  
 	  
 	  <div className="max-w-7xl mx-auto w-full px-6 py-12">

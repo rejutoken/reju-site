@@ -20,50 +20,13 @@ const links = {
 const buttonClass =
   "rounded-full border border-[#f5c26b] px-8 py-3 font-semibold text-[#f5c26b] transition duration-300 hover:bg-[#f5c26b] hover:text-black";
 
+import Nav from "../components/Nav";
+
 export default function ProgramPage() {
   return (
   
-      <main className="min-h-screen bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] px-6 py-6 text-gray-300">
-     
-
- <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6">
-        <a href={links.home} className="font-bold text-[#f5c26b]">
-          REJU
-        </a>
-
-        <div className="hidden gap-6 text-md text-gray-300 md:flex">
-          <a href={links.buy} className="hover:text-[#f5c26b]">
-            Buy REJU
-          </a>
-          <a href="/#tokenomics" className="hover:text-[#f5c26b]">
-            Tokenomics
-          </a>
- 		  
-          <a href={links.program} className="hover:text-[#f5c26b]">
-            Program
-          </a>
-          <a href={links.onboarding} className="hover:text-[#f5c26b]">
-            Onboarding
-          </a>
-		           <a href={links.rejunomics} className="hover:text-[#f5c26b]">
-            Rejunomics
-          </a>
-		  
-		  <a href={links.blog} className="hover:text-[#f5c26b]">
-			Blog
-			</a>
-
-		  
-
-          <a href={links.telegramOfficial}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-[#f5c26b]"
-          >
-            Telegram
-          </a>
-        </div>
-      </nav>
+      <main className="min-h-screen bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] px-6 py-6 text-gray-300" id="main-content">
+      <Nav />
 
 	 <section className="mx-auto max-w-7xl space-y-20">
 
@@ -72,11 +35,11 @@ export default function ProgramPage() {
             REJU Program
           </p>
 
-          <h1 className="font-bold text-[#f5c26b] md:text-3xl">
+          <h1 className="text-3xl sm:text-4xl font-bold text-[#f5c26b]">
             REJU Rejuvenation Event™
           </h1>
 
-          <h2 className="mt-4 text-[#f5c26b] md:text-2xl">
+          <h2 className="mt-4 text-xl sm:text-2xl text-[#f5c26b]">
             A Structured 6-Week Rejuvenation Experience
           </h2>
 
