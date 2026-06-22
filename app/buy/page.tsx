@@ -77,18 +77,23 @@ export default function BuyPage() {
             title="Important"
             items={[
               "Buying REJU is separate from joining the program.",
-              "Program access requires a REJU lock wiht Streamflow.",
-        
-              ]}
+              "Program access requires locking REJU via Streamflow.",
+            ]}
           />
 
           <InfoCard
-            title="Participation and registration"
+            title="Your Path to the Book"
             items={[
-             "Lock Your Reju with Streamflow, a neutral company to hold your REJU.",
-             "Complete the Participant Registration form",
+              "Lock REJU with Streamflow (neutral holder).",
+              "Complete Participant Registration (get your ID).",
+              "Join the Event and Author your Personalized REJU Transformation Book using your ID.",
             ]}
           />
+          <div className="mt-4 text-center">
+            <a href="/daily-transformation-log" className={buttonClass}>
+              Go to Daily Journal
+            </a>
+          </div>
         </section>
 		
 		

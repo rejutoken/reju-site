@@ -55,14 +55,14 @@ export default function RejuEventWelcome() {
 </div>
 
 <div className="mt-8 rounded-3xl border border-[#f5c26b]/20 bg-black/25 p-6">
-  <h2 className="text-3xl font-bold text-[#f5c26b]">Your Personal REJU Transformation Book™</h2>
+  <h2 className="text-3xl font-bold text-[#f5c26b]">You Are Authoring Your Personalized REJU Transformation Book™</h2>
 
   <p className="mt-4 leading-relaxed text-gray-300">
-    During the program, your daily reflections, photos, scores, milestones, and Today&apos;s Victory entries will become the source material for your personal transformation book.
+    During the program, your daily reflections, photos, scores, milestones, and Today&apos;s Victory entries are the chapters you Author.
   </p>
 
   <p className="mt-4 leading-relaxed text-gray-300">
-    This is not just a journal. It is your story of transformation, written by you throughout the program.
+    You Are Authoring your Personalized REJU Transformation Book. REJU is editorial.
   </p>
 </div>
 
@@ -78,7 +78,9 @@ export default function RejuEventWelcome() {
               <a href={links.participantRegistration} className={buttonClass}>
                 Complete Participant Registration
               </a>
-
+              <a href="/daily-transformation-log" className={buttonClass}>
+                Start Authoring Your Personalized Book
+              </a>
               <a href={links.telegramOfficial} target="_blank" rel="noopener noreferrer" className={buttonClass}>
                 Join REJU Official
               </a>

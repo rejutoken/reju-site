@@ -60,6 +60,9 @@ export default function RejunomicsPage() {
           <a href="#notation" className={buttonClass}>
             View Notation
           </a>
+          <a href="/daily-transformation-log" className={buttonClass}>
+            Start Authoring Your Personalized Book (with Participant ID)
+          </a>
         </div>
       </section>
 

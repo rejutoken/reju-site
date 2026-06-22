@@ -52,6 +52,9 @@ export default function ProgramPage() {
             metabolic balance, visible transformation, and stronger inside-and-out results
             through guided execution and accountability.
           </p>
+          <p className="mx-auto mt-4 max-w-4xl text-lg text-left leading-relaxed text-gray-300 font-semibold">
+            You are Authoring your Personalized REJU Transformation Book using your Participant ID for every entry (required for consistent filenames and book generation). Daily journaling, photos, and reflections become the chapters you write — REJU is your editorial partner.
+          </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
             <a href="#proof" className={buttonClass}>
               Watch Results
@@ -63,6 +66,9 @@ export default function ProgramPage() {
 
             <a href={links.streamflowLock} className={buttonClass}>
               Lock REJU with Streamflow
+            </a>
+            <a href="/daily-transformation-log" className={buttonClass}>
+              Start Authoring Your Book (use your Participant ID)
             </a>
           </div>
         </section>
@@ -103,6 +109,7 @@ export default function ProgramPage() {
   <p className="mt-4 text-base leading-relaxed text-gray-300">
     Join the guided 6-week rejuvenation program built around structure,
     accountability, visible transformation, and metabolic rejuvenation.
+    You will Author your Personalized REJU Transformation Book as you go.
   </p>
 
   <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -114,17 +121,17 @@ export default function ProgramPage() {
 
     <Info
       title="Required Entry"
-      text="$69 book + admin fee required. The book is the guide and contains Kat’s JOL™ recipe."
+      text="$69 book + admin fee. You will Author your Personalized REJU Transformation Book."
     />
 
     <Info
       title="REJU Lock Path"
-      text="Program access included with a $600 REJU lock commitment for 6 months through Streamflow."
+      text="Program access included with a $600 REJU lock. You will Author your Book during the Event."
     />
 
     <Info
       title="Direct Entry Path"
-      text="Participants may enter directly through the $600 program entry path plus the required book/admin fee."
+      text="Enter directly. You will Author your Personalized REJU Transformation Book through the program."
     />
   </div>
 
@@ -186,7 +193,7 @@ export default function ProgramPage() {
           <div className="flex flex-col items-center text-center">
 
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#f5c26b]">
-              Foundational Guide — The Book
+              The Book You Author
             </p>
 
             <h2 className="mt-4 max-w-4xl text-2xl font-bold text-[#f5c26b]">
@@ -211,7 +218,7 @@ export default function ProgramPage() {
                 </p>
 
                 <p className="mt-4 text-lg leading-relaxed text-left text-gray-300">
-                  Readers can begin their rejuvenation journey directly through the book. Participants
+                  You can begin your journey through the book and Author your Personalized REJU Transformation Book. Participants
                   who want support, accountability, daily structure, and guided execution can enter the
                   REJU Rejuvenation Event™.
                 </p>
@@ -220,14 +227,14 @@ export default function ProgramPage() {
 
             <div className="mt-12 grid w-full gap-5 md:grid-cols-2 lg:grid-cols-4">
               <Info title="Kat’s JOL™" text="The original Juice Of Life™ rejuvenation recipe." />
-              <Info title="Self-Guided Event" text="Follow the rejuvenation structure directly through the book." />
+              <Info title="Self-Guided Event" text="Follow the structure and Author your own Transformation Book." />
               <Info title="REJU Protocol™" text="The philosophy and rejuvenation framework behind the event." />
               <Info title="Metabolic Rejuvenation" text="Structured rejuvenation principles designed for long-term longevity habits." />
             </div>
 
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <a href={links.book} className={buttonClass}>
-                Buy the Book — Start Self-Guided
+                Buy the Book — Begin Authoring Your Personalized Book
               </a>
 
               <a href={links.onboarding} className={buttonClass}>

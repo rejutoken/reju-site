@@ -32,7 +32,7 @@ export default function IndustryAnalysisPage() {
         </p>
 
         <h1 className="mx-auto mt-10 max-w-6xl text-4xl sm:text-5xl font-bold tracking-tight text-[#f5c26b] md:text-7xl">
-          Why Do Most Crypto Projects Fail?
+          Most Crypto Projects Fail
         </h1>
 
         <h2 className="mx-auto mt-10 max-w-5xl text-2xl sm:text-3xl font-bold leading-tight text-[#f5c26b] md:text-4xl">
@@ -47,7 +47,7 @@ export default function IndustryAnalysisPage() {
         </p>
 
         <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
-          This paper examines common factors affecting crypto project survival
+          This study examines common factors affecting crypto project survival
           and proposes enhanced transparency disclosures, ecosystem continuity
           planning, token utility, and renewable economic systems as potential
           improvements for the industry.
@@ -447,7 +447,7 @@ export default function IndustryAnalysisPage() {
               Disclosure™, a Renewable Economic System™, non-custodial
               participation structures, educational programs, practitioner
               certification pathways, community participation systems, and
-              participant-authored Transformation Books™.
+              Transformation Books You Are Authoring™.
             </p>
 
             <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
@@ -571,11 +571,11 @@ export default function IndustryAnalysisPage() {
             </h3>
 
             <p className="mt-4 text-lg leading-relaxed text-gray-300">
-              This paper is intended for educational and informational purposes.
+              This study is intended for educational and informational purposes.
               The analysis discusses industry-wide trends and proposes potential
               transparency and continuity frameworks. References are provided to
               support publicly available statistics and research. Nothing
-              contained in this paper should be interpreted as investment, legal,
+              contained in this study should be interpreted as investment, legal,
               tax, or financial advice.
             </p>
           </div>
@@ -599,7 +599,7 @@ export default function IndustryAnalysisPage() {
               View Rejunomics™
             </a>
             <a href={links.home} className={buttonClass}>
-              Back to Landing Page
+              Back to REJU
             </a>
             <a href={links.onboarding} className={buttonClass}>
               Start Onboarding

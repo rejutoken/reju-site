@@ -8,6 +8,7 @@ const links = {
   bookAdminPayment: "https://square.link/u/zH7dIuF5",
   directProgramPayment: "https://square.link/u/fmBzbrPI",
   participantRegistration: "/participant-registration",
+  streamflowLock: "https://app.streamflow.finance/token-lock",
 };
 
 const buttonClass =
@@ -51,19 +52,19 @@ export default function Onboarding() {
             <Step
               number="1"
               title="Pay the $69 Book + Admin Registration"
-              text="This payment is required for all participants and covers the book/program guide and administrative onboarding."
+              text="This payment is required for all participants and covers the book/program guide and administrative onboarding — the foundation of the book you will Author using your Participant ID."
             />
 
             <Step
               number="2"
-              title="Complete Participant Registration"
-              text="Create your REJU participant record for enrollment, communication, and transformation tracking."
+              title="Choose Your Entry Path"
+              text="Lock $600 worth of REJU for 6 months (crypto) or pay the $600 program fee (direct). Both give free access to the program and redirect to registration."
             />
 
             <Step
               number="3"
-              title="Choose Your Entry Path"
-              text="Lock REJU for 6 months or enter through the direct program enrollment path."
+              title="Complete Participant Registration"
+              text="Create your REJU participant record for enrollment, communication, and transformation tracking. You will be redirected here automatically after paying/locking."
             />
 
             <Step
@@ -72,52 +73,61 @@ export default function Onboarding() {
               text="Once enrollment is reviewed and approved, you will receive access instructions for the next REJU Rejuvenation Event™."
             />
           </div>
+          <div className="mt-6 text-center">
+            <a href="/daily-transformation-log" className={buttonClass}>
+              Start Authoring Your Personalized Book (use your Participant ID)
+            </a>
+          </div>
         </div>
       </section>
 
       <section className="px-6 py-16">
-        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-2">
-          <PathCard
-            title="Crypto Entry Path"
-            subtitle="Lock REJU for 6 Months"
-            description="For participants entering through REJU token participation."
-            items={[
-              "Pay $69 Book + Admin Registration",
-              "Complete Participant Registration",
-              "Buy or hold the required REJU amount",
-              "Lock REJU for 6 months",
-              "Receive program access after approval",
-            ]}
-            buttons={[
-              { label: "Pay $69 Book + Admin", href: links.bookAdminPayment },
-              {
-                label: "Participant Registration",
-                href: links.participantRegistration,
-              },
-              { label: "Buy / Lock REJU", href: links.buy },
-            ]}
-          />
+        <div className="mx-auto max-w-6xl">
+          <h3 className="text-2xl font-bold text-[#f5c26b] mb-6 text-center">Choose Your Entry Path</h3>
+          <div className="grid gap-6 md:grid-cols-2">
+            {/* Crypto Lock Path Card */}
+            <div className="rounded-3xl border border-[#f5c26b]/25 bg-[#160b05]/85 p-8 shadow-[0_0_30px_rgba(245,194,107,0.10)]">
+              <h4 className="text-xl font-bold text-[#f5c26b] mb-4">Crypto Lock Path</h4>
+              <ul className="space-y-3 text-left text-gray-300">
+                <li className="flex gap-3">
+                  <span className="text-[#f5c26b]">•</span>
+                  <span>Buy REJU $600</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-[#f5c26b]">•</span>
+                  <span>Lock your REJU with Streamflow (6 Months)</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-[#f5c26b]">•</span>
+                  <span>Pay $69 for book guide</span>
+                </li>
+              </ul>
+              <div className="mt-6 flex flex-col gap-3">
+                <a href={links.buy} className={buttonClass}>Buy REJU</a>
+                <a href={links.streamflowLock} className={buttonClass}>Lock REJU</a>
+                <a href={links.bookAdminPayment} className={buttonClass}>Buy Book $69</a>
+              </div>
+            </div>
 
-          <PathCard
-            title="Direct Entry Path"
-            subtitle="Direct Program Entry"
-            description="For participants entering without using crypto."
-            items={[
-              "Pay $69 Book + Admin Registration",
-              "Complete Participant Registration",
-              "Pay direct program entry fee",
-              "Receive program access after approval",
-              "Designed for participants entering without a REJU lock",
-            ]}
-            buttons={[
-              { label: "Pay $69 Book + Admin", href: links.bookAdminPayment },
-              {
-                label: "Participant Registration",
-                href: links.participantRegistration,
-              },
-              { label: "Pay Program Entry", href: links.directProgramPayment },
-            ]}
-          />
+            {/* Direct Entry Path Card */}
+            <div className="rounded-3xl border border-[#f5c26b]/25 bg-[#160b05]/85 p-8 shadow-[0_0_30px_rgba(245,194,107,0.10)]">
+              <h4 className="text-xl font-bold text-[#f5c26b] mb-4">Direct Entry Path</h4>
+              <ul className="space-y-3 text-left text-gray-300">
+                <li className="flex gap-3">
+                  <span className="text-[#f5c26b]">•</span>
+                  <span>Pay $600</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-[#f5c26b]">•</span>
+                  <span>Pay 69 for the book guide</span>
+                </li>
+              </ul>
+              <div className="mt-6 flex flex-col gap-3">
+                <a href={links.directProgramPayment} className={buttonClass}>Pay $600</a>
+                <a href={links.bookAdminPayment} className={buttonClass}>Buy Book $69</a>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>

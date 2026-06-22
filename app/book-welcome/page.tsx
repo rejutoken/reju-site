@@ -25,7 +25,7 @@ export default function BookWelcome() {
         </h1>
 
         <p className="mx-auto mt-6 max-w-4xl text-lg leading-relaxed text-gray-300">
-          This book is the foundation of the REJU experience. It introduces the story, science, structure, and mindset behind the path to healing and longevity.
+          This book is the foundation. When you go through the program, you Are Authoring your Personalized REJU Transformation Book — using the guide as your starting point.
         </p>
       </section>
 
@@ -42,9 +42,9 @@ export default function BookWelcome() {
     </ul>
   </Card>
 
-  <Card title="Why the Book Matters">
+  <Card title="Why You Are Authoring the Book">
     <p className="leading-relaxed text-gray-300">
-      REJU is not built around shortcuts. The book prepares you to understand why the process works, what your body may experience, and how consistency, structure, and awareness create visible transformation.
+      REJU is not built around shortcuts. You Are Authoring your Personalized REJU Transformation Book. The guide prepares you to understand why the process works, what your body may experience, and how consistency, structure, and awareness create visible transformation.
     </p>
   </Card>
 </div>
@@ -54,7 +54,7 @@ export default function BookWelcome() {
             <h2 className="text-3xl font-bold text-[#f5c26b]">What Happens Next</h2>
 
             <p className="mt-4 leading-relaxed text-gray-300">
-              Complete your participant registration so REJU can create your official participant record and guide you through the next step.
+              Complete your participant registration so REJU can create your official participant record. Then start Authoring your Personalized REJU Transformation Book.
             </p>
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
@@ -64,6 +64,9 @@ export default function BookWelcome() {
 
               <a href={links.telegramOfficial} target="_blank" rel="noopener noreferrer" className={buttonClass}>
                 Join REJU Official
+              </a>
+              <a href="/daily-transformation-log" className={buttonClass}>
+                Start Authoring Your Personalized Book
               </a>
             </div>
           </div>

@@ -5,7 +5,7 @@ export default function Page() {
     <SimpleUploadPage
       title="REJU Daily Journal"
       type="dailyjournal"
-      description="Upload your daily journal, progress note, or participation file."
+      description="Upload to continue Authoring your Personalized REJU Transformation Book."
     />
   );
 }

@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "REJU | Participation-Driven Ecosystem",
-  description: "REJU is a participation-driven token ecosystem. Lock, participate, and support long-term ecosystem continuity through the Renewable Economic Engine™.",
+  description: "Lock REJU. Transform through the Rejuvenation Event. You Are Authoring your Personalized REJU Transformation Book. Sustained by transparent Rejunomics™.",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",

@@ -12,6 +12,7 @@ const navLinks: NavLink[] = [
   { href: "/buy", label: "Buy REJU" },
   { href: "/#tokenomics", label: "Tokenomics" },
   { href: "/program", label: "Program" },
+  { href: "/daily-transformation-log", label: "Author Your Book" },
   { href: "/onboarding", label: "Onboarding" },
   { href: "/rejunomics", label: "Rejunomics" },
   { href: "/blog", label: "Blog" },
