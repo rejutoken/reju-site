@@ -44,7 +44,7 @@ export default function Home() {
           Participation-Driven Ecosystem™
         </h2>
         <p className="mt-3 max-w-2xl mx-auto text-lg text-gray-300">
-          Lock REJU. Transform in the Event. <strong>You Are Authoring your Personalized REJU Transformation Book</strong>. Sustained by Rejunomics™.
+          Lock REJU. Transform in the Event. <strong>You Are Authoring Your Personalized REJU Transformation Book</strong>. Sustained by Rejunomics™.
         </p>
         <div className="mt-6">
           <a href="/daily-transformation-log" className="inline-block text-[#f5c26b] underline hover:no-underline text-lg">
@@ -71,14 +71,9 @@ export default function Home() {
           </p>
 
           <div className="mt-5 text-left text-[1.05rem] font-normal leading-relaxed text-gray-300">
-   
-			
-			 <h3 className="mt-8 text-left text-2xl font-bold leading-snug text-[#f5c26b]">
-            REJU integrates:
-          </h3>
-			
-              
-          
+            <h3 className="mt-8 text-left text-2xl font-bold leading-snug text-[#f5c26b]">
+              REJU integrates:
+            </h3>
 
             <ol className="ml-12 list-decimal text-lg text-gray-100 space-y-3">
               <li>
@@ -126,15 +121,14 @@ export default function Home() {
           <a href={links.program} className={buttonClass}>
             View Program
           </a>
-		  
-		  <a href={links.industry} className={buttonClass}>
-    2026 Industry
-  </a>
 
-		  <a href="/blog" className={buttonClass}>
-    Read REJU Research
-  </a>
-		  
+          <a href={links.industry} className={buttonClass}>
+            Industry Analysis
+          </a>
+
+          <a href="/blog" className={buttonClass}>
+            Read REJU Research
+          </a>
         </div>
       </section>
 
@@ -144,7 +138,7 @@ export default function Home() {
           <p className="uppercase tracking-[0.3em] text-sm text-[#f5c26b] mb-3">The Heart of Participation</p>
           <h2 className="text-4xl font-bold text-[#f5c26b] mb-6">You Are Authoring Your Personalized REJU Transformation Book</h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-            When you go through the REJU Rejuvenation Event, you are <strong>Authoring your Personalized REJU Transformation Book</strong>.
+            When you go through the REJU Rejuvenation Event, you are <strong>Authoring Your Personalized REJU Transformation Book</strong>.
             Every journal entry, photo, and reflection is a chapter you write. You are the Author. REJU is editorial.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -209,19 +203,15 @@ export default function Home() {
 	
 	
 
-            <h3 className="mt-4 font-bold text-center text-[#f5c26b] md:text-2xl">
-                  <a
+            <h3 className="mx-auto mt-6 max-w-4xl text-center text-xl font-bold leading-snug text-[#f5c26b] sm:text-2xl">
+              <a
                 href={links.rejunomics}
-                className="mt-6 inline-block font-semibold text-[#f5c26b] text-3xl hover:underline"
-              >Rejunomics™: The transparent foundation that expands Tokenomics</a>
-              </h3>
-			  
-			     <h3 className="mt-1 font-bold text-center text-[#f5c26b] md:text-2xl">
-                  <a
-                href={links.rejunomics}
-                className="mt-0 inline-block font-semibold text-[#f5c26b] text-3xl hover:underline"
-              >by exposing token intent and the strategy of its allocations</a>
-              </h3>
+                className="font-semibold hover:underline"
+              >
+                Rejunomics™: The transparent foundation that expands tokenomics
+                by disclosing token intent and allocation behavior.
+              </a>
+            </h3>
 		  
 		  <div className="mt-8 rounded-3xl border border-[#f5c26b]/30 bg-black/35 p-6 md:p-8">
             <div className="text-center">
@@ -459,7 +449,7 @@ function InfrastructureSection() {
         <FlowStep number="3" title="Submit Verification" text="Submit proof of participation." />
         <FlowStep number="4" title="Receive Cohort Access" text="Gain access to your assigned cohort." />
         <FlowStep number="5" title="Complete the Program" text="Participate + Journal daily." />
-        <FlowStep number="6" title="Author Your Book" text="You are Authoring your Personalized REJU Transformation Book." />
+        <FlowStep number="6" title="Author Your Book" text="You are Authoring Your Personalized REJU Transformation Book." />
         <FlowStep number="7" title="Sustain & Share" text="Supported by transparent Rejunomics™." />
       </div>
 
