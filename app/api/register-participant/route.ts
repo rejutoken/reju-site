@@ -1,5 +1,6 @@
 import { google } from "googleapis";
 import { NextResponse } from "next/server";
+import { verifyPassword, getRejuConfig } from "../../../lib/rejuConfig";
 
 export const runtime = "nodejs";
 
@@ -34,12 +35,31 @@ export async function POST(req: Request) {
     const stateProvince = value(formData, "stateProvince");
     const zipPostalCode = value(formData, "zipPostalCode");
     const country = value(formData, "country");
+    const accessPassword = value(formData, "accessPassword");
 
     if (!firstName || !lastName || !email || !city || !stateProvince || !country) {
       return NextResponse.json(
         { error: "Please complete all required fields." },
         { status: 400 }
       );
+    }
+
+    // Enforce registration password gate (paid participants only)
+    const config = await getRejuConfig();
+    if (config.active) {
+      if (!accessPassword) {
+        return NextResponse.json(
+          { error: "Registration access password is required. Please enter the event password provided to paid participants." },
+          { status: 403 }
+        );
+      }
+      const ok = await verifyPassword("registration", accessPassword);
+      if (!ok) {
+        return NextResponse.json(
+          { error: "Invalid registration access password. Access is restricted to verified paid participants." },
+          { status: 403 }
+        );
+      }
     }
 
     const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
@@ -84,7 +104,7 @@ export async function POST(req: Request) {
       stateProvince,
       zipPostalCode,
       country,
-      "Pending",
+      `Pending • ${config.currentCohort}`,
     ];
 
     await sheets.spreadsheets.values.append({

@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "build:book-knowledge": "python scripts/extract-kats-legacy.py && python scripts/build-kats-legacy-knowledge.py",
+    "generate:cohort-materials": "npx tsx scripts/export-cohort-materials.ts",
+    "generate:cohort-pptx": "npx tsx scripts/generate-cohort-pptx.ts",
+    "generate:materials-pdfs": "npx tsx scripts/generate-materials-pdfs.ts",
+    "upload:event-materials": "npx tsx scripts/upload-event-materials-drive.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
@@ -31,6 +36,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
+    "pptxgenjs": "^4.0.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

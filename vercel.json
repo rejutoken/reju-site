@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/x-post/auto",
+      "schedule": "0 14 * * *"
+    }
+  ]
+}

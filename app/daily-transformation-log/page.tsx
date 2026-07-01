@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Nav from "../components/Nav";
+import { PARTICIPANT_ID_STORAGE_KEY } from "../../lib/participantFlows";
 
 export default function DailyTransformationLog() {
   const [formData, setFormData] = useState({
@@ -26,35 +27,53 @@ export default function DailyTransformationLog() {
     consent: false,
   });
 
-  // Auto-save progress
+  // Password gate for book authoring
+  const [bookAccessUnlocked, setBookAccessUnlocked] = useState(false);
+  const [bookAccessPassword, setBookAccessPassword] = useState("");
+  const [bookUnlockStatus, setBookUnlockStatus] = useState("");
+  const [bookUnlockedPw, setBookUnlockedPw] = useState("");
+
+  // Auto-save progress + URL/session participant bootstrap
   useEffect(() => {
+    const defaults = {
+      participantId: '',
+      fullName: '',
+      telegram: '',
+      dayOfProgram: '',
+      date: new Date().toISOString().split('T')[0],
+      physicalCondition: '',
+      skinDescription: '',
+      skinClarity: 3,
+      skinDryness: 3,
+      inflammation: 3,
+      energyLevel: 3,
+      mentalClarity: 3,
+      mood: 3,
+      compliance: 'Yes',
+      nonComplianceReason: '',
+      photos: [] as File[],
+      positiveThings: Array(11).fill(''),
+      noticeToday: '',
+      changesYesterday: '',
+      consent: false,
+    };
+
     const saved = localStorage.getItem('rejuDailyLog');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      setFormData({
-        participantId: '',
-        fullName: '',
-        telegram: '',
-        dayOfProgram: '',
-        date: new Date().toISOString().split('T')[0],
-        physicalCondition: '',
-        skinDescription: '',
-        skinClarity: 3,
-        skinDryness: 3,
-        inflammation: 3,
-        energyLevel: 3,
-        mentalClarity: 3,
-        mood: 3,
-        compliance: 'Yes',
-        nonComplianceReason: '',
-        photos: [] as File[],
-        positiveThings: Array(11).fill(''),
-        noticeToday: '',
-        changesYesterday: '',
-        consent: false,
-        ...parsed,
-      });
-    }
+    const parsed = saved ? JSON.parse(saved) : {};
+
+    const params = new URLSearchParams(window.location.search);
+    const pid =
+      params.get('pid')?.trim() ||
+      sessionStorage.getItem(PARTICIPANT_ID_STORAGE_KEY)?.trim() ||
+      '';
+    const day = params.get('day')?.trim() || '';
+
+    setFormData({
+      ...defaults,
+      ...parsed,
+      ...(pid ? { participantId: pid } : {}),
+      ...(day ? { dayOfProgram: day } : {}),
+    });
   }, []);
 
   useEffect(() => {
@@ -73,6 +92,9 @@ export default function DailyTransformationLog() {
     submitData.append("type", "dailyjournal");
     submitData.append("name", formData.fullName || "Client");
     submitData.append("notes", JSON.stringify(formData, null, 2));
+    if (bookUnlockedPw) {
+      submitData.append("accessPassword", bookUnlockedPw);
+    }
     
     formData.photos.forEach((photo) => {
       submitData.append("file", photo);
@@ -101,6 +123,32 @@ export default function DailyTransformationLog() {
     localStorage.removeItem('rejuDailyLog');
   };
 
+  async function handleBookUnlock(e?: React.FormEvent) {
+    if (e) e.preventDefault();
+    if (!bookAccessPassword.trim()) {
+      setBookUnlockStatus("Enter the book authoring access password.");
+      return;
+    }
+    setBookUnlockStatus("Verifying access...");
+    try {
+      const res = await fetch("/api/verify-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "book", password: bookAccessPassword.trim() }),
+      });
+      const data = await res.json();
+      if (data?.ok) {
+        setBookAccessUnlocked(true);
+        setBookUnlockedPw(bookAccessPassword.trim());
+        setBookUnlockStatus("");
+      } else {
+        setBookUnlockStatus("Incorrect password or access closed for this cohort/event.");
+      }
+    } catch {
+      setBookUnlockStatus("Verification error. Try again.");
+    }
+  }
+
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_center,#2b1a12_0%,#0b0b0c_70%)] text-white py-16" id="main-content">
       <Nav />
@@ -117,6 +165,35 @@ export default function DailyTransformationLog() {
           </div>
         </div>
 
+        {!bookAccessUnlocked ? (
+          <div className="max-w-md mx-auto mb-10 bg-[#120904] border border-[#f5c26b]/30 rounded-3xl p-8 text-center">
+            <div className="mb-3 text-[#f5c26b] font-semibold tracking-widest text-sm uppercase">PROTECTED — PAID PARTICIPANTS ONLY</div>
+            <h3 className="text-2xl font-bold mb-2">Unlock Book Authoring</h3>
+            <p className="text-sm text-gray-400 mb-4">Enter the current cohort / event password for daily journal submissions (book chapters).</p>
+
+            <input
+              type="password"
+              value={bookAccessPassword}
+              onChange={(e) => setBookAccessPassword(e.target.value)}
+              placeholder="Book authoring password"
+              className="w-full p-4 bg-black/60 border border-[#f5c26b]/30 rounded-2xl mb-4 font-mono text-center"
+              onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleBookUnlock(); } }}
+            />
+            <button
+              type="button"
+              onClick={() => handleBookUnlock()}
+              className="w-full py-4 border border-[#f5c26b] text-[#f5c26b] font-semibold rounded-2xl hover:bg-[#f5c26b] hover:text-black transition"
+            >
+              Unlock Daily Journal
+            </button>
+            {bookUnlockStatus && <p className="mt-3 text-sm text-[#f5c26b]">{bookUnlockStatus}</p>}
+            <p className="mt-4 text-[11px] text-gray-500">Password is changed by REJU after each event. Contact admin if you paid but do not have the current code.</p>
+          </div>
+        ) : (
+          <div className="max-w-md mx-auto mb-6 text-center text-emerald-400 text-sm">✓ Book authoring unlocked for this session</div>
+        )}
+
+        {bookAccessUnlocked && (
         <form onSubmit={handleSubmit} className="bg-[#120904] border border-[#f5c26b]/20 rounded-3xl p-12 shadow-xl space-y-12">
           {/* Identity */}
           <div>
@@ -326,6 +403,7 @@ export default function DailyTransformationLog() {
             <p>Submit:</p> You're Authoring Your Own Personalized Transformation Book
           </button>
         </form>
+        )}
       </div>
     </div>
   );

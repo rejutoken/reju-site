@@ -29,6 +29,24 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## REJU Admin Controls (Personnel)
+
+- Main hidden admin: `/admin`
+  - Change registration password (locks `/participant-registration`)
+  - Change book authoring password (locks `/daily-transformation-log`)
+  - Set current cohort name
+  - Toggle global access on/off (active flag)
+  - Change the admin password itself
+- Book generator remains at `/admin/generate-book`
+- Passwords + config live in `reju-config.json` inside your `GOOGLE_DRIVE_UPLOADBOOKADMIN` folder.
+- After each event: update the passwords in `/admin` and communicate the new password(s) only to paid/approved participants.
+- Initial first-cohort passwords:
+  - Registration + Book authoring: `REJU1stcohort2026`
+  - Admin (for /admin dashboard): `REJUAdmin2026`
+  - currentCohort = "1st Cohort 2026"
+  Change the admin password immediately after first access.
+- Server-side enforcement on registration and daily chapter submission.
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.

@@ -11,6 +11,7 @@ const links = {
   program: "/program",
   rejunomics: "/rejunomics",
   blog: "/blog",
+  industry: "/crypto-industry-analysis-2026",
   telegramOfficial: "https://t.me/rejuofficial",
 };
 
@@ -108,7 +109,7 @@ export default function Home() {
             end of the lock period, your REJU unlocks back to your wallet.
           </p>
           <p className="mt-4 text-left text-[1.05rem] font-normal leading-relaxed text-gray-300">
-            Daily journaling throughout the Event becomes your REJU Transformation Book — 
+            Daily journaling throughout the Event becomes your REJU Transformation Book, 
             a personal record of rejuvenation, co-authored with REJU as editorial.
           </p>
         </div>
@@ -126,8 +127,8 @@ export default function Home() {
             View Program
           </a>
 		  
-		  <a href="/daily-transformation-log" className={buttonClass}>
-    Author Your Book
+		  <a href={links.industry} className={buttonClass}>
+    2026 Industry
   </a>
 
 		  <a href="/blog" className={buttonClass}>
@@ -208,11 +209,18 @@ export default function Home() {
 	
 	
 
-            <h3 className="mt-4 font-bold text-[#f5c26b] md:text-2xl">
+            <h3 className="mt-4 font-bold text-center text-[#f5c26b] md:text-2xl">
                   <a
                 href={links.rejunomics}
-                className="mt-6 inline-block font-semibold text-[#f5c26b] hover:underline"
-              >Rejunomics™: The transparent foundation that sustains your transformation and the REJU ecosystem.</a>
+                className="mt-6 inline-block font-semibold text-[#f5c26b] text-3xl hover:underline"
+              >Rejunomics™: The transparent foundation that expands Tokenomics</a>
+              </h3>
+			  
+			     <h3 className="mt-1 font-bold text-center text-[#f5c26b] md:text-2xl">
+                  <a
+                href={links.rejunomics}
+                className="mt-0 inline-block font-semibold text-[#f5c26b] text-3xl hover:underline"
+              >by exposing token intent and the strategy of its allocations</a>
               </h3>
 		  
 		  <div className="mt-8 rounded-3xl border border-[#f5c26b]/30 bg-black/35 p-6 md:p-8">
@@ -226,7 +234,7 @@ export default function Home() {
               </h3>
 
               <p className="mx-auto mt-6 max-w-3xl text-left text-lg text-gray-300">
-                Rejunomics™ reveals holdings, release schedules, finite incentives, and the mechanisms that support long-term continuity — so your personal transformation is backed by a transparent, enduring economy.
+                Rejunomics™ reveals holdings, release schedules, finite incentives, and the mechanisms that support long-term continuity, so your personal transformation is backed by a transparent, enduring economy.
               </p>
 
               <a

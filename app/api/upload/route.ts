@@ -2,6 +2,7 @@ import { google } from "googleapis";
 import { NextResponse } from "next/server";
 import { Readable } from "stream";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import { verifyPassword, getRejuConfig } from "../../../lib/rejuConfig";
 
 export const runtime = "nodejs";
 
@@ -30,6 +31,27 @@ export async function POST(req: Request) {
 
     const folderId = folderMap[type];
     if (!folderId) return NextResponse.json({ error: "Invalid upload type." }, { status: 400 });
+
+    // For daily journal (book authoring), require the current book password
+    if (type === "dailyjournal") {
+      const accessPassword = String(formData.get("accessPassword") || "").trim();
+      const cfg = await getRejuConfig();
+      if (cfg.active) {
+        if (!accessPassword) {
+          return NextResponse.json(
+            { error: "Book authoring password required. Enter the event password to submit your daily chapter." },
+            { status: 403 }
+          );
+        }
+        const ok = await verifyPassword("book", accessPassword);
+        if (!ok) {
+          return NextResponse.json(
+            { error: "Invalid book authoring password." },
+            { status: 403 }
+          );
+        }
+      }
+    }
 
     const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
     const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");

@@ -10,7 +10,7 @@ interface NavLink {
 
 const navLinks: NavLink[] = [
   { href: "/buy", label: "Buy REJU" },
-  { href: "/#tokenomics", label: "Tokenomics" },
+  { href: "/crypto-industry-analysis-2026", label: "2026 Industry" },
   { href: "/program", label: "Program" },
   { href: "/daily-transformation-log", label: "Author Your Book" },
   { href: "/onboarding", label: "Onboarding" },

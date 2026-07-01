@@ -39,9 +39,12 @@ export default function GenerateBookAdmin() {
   return (
     <div className="min-h-screen bg-[#0b0b0c] text-white p-8">
       <div className="max-w-2xl mx-auto">
-        <div className="mb-8 p-4 border border-[#f5c26b]/30 bg-[#120904] rounded">
-          <p className="text-[#f5c26b] font-bold text-sm uppercase tracking-widest">REJU PERSONNEL ONLY</p>
-          <p className="text-xs text-gray-400 mt-1">This page is not linked from the public site. Do not share the URL.</p>
+        <div className="mb-8 p-4 border border-[#f5c26b]/30 bg-[#120904] rounded flex items-center justify-between">
+          <div>
+            <p className="text-[#f5c26b] font-bold text-sm uppercase tracking-widest">REJU PERSONNEL ONLY</p>
+            <p className="text-xs text-gray-400 mt-1">This page is not linked from the public site. Do not share the URL.</p>
+          </div>
+          <a href="/admin" className="text-xs underline text-[#f5c26b] hover:text-white">← Admin Dashboard (passwords &amp; cohorts)</a>
         </div>
 
         <h1 className="text-4xl font-bold text-[#f5c26b] mb-2">Generate Client Book (REJU Personnel)</h1>

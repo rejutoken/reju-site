@@ -67,7 +67,7 @@ export default function CrpWelcome() {
             </p>
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <a href={links.participantRegistration} className={buttonClass}>
+              <a href={`${links.participantRegistration}?flow=crp`} className={buttonClass}>
                 Complete Participant Registration
               </a>
 

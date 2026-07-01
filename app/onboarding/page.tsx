@@ -64,7 +64,7 @@ export default function Onboarding() {
             <Step
               number="3"
               title="Complete Participant Registration"
-              text="Create your REJU participant record for enrollment, communication, and transformation tracking. You will be redirected here automatically after paying/locking."
+              text="Create your REJU participant record for enrollment, communication, and transformation tracking. Registration is password-protected — REJU provides the current access password to paid participants only."
             />
 
             <Step

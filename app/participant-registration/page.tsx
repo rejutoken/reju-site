@@ -1,22 +1,65 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import Nav from "../components/Nav";
+import {
+  PARTICIPANT_ID_STORAGE_KEY,
+  materialsUrl,
+  parseParticipantFlow,
+} from "../../lib/participantFlows";
 
-type Props = {
-  title: string;
-  type: string;
-  description: string;
-};
+function ParticipantRegistrationForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const flow = parseParticipantFlow(searchParams.get("flow"));
 
-export default function ParticipantRegistrationPage() {
   const [status, setStatus] = useState("");
+  const [accessUnlocked, setAccessUnlocked] = useState(false);
+  const [accessPassword, setAccessPassword] = useState("");
+  const [unlockStatus, setUnlockStatus] = useState("");
+  const [unlockedPw, setUnlockedPw] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  async function handleUnlock(e?: React.FormEvent) {
+    if (e) e.preventDefault();
+    if (!accessPassword.trim()) {
+      setUnlockStatus("Please enter the access password.");
+      return;
+    }
+    setUnlockStatus("Verifying...");
+    try {
+      const res = await fetch("/api/verify-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "registration", password: accessPassword.trim() }),
+      });
+      const data = await res.json();
+      if (data?.ok) {
+        setAccessUnlocked(true);
+        setUnlockedPw(accessPassword.trim());
+        setUnlockStatus("");
+      } else {
+        setUnlockStatus("Incorrect password or access is currently closed. Contact REJU for the current event password.");
+      }
+    } catch {
+      setUnlockStatus("Verification failed. Please try again.");
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (submitting) return;
+
+    setSubmitting(true);
     setStatus("Submitting registration...");
 
     const form = e.currentTarget;
     const formData = new FormData(form);
+
+    if (unlockedPw) {
+      formData.set("accessPassword", unlockedPw);
+    }
 
     try {
       const res = await fetch("/api/register-participant", {
@@ -28,298 +71,184 @@ export default function ParticipantRegistrationPage() {
 
       if (!res.ok || !data?.success) {
         setStatus(data?.error || "Registration failed.");
+        setSubmitting(false);
         return;
       }
 
-      setStatus(`Registration received. Participant ID: ${data.participantId}`);
-      form.reset();
+      const participantId = data.participantId as string;
+      sessionStorage.setItem(PARTICIPANT_ID_STORAGE_KEY, participantId);
+      setStatus("Registration received. Redirecting to your event materials...");
+
+      router.push(materialsUrl(flow, participantId));
     } catch (error) {
       console.error("CLIENT REGISTRATION ERROR:", error);
       setStatus("Registration failed. Please try again.");
+      setSubmitting(false);
     }
   }
 
   return (
-    <main style={pageStyle} id="main-content">
-      <section style={cardStyle}>
-        <div style={{ textAlign: "center", marginBottom: "30px" }}>
-          <img src="/logo.png" alt="REJU" style={logoStyle} />
+    <main
+      className="min-h-screen bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] text-gray-300"
+      id="main-content"
+    >
+      <Nav />
 
-          <p style={eyebrowStyle}>REJU Participant Registry</p>
+      <section className="flex justify-center px-6 py-10">
+        <div className="w-full max-w-[760px] rounded-[20px] border border-[#6f5320] bg-[#120d08] p-7 shadow-[0_0_30px_rgba(245,194,107,0.08)]">
+          <div className="mb-8 text-center">
+            <img src="/logo.png" alt="REJU" className="mx-auto mb-4 w-[180px] max-w-full" />
 
-          <h1 style={titleStyle}>Participant Registration</h1>
+            <p className="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-[#f5d27a]">
+              REJU Participant Registry
+            </p>
 
-          <p style={descriptionStyle}>
-            Please complete this registration once. This creates your REJU
-            participant record for program access, verification, and future
-            transformation tracking.
-          </p>
+            <h1 className="mb-3 text-4xl font-bold text-[#f5d27a]">Participant Registration</h1>
+
+            <p className="text-lg leading-relaxed text-gray-300">
+              Please complete this registration once. This creates your REJU participant record
+              for program access, verification, and transformation tracking throughout the site.
+            </p>
+            <p className="mt-2 text-[15px] text-[#f5d27a]">
+              Access is password-protected. Only paid participants receive the current registration password.
+            </p>
+          </div>
+
+          {!accessUnlocked ? (
+            <div className="mb-3">
+              <label className="mb-1.5 ml-1 block text-sm font-semibold text-[#f5d27a]">
+                Event / Cohort Access Password
+              </label>
+              <input
+                type="password"
+                value={accessPassword}
+                onChange={(e) => setAccessPassword(e.target.value)}
+                placeholder="Enter registration password"
+                className={inputClass}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleUnlock();
+                  }
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => handleUnlock()}
+                className="mt-2 w-full rounded-[14px] border border-[#f5d27a] bg-[#3a2a18] px-[18px] py-[18px] text-center text-lg font-bold text-[#f5d27a]"
+              >
+                Unlock Registration Form
+              </button>
+              {unlockStatus && (
+                <p className="mt-3 text-center text-[15px] text-[#f5d27a]">{unlockStatus}</p>
+              )}
+              <p className="mt-2.5 text-center text-xs text-gray-400">
+                Password changes after each event. Obtain from REJU team after payment confirmation.
+              </p>
+            </div>
+          ) : (
+            <div className="mb-2.5 text-center text-[13px] text-green-300">
+              ✓ Access unlocked for this session. You may submit registration.
+            </div>
+          )}
+
+          {accessUnlocked && (
+            <form onSubmit={handleSubmit} noValidate>
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
+                <Field label="First Name" id="firstName" name="firstName" required />
+                <Field label="Last Name" id="lastName" name="lastName" required />
+              </div>
+
+              <Field label="Email" id="email" name="email" type="email" required />
+              <Field label="Phone (optional)" id="phone" name="phone" />
+              <Field label="Telegram username (optional)" id="telegram" name="telegram" />
+              <Field label="Address 1 (optional)" id="address1" name="address1" />
+              <Field label="Address 2 (optional)" id="address2" name="address2" />
+
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
+                <Field label="City" id="city" name="city" required />
+                <Field label="State / Province" id="stateProvince" name="stateProvince" required />
+              </div>
+
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-4">
+                <Field label="Zip / Postal Code (optional)" id="zipPostalCode" name="zipPostalCode" />
+                <Field label="Country" id="country" name="country" required />
+              </div>
+
+              <button
+                type="submit"
+                disabled={submitting}
+                className="mt-2 w-full rounded-[14px] border-none bg-[#f5d27a] px-[18px] py-[18px] text-center text-lg font-bold text-black disabled:opacity-60"
+                aria-describedby={status ? "form-status" : undefined}
+              >
+                {submitting ? "Submitting..." : "Submit Registration"}
+              </button>
+            </form>
+          )}
+
+          {status && (
+            <p
+              id="form-status"
+              role="status"
+              aria-live="polite"
+              className={`mt-5 text-center text-lg font-semibold ${
+                status.toLowerCase().includes("received") ? "text-green-300" : "text-[#f5d27a]"
+              }`}
+            >
+              {status}
+            </p>
+          )}
         </div>
-
-        <form onSubmit={handleSubmit} noValidate>
-          <div style={gridStyle}>
-            <div>
-              <label htmlFor="firstName" style={labelStyle}>
-                First Name <span style={{ color: "#f5d27a" }}>*</span>
-              </label>
-              <input
-                id="firstName"
-                name="firstName"
-                placeholder="First Name"
-                required
-                aria-required="true"
-                style={inputStyle}
-              />
-            </div>
-
-            <div>
-              <label htmlFor="lastName" style={labelStyle}>
-                Last Name <span style={{ color: "#f5d27a" }}>*</span>
-              </label>
-              <input
-                id="lastName"
-                name="lastName"
-                placeholder="Last Name"
-                required
-                aria-required="true"
-                style={inputStyle}
-              />
-            </div>
-          </div>
-
-          <div>
-            <label htmlFor="email" style={labelStyle}>
-              Email <span style={{ color: "#f5d27a" }}>*</span>
-            </label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              placeholder="Email"
-              required
-              aria-required="true"
-              style={inputStyle}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="phone" style={labelStyle}>Phone (optional)</label>
-            <input
-              id="phone"
-              name="phone"
-              placeholder="Phone (optional)"
-              style={inputStyle}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="telegram" style={labelStyle}>Telegram username (optional)</label>
-            <input
-              id="telegram"
-              name="telegram"
-              placeholder="Telegram username (optional)"
-              style={inputStyle}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="address1" style={labelStyle}>Address 1 (optional)</label>
-            <input
-              id="address1"
-              name="address1"
-              placeholder="Address 1 (optional)"
-              style={inputStyle}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="address2" style={labelStyle}>Address 2 (optional)</label>
-            <input
-              id="address2"
-              name="address2"
-              placeholder="Address 2 (optional)"
-              style={inputStyle}
-            />
-          </div>
-
-          <div style={gridStyle}>
-            <div>
-              <label htmlFor="city" style={labelStyle}>
-                City <span style={{ color: "#f5d27a" }}>*</span>
-              </label>
-              <input
-                id="city"
-                name="city"
-                placeholder="City"
-                required
-                aria-required="true"
-                style={inputStyle}
-              />
-            </div>
-
-            <div>
-              <label htmlFor="stateProvince" style={labelStyle}>
-                State / Province <span style={{ color: "#f5d27a" }}>*</span>
-              </label>
-              <input
-                id="stateProvince"
-                name="stateProvince"
-                placeholder="State / Province"
-                required
-                aria-required="true"
-                style={inputStyle}
-              />
-            </div>
-          </div>
-
-          <div style={gridStyle}>
-            <div>
-              <label htmlFor="zipPostalCode" style={labelStyle}>Zip / Postal Code (optional)</label>
-              <input
-                id="zipPostalCode"
-                name="zipPostalCode"
-                placeholder="Zip / Postal Code (optional)"
-                style={inputStyle}
-              />
-            </div>
-
-            <div>
-              <label htmlFor="country" style={labelStyle}>
-                Country <span style={{ color: "#f5d27a" }}>*</span>
-              </label>
-              <input
-                id="country"
-                name="country"
-                placeholder="Country"
-                required
-                aria-required="true"
-                style={inputStyle}
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            style={buttonStyle}
-            aria-describedby={status ? "form-status" : undefined}
-          >
-            Submit Registration
-          </button>
-        </form>
-
-        {status && (
-          <p
-            id="form-status"
-            role="status"
-            aria-live="polite"
-            style={{
-              color: status.toLowerCase().includes("received")
-                ? "#86efac"
-                : "#f5d27a",
-              marginTop: "20px",
-              textAlign: "center",
-              fontSize: "18px",
-              fontWeight: 600,
-            }}
-          >
-            {status}
-          </p>
-        )}
       </section>
     </main>
   );
 }
 
-const pageStyle: React.CSSProperties = {
-  minHeight: "100vh",
-  backgroundColor: "#050505",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  padding: "40px 20px",
-  fontFamily: "Arial",
-  color: "#d1d5db",
-};
+function Field({
+  label,
+  id,
+  name,
+  type = "text",
+  required = false,
+}: {
+  label: string;
+  id: string;
+  name: string;
+  type?: string;
+  required?: boolean;
+}) {
+  return (
+    <div>
+      <label htmlFor={id} className="mb-1.5 ml-1 block text-sm font-semibold text-[#f5d27a]">
+        {label} {required && <span className="text-[#f5d27a]">*</span>}
+      </label>
+      <input
+        id={id}
+        name={name}
+        type={type}
+        placeholder={label}
+        required={required}
+        aria-required={required}
+        className={inputClass}
+      />
+    </div>
+  );
+}
 
-const cardStyle: React.CSSProperties = {
-  width: "100%",
-  maxWidth: "760px",
-  backgroundColor: "#120d08",
-  border: "1px solid #6f5320",
-  borderRadius: "20px",
-  padding: "28px",
-  boxSizing: "border-box",
-  boxShadow: "0 0 30px rgba(245,194,107,0.08)",
-};
+const inputClass =
+  "mb-[18px] w-full rounded-[18px] border border-[rgba(245,194,107,0.35)] bg-[#120700] px-5 py-4 text-base text-gray-300 shadow-[0_0_15px_rgba(245,194,107,0.08)] outline-none box-border";
 
-const logoStyle: React.CSSProperties = {
-  width: "180px",
-  maxWidth: "100%",
-  marginBottom: "16px",
-};
-
-const eyebrowStyle: React.CSSProperties = {
-  color: "#f5d27a",
-  fontSize: "14px",
-  fontWeight: 700,
-  letterSpacing: "0.25em",
-  textTransform: "uppercase",
-  marginBottom: "14px",
-};
-
-const titleStyle: React.CSSProperties = {
-  color: "#f5d27a",
-  fontSize: "38px",
-  marginBottom: "12px",
-};
-
-const descriptionStyle: React.CSSProperties = {
-  color: "#d1d5db",
-  fontSize: "18px",
-  lineHeight: "1.6",
-};
-
-const gridStyle: React.CSSProperties = {
-  display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-  gap: "16px",
-};
-
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "16px 20px",
-  borderRadius: "18px",
-  border: "1px solid rgba(245,194,107,0.35)",
-  background: "#120700",
-  color: "#d1d5db",
-  fontSize: "16px",
-  outline: "none",
-  boxShadow: "0 0 15px rgba(245,194,107,0.08)",
-  marginBottom: "18px",
-  boxSizing: "border-box",
-};
-
-const labelStyle: React.CSSProperties = {
-  display: "block",
-  color: "#f5d27a",
-  fontSize: "14px",
-  fontWeight: 600,
-  marginBottom: "6px",
-  marginLeft: "4px",
-};
-
-const buttonStyle: React.CSSProperties = {
-  display: "block",
-  width: "100%",
-  padding: "18px",
-  backgroundColor: "#f5d27a",
-  color: "black",
-  border: "none",
-  borderRadius: "14px",
-  fontSize: "18px",
-  fontWeight: "bold",
-  cursor: "pointer",
-  textAlign: "center",
-  boxSizing: "border-box",
-  marginTop: "8px",
-};
+export default function ParticipantRegistrationPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen bg-[#050505] text-gray-300" id="main-content">
+          <Nav />
+          <p className="py-20 text-center text-[#f5d27a]">Loading registration...</p>
+        </main>
+      }
+    >
+      <ParticipantRegistrationForm />
+    </Suspense>
+  );
+}

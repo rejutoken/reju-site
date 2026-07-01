@@ -74,12 +74,9 @@ export default function RejuEventWelcome() {
               Complete your participant registration so REJU can create your official participant record and guide you through the next step.
             </p>
 
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <a href={links.participantRegistration} className={buttonClass}>
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
+              <a href={`${links.participantRegistration}?flow=event`} className={buttonClass}>
                 Complete Participant Registration
-              </a>
-              <a href="/daily-transformation-log" className={buttonClass}>
-                Start Authoring Your Personalized Book
               </a>
               <a href={links.telegramOfficial} target="_blank" rel="noopener noreferrer" className={buttonClass}>
                 Join REJU Official

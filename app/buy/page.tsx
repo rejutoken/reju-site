@@ -167,8 +167,9 @@ export default function BuyPage() {
             </a>
 	
 			  <a href={links.participantRegistration} className={buttonClass}>
-              participant-registration
+              Complete Participant Registration
             </a>
+            <p className="text-center text-[10px] text-gray-500 -mt-1">Password required (provided after payment)</p>
 						
           </div>
         </section>

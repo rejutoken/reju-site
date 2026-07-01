@@ -70,6 +70,7 @@ export default function ProgramPage() {
             <a href="/daily-transformation-log" className={buttonClass}>
               Start Authoring Your Book (use your Participant ID)
             </a>
+            <div className="text-[13px] text-[#f5c26b]/70 mt-4">Password required for registration and journaling (shared after payment)</div>
           </div>
         </section>
         <section className="grid gap-8 lg:grid-cols-2">

@@ -3,6 +3,8 @@ const links = {
   onboarding: "/onboarding",
   participantRegistration: "/participant-registration",
   telegramOfficial: "https://t.me/rejuofficial",
+  bookDownload:
+    "https://drive.google.com/file/d/1_rnquXvdVhM4ZM2BFZTjN5j6Alrbl_lY/view?usp=sharing",
 };
 
 const buttonClass =
@@ -27,6 +29,20 @@ export default function BookWelcome() {
         <p className="mx-auto mt-6 max-w-4xl text-lg leading-relaxed text-gray-300">
           This book is the foundation. When you go through the program, you Are Authoring your Personalized REJU Transformation Book — using the guide as your starting point.
         </p>
+
+        <div className="mt-10">
+          <a
+            href={links.bookDownload}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block rounded-full bg-[#f5c26b] px-10 py-4 text-lg font-bold text-black transition duration-300 hover:bg-[#f5d27a]"
+          >
+            Download Kat&apos;s Legacy
+          </a>
+          <p className="mx-auto mt-4 max-w-xl text-sm text-gray-400">
+            Available for event participants and book-only purchasers. Opens in Google Drive — use the download icon to save to your device.
+          </p>
+        </div>
       </section>
 
       <section className="px-6 pb-20">
@@ -57,16 +73,20 @@ export default function BookWelcome() {
               Complete your participant registration so REJU can create your official participant record. Then start Authoring your Personalized REJU Transformation Book.
             </p>
 
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <a href={links.participantRegistration} className={buttonClass}>
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:justify-center">
+              <a
+                href={links.bookDownload}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-[#f5c26b] px-8 py-3 text-center font-semibold text-black transition duration-300 hover:bg-[#f5d27a]"
+              >
+                Download Kat&apos;s Legacy
+              </a>
+              <a href={`${links.participantRegistration}?flow=book`} className={buttonClass}>
                 Complete Participant Registration
               </a>
-
               <a href={links.telegramOfficial} target="_blank" rel="noopener noreferrer" className={buttonClass}>
                 Join REJU Official
-              </a>
-              <a href="/daily-transformation-log" className={buttonClass}>
-                Start Authoring Your Personalized Book
               </a>
             </div>
           </div>

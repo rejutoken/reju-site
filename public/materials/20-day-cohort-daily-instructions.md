@@ -1,0 +1,503 @@
+# REJU Rejuvenation Event™
+## 20-Day Cohort Daily Instructions
+
+**Format:** One cohort meeting per day, maximum 10 minutes each.
+**Language:** English (translated and adapted from the Bolivia Health Course — *Curso de Salud*).
+**Alignment:** Kat's Legacy by Wilson Fischmann CA + REJU Protocol™ + Four-Week Reset Program.
+
+**Materials folder (Google Drive):** https://drive.google.com/drive/u/2/folders/1HxxLKwjjbRSd-5QgT7JWhLQA3Heq5X8B
+
+---
+
+### How to use this guide
+
+1. Facilitator leads a **10-minute live session** using the teaching points below.
+2. Participants complete **participant actions** the same day.
+3. Every action is logged in the **Daily Transformation Log** with Participant ID.
+4. Sessions follow the **book chapter sequence** while integrating Bolivia course science.
+
+---
+
+## Day 1 — Welcome, Kat's Legacy & Your Health Benchmark
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Introduction
+**Course source:** Curso de Salud — Course Introduction; EVENTO DE SALUD
+
+### Cohort meeting focus
+Open the cohort. Introduce the REJU Rejuvenation Event™, Kat's story, and the non-negotiable baseline every participant must record today.
+
+### Teaching points (cover in session)
+- Kat's Legacy began when Wilson Fischmann refused to accept a brain-dead diagnosis for his daughter Kat — leading to Kat's JOL™ and a decade of documented resilience.
+- This program is not a quick fix; it is a structured commitment to transformation through the REJU Protocol™ and the Four-Week Reset in Kat's Legacy.
+- Three maintenance types from the Bolivia course: corrective (repair damage), preventive (stop decline), and autonomous (self-directed longevity).
+- The 6-week REJU event: 1 week preparation → 4 weeks protocol → 1 week celebration — matching the Health Event structure.
+- Establish your Health Benchmark™ now: photos, journal, how you feel physically and emotionally — avoid mirrors and scales during the reset; your record is your early-warning system.
+
+### Participant actions (after session)
+- Download Kat's Legacy and read the Introduction.
+- Take baseline photos and write your starting benchmark in the daily transformation log.
+- Save your Participant ID on every entry going forward.
+- Join REJU Official on Telegram for live session times.
+
+### Facilitator note
+End with one Today's Victory — the first of 20+.
+
+---
+
+## Day 2 — The Lymphatic System — Your Body's Drainage Network
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Chapter 1
+**Course source:** Day 1 — Sistemas del Cuerpo; The Human Body as a City System
+
+### Cohort meeting focus
+Teach the lymphatic system as the body's garbage collection service — the foundation chapter in Kat's Legacy.
+
+### Teaching points (cover in session)
+- Imagine your body as a city: lymph nodes are waste-processing plants; lymph vessels are garbage truck routes (Kat's Legacy Ch. 1 + City System doc).
+- Key functions: drain waste and toxins, defend against pathogens with immune cells, absorb fats and fat-soluble vitamins.
+- Lymph has no central pump — it moves through muscle contractions, movement, and deep breathing. Sedentary life stalls the system.
+- Signs of dysfunction: swelling, bloating, frequent infections, fatigue, brain fog — the body is not draining.
+- Support: hydration (weight kg ÷ 30 = liters/day), movement, deep breaths, and reducing toxic load entering the system.
+
+### Participant actions (after session)
+- Read Kat's Legacy Chapter 1.
+- Practice 5 minutes of deep diaphragmatic breathing today.
+- Log lymph-related observations: bloating, swelling, energy — in your daily log.
+- Drink your calculated hydration target before noon.
+
+---
+
+## Day 3 — The Immune System — Innate & Adaptive Defense
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Chapter 2
+**Course source:** Day 1 — Sistema Inmune slides
+
+### Cohort meeting focus
+Explain the immune system's two-tier defense and why Kat remained remarkably resilient for over a decade.
+
+### Teaching points (cover in session)
+- First barriers: skin, mucous membranes, stomach acid — the city's walls before invaders enter.
+- Innate immunity: immediate, non-specific — fever, inflammation, macrophages, neutrophils, NK cells.
+- Adaptive immunity: memory-based — B cells produce antibodies; T cells attack from within. This is the principle behind vaccination.
+- Autoimmunity occurs when the system cannot distinguish self from threat — lupus, rheumatoid arthritis, Type 1 diabetes, psoriasis.
+- Chronic stress suppresses immunity (cortisol, adrenaline) — mental toxicity directly weakens physical defense.
+
+### Participant actions (after session)
+- Read Kat's Legacy Chapter 2.
+- Note any recurring infections, inflammation, or autoimmune patterns in your benchmark journal.
+- Identify one stress source you can reduce today.
+- Record Today's Victory related to immune-supporting behavior (sleep, hydration, or stress pause).
+
+---
+
+## Day 4 — The Digestive System — Foundation of All Health
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Chapter 3
+**Course source:** Day 1 — Sistema Digestivo; Chronic Illnesses article
+
+### Cohort meeting focus
+Position digestion as the root system — every chronic illness conversation in the course returns here.
+
+### Teaching points (cover in session)
+- The gut is not just about food — it houses the microbiome, produces neurotransmitters, and connects to immunity and detox.
+- Processing time matters: the course teaches ~10 hours for digestion — constant eating never lets the system rest.
+- Leaky gut (intestinal permeability) allows toxins and undigested particles into blood — linking diet to systemic inflammation.
+- Chronic illnesses — cancer, diabetes, hypertension, obesity, NAFLD — all have documented dietary drivers (Chronic Illnesses article).
+- Rule from the Bolivia course echoed in Kat's Legacy: elimination is as important as intake — 'it is more important to eliminate than to swallow.'
+
+### Participant actions (after session)
+- Read Kat's Legacy Chapter 3.
+- Track elimination patterns honestly (frequency, quality) — data, not judgment.
+- Begin reducing one processed food category from your intake.
+- Log digestive comfort scores in the daily transformation log.
+
+---
+
+## Day 5 — Physical Toxicity — Hidden Dangers in Food & Environment
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Chapter 4
+**Course source:** Day 1 — Comidas Tóxicas, Metales Pesados, Químicos Industriales
+
+### Cohort meeting focus
+Wake participants to physical toxicity — you cannot detox a body that keeps ingesting poison.
+
+### Teaching points (cover in session)
+- Step one of detoxification: stop ingesting toxins. You cannot clean a dirty jar while pouring mud into it.
+- Water toxicity: fluoride, BPA bottles, heavy metals — filter and source matter.
+- Food toxicity: processed meats (nitrites), farmed fish (PCBs, antibiotics), GMOs, grilled PAHs, hydrogenated oils, microwave popcorn chemicals, non-organic produce (glyphosate).
+- Sugar is not food — it is a neurotoxin and the preferred fuel of cancer cells (Warburg).
+- Heavy metals (lead, mercury, arsenic) and industrial chemicals (benzene, BPA, phthalates) accumulate silently — cilantro and clean nutrition support chelation.
+
+### Participant actions (after session)
+- Read Kat's Legacy Chapter 4.
+- Audit your kitchen: list 5 toxic items to remove this week.
+- Switch one water or food source to a cleaner alternative.
+- Photograph your pantry baseline for your Transformation Book.
+
+---
+
+## Day 6 — Sugar — Metabolic Damage & the Warburg Effect
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Chapter 5
+**Course source:** Day 1 — Azúcar slides; Robert Lustig research
+
+### Cohort meeting focus
+Deliver the sugar session with numbers — participants must feel the weight of daily invisible intake.
+
+### Teaching points (cover in session)
+- Americans consume ~141 lbs of sugar per year — one soda daily = ~15.6 lbs of fat equivalent annually (course math).
+- Fructose converts to uric acid (gout), raises triglycerides, and drives small dense LDL-B — the dangerous particle.
+- Sugar suppresses immunity, feeds cancer preferentially (Warburg: cancer lives in acidic, low-oxygen, high-sugar environments).
+- Soda combines caffeine (diuretic) + salt (55 mg) — dual dehydration disguised as refreshment.
+- Ketogenic logic: remove sugar → body must find another fuel → ketones become available.
+
+### Participant actions (after session)
+- Read Kat's Legacy Chapter 5.
+- Eliminate all sodas, juices, and added sugar today.
+- Read labels — identify hidden sugars in sauces, breads, and 'health' products.
+- Log mood and energy shifts as sugar clears — expect a rollercoaster.
+
+---
+
+## Day 7 — Mental Toxicity, Stress & Emotional Eating
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Chapter 4 (Mental Toxicity)
+**Course source:** Day 1 — Toxicidad Mental, Estrés; Day 3 — Salud Mental
+
+### Cohort meeting focus
+Address the invisible toxin — stress-driven eating and the mind as governor vs. instrument.
+
+### Teaching points (cover in session)
+- When stressed, the sympathetic system activates fight-or-flight: blood leaves digestion, immunity suppresses, cortisol and adrenaline surge.
+- Emotional eating satisfies a feeling, not hunger — when the emotion returns, the cycle repeats (course: 'eating for satisfaction').
+- Chronic stress manifests physically: headaches, ulcers, hair loss, irregular cycles, hypertension, insomnia, acne.
+- Reframe from the course: the mind as instrument, not governor — Wayne Dyer (Power of Intention), Eckhart Tolle (Power of Now).
+- Two focus modes for problems: 'why is this happening to me' vs. 'how can I resolve this' — only the second heals.
+
+### Participant actions (after session)
+- Identify your top stress-eating trigger and write it in your log.
+- Practice 10 minutes of stillness, breath work, or the 'O' meditation system from the course.
+- Record Today's Victory that is emotional, not food-related.
+- Reach out on Telegram if you need cohort support today.
+
+---
+
+## Day 8 — Water, Hydration, pH & Alkaline Foundations
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Chapter 11
+**Course source:** Day 2 — Agua; Day 3 — Agua formula; El Agua Y sus Secretos
+
+### Cohort meeting focus
+Water is the master carrier — structured, mineralized, alkaline water supports every other system.
+
+### Teaching points (cover in session)
+- Hydration formula (course): body weight in kg ÷ 10 ÷ 3 = liters daily (e.g., 90 kg → 3 L). Book: kg ÷ 30 or half body weight in oz.
+- Morning ritual: warm water + lemon + pinch of Himalayan salt — activates digestion and remineralizes.
+- Acidity drives osteoporosis, gout, and creates hostile terrain — Otto Warburg linked acidic environments to disease.
+- Alkaline, structured water supports lymph flow, nutrient delivery, and detox pathways (Kat's Legacy Ch. 11).
+- Apple cider vinegar (2 tbsp in water, morning) and celery juice support gut pH balance per course protocol.
+
+### Participant actions (after session)
+- Read Kat's Legacy Chapter 11.
+- Calculate your personal water target and hit it today.
+- Start morning lemon-salt water ritual.
+- Log skin dryness, mouth dryness, and urine color — body's hydration language.
+
+---
+
+## Day 9 — Colon Health, Elimination & Detox Pathways
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Chapter 10
+**Course source:** Day 2 — Limpieza del Colon, Desintoxicación; Curso de Salud GUIDE
+
+### Cohort meeting focus
+The colon is the exit door — if blocked, every upstream system fails. Preparation for Week 1 detox.
+
+### Teaching points (cover in session)
+- Colon toxicity links to systemic disease — 5–25 lbs of accumulated waste is common before a proper cleanse (course reference).
+- Tools: prunes (5 after meals, adjust up/down), colon hydrotherapy/colonics on Day 3 of preparation, magnesium, triphala, plum juice.
+- Stop toxins in → give digestion rest (10-hour processing window) → flush with water → support with antioxidants.
+- Probiotic foods: kombucha, kefir, kimchi, sauerkraut, yogurt — rebuild the gut after cleansing.
+- Sauna, coffee enemas (Gerson tradition), and sweating support elimination through skin — the third detox organ.
+
+### Participant actions (after session)
+- Read Kat's Legacy Chapter 10.
+- If in Preparation Phase: follow prune protocol and schedule colon cleanse for Day 3.
+- Add one fermented food to your day.
+- Log elimination quality — this is clinical data for your benchmark.
+
+---
+
+## Day 10 — Kat's JOL™ — The Juice of Life
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Introduction + Four-Week Reset / Kat's JOL Recipe
+**Course source:** Day 2 — KAT'S JOL, La Receta Milagrosa; Kats JOL.txt
+
+### Cohort meeting focus
+Introduce the cellular nutrition formula that sustained Kat and reversed Wilson's own health markers.
+
+### Teaching points (cover in session)
+- Kat's JOL combines kale, moringa, leafy greens, beets, peas, apple, ginger, citrus, celery, carrot, banana, cucumber, zucchini, cilantro, parsley, chia, flax, lemon, spinach, dates, maca, and turmeric with pepper.
+- Prepare with alkaline water — yields three 500 ml servings: morning, midday, ~5 PM (last food of the day).
+- Vegetable soup (weekly, 3×): chard, kale, squash, zucchini, cucumber, onion, garlic, celery, potatoes with skin, cabbage, carrot, herbs — cooked with pink salt only.
+- Bone broth (osso buco, 2 hr simmer, marrow crushed back in): 2 servings, twice weekly — deep mineral support.
+- Wilson tested JOL on himself before giving it to Kat — lab results documented cholesterol, PSA, and vitality improvements.
+
+### Participant actions (after session)
+- Read the Kat's JOL recipe section at the end of Kat's Legacy.
+- Source ingredients and prepare your first JOL batch — or confirm your supply chain.
+- Photograph your first JOL — Transformation Book chapter moment.
+- Begin Week 1 JOL schedule if preparation phase is complete.
+
+---
+
+## Day 11 — Superfoods, Ferments & Cellular Nutrition
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Chapters 3, 6, 11
+**Course source:** Day 3 — Nutrición, Súper alimentos; Curso de Salud GUIDE — Nutricion
+
+### Cohort meeting focus
+Beyond JOL — the seven nutrients, superfoods, and why nutrient density beats calorie counting.
+
+### Teaching points (cover in session)
+- Seven essential nutrients framework from the course — vitamins, minerals, protein, fats, carbohydrates (quality not quantity), water, and oxygen.
+- Superfoods in the protocol: wheatgrass, mushrooms (Chaga), chia, turmeric, ginger, maca, spirulina, flax, cilantro (metal chelation), He Shou Wu, goji, black garlic, broccoli.
+- Kale alone delivers 200% vitamin A, 134% vitamin C, 684% vitamin K per cup — why it anchors JOL.
+- Ferments rebuild microbiome: kefir, kombucha, kimchi, sauerkraut — living food vs. dead processed calories.
+- Deficiency awareness: magnesium, zinc, vitamin D, iodine — many medications deplete these (course drug-induced deficiency chart).
+
+### Participant actions (after session)
+- Add one new superfood from the list to today's JOL or meal.
+- Read Kat's Legacy Chapter 6 (Energy & Digestion).
+- Log energy before and after meals — notice fatigue vs. fuel.
+- Note which ingredients your body responds to positively.
+
+---
+
+## Day 12 — Autophagy — Your Cellular Recycling System
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Chapter 7
+**Course source:** Day 2 — Autofagia, Nobel Ohsumi; Curso de Salud GUIDE — Healing Methods
+
+### Cohort meeting focus
+Introduce the Nobel Prize science that underpins the fasting windows in the REJU Protocol™.
+
+### Teaching points (cover in session)
+- Autophagy (Greek: 'self-eating') — cells recycle damaged components, reduce inflammation, and renew structure (Yoshinori Ohsumi, Nobel 2016).
+- Activation timeline: 0–12 hrs glycogen use; 12–16 hrs fat transition; at ~16 hrs autophagy begins meaningfully.
+- Fasting tiers from the course: 8-hr eating window → 4-hr window → one meal per day — each deepens the clean-up.
+- Hippocrates: 'Our food should be our medicine' — Plutarch: 'Instead of medicine, fast a day.'
+- Shinya Yamanaka (Nobel 2012): mature cells can be reprogrammed to stem-like state — the science of cellular rejuvenation.
+
+### Participant actions (after session)
+- Read Kat's Legacy Chapter 7.
+- If on Week 1: maintain 16:8 fasting with Kat's JOL — note the hour you last eat.
+- Log mental clarity and inflammation changes as fasting windows hold.
+- Record any emotional resistance to fasting — normal, document it.
+
+---
+
+## Day 13 — Preparation Complete — Week 1 Detoxification Begins
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Four-Week Reset — Preparation & Week 1
+**Course source:** EVENTO DE SALUD — 1ra Semana; 4 Week Program doc
+
+### Cohort meeting focus
+Launch Week 1: 16:8 fasting, three Kat's JOL servings, and the physiological map for Days 1–7.
+
+### Teaching points (cover in session)
+- Preparation recap: warm lemon-salt water, prunes, Day-3 colon cleanse — colon must be ready.
+- Week 1 schedule: Mon–Sun JOL servings per EVENTO DE SALUD table — Thu reduces midday; Fri–Sat skip midday.
+- 16 hours fasting / 8 hours eating — body clears toxins, depletes glycogen, begins autophagy at hour 16.
+- Avoid mirrors and scales — trust the process; your written benchmark detects drift.
+- Three live touchpoints per week in the REJU event — this daily session is your fourth anchor.
+
+### Participant actions (after session)
+- Follow today's JOL volume from the Week 1 schedule table in Kat's Legacy.
+- Complete full daily transformation log with photos.
+- Confirm 16-hour fast window — write eating window times.
+- Share one observation on Telegram (optional but encouraged).
+
+---
+
+## Day 14 — Ketosis — Fat as Clean Fuel
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Chapter 8
+**Course source:** Day 3 — Cetogenia, Cocina Cetogénica; Day 2 — Ayuno
+
+### Cohort meeting focus
+Week 2 preview and ketosis science — the brain runs on ketones, not just glucose.
+
+### Teaching points (cover in session)
+- Ketosis: liver converts fat to β-hydroxybutyrate, acetoacetate, acetone — anti-inflammatory brain and body fuel.
+- Carbohydrate ceiling: ~20–50 g/day to maintain ketosis (Kat's Legacy Ch. 8).
+- The brain uses glucose OR ketones — coconut oil and MCTs supply ketones; Dr. Mary Newport's Alzheimer's case used ketones for cognitive recovery.
+- Ketogenic kitchen rules from course: no high-glycemic ingredients; max 25 g glycemic load per portion; cook low-temperature to preserve enzymes.
+- Week 2 protocol: 20-hour fast, 4-hour eating window, three 500 ml JOL servings — deepest autophagy week.
+
+### Participant actions (after session)
+- Read Kat's Legacy Chapter 8.
+- If entering Week 2: compress eating to 4-hour window today.
+- Remove remaining high-carb items from your environment.
+- Log ketosis signals: mental clarity, reduced bloating, breath change, energy stability.
+
+---
+
+## Day 15 — Cellular Repair & The Body's Healing Intelligence
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Chapter 9
+**Course source:** Day 2 — Neuroregeneración, Yamanaka; Chronic Illnesses article
+
+### Cohort meeting focus
+The body heals itself when given the environment — surgery holds tissue; nutrition and fasting do the repair.
+
+### Teaching points (cover in session)
+- Heart surgery sutures do not heal — they hold tissue while the body repairs (Chronic Illnesses article opening).
+- Apoptosis: programmed cell death removes damaged cells — autophagy and ketosis support this precision.
+- Neuroregeneration: peripheral nerves can regrow; ketones support brain repair (course + Newport case).
+- Skin rejuvenation is external proof of internal repair — daily photos capture what memory forgets.
+- Week 2 spiritual recommendation from Kat's Legacy: meditation, prayer, gratitude — stress reduction amplifies repair.
+
+### Participant actions (after session)
+- Read Kat's Legacy Chapter 9.
+- Take comparison photos — same angles as Day 1.
+- Practice 10-minute gratitude meditation or prayer.
+- Log skin clarity, inflammation, and energy scores — trend over single days.
+
+---
+
+## Day 16 — Mental Health, Meditation & Emotional Sustainability
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Chapter 6 + Four-Week Reset spiritual notes
+**Course source:** Day 3 — Salud Mental; Curso de Salud GUIDE — Meditation (Wim Hof, Tolle, Dyer)
+
+### Cohort meeting focus
+Sustainability requires mental architecture — air, water, food in that order; 3 minutes without air, 3 days without water, 30 days without food.
+
+### Teaching points (cover in session)
+- Warning signs of mental health strain: sleep changes, isolation, numbness, unexplained pain, hopeless thoughts — seek professional help when needed.
+- Meditation tools from course: Wim Hof Method (breath + cold), Eckhart Tolle (present moment), Wayne Dyer (intention), Anthony Robbins (Awaken the Giant Within).
+- The Gospel of Thomas teaching (course spirituality): make inner like outer — alignment of imagined self and physical action.
+- Sustainability = habits that survive after the event — ketogenic cooking, enzyme-preserving temperatures, pink salt + quality fats, glycemic discipline.
+- Week 3 begins digestive reactivation — light solids while maintaining 16:8 and ketosis benefits.
+
+### Participant actions (after session)
+- Read Kat's Legacy Chapter 6 (Energy & Digestion).
+- Try one meditation method from today's session — log how you feel after.
+- If on Week 3: introduce first light ketogenic meal per schedule.
+- Write your sustainability plan: what habits continue after Day 20?
+
+---
+
+## Day 17 — Week 3–4 Transition — Soups, Broth & Ketogenic Meals
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Four-Week Reset — Weeks 3 & 4
+**Course source:** EVENTO DE SALUD — 3ra y 4ta Semana; 4 Week Program doc
+
+### Cohort meeting focus
+Guide the gentle return to solids without losing ketosis, autophagy, or digestive gains.
+
+### Teaching points (cover in session)
+- Week 3: reduce JOL volumes, introduce ketogenic meals (meat + vegetables) on Sat–Sun per schedule — 16:8 maintained.
+- Week 4: morning JOL → bone broth midday → ketogenic dinner; vegetable soup 3× weekly; full ketogenic meals by weekend.
+- Bone broth and vegetable soup provide collagen, minerals, and amino acids without shocking the gut.
+- Sunday Week 3 optional: coffee colonics, sauna, massage — deep elimination celebration.
+- Digestive reactivation 'wakes' the gut microbiome without overload — slow reintroduction is discipline, not weakness.
+
+### Participant actions (after session)
+- Follow your week's schedule table from Kat's Legacy Four-Week Reset.
+- Prepare bone broth or vegetable soup if scheduled this week.
+- Log digestive response to reintroduced solids — bloating, energy, satisfaction.
+- Maintain 16-hour fasting window regardless of food form.
+
+---
+
+## Day 18 — Your Body's Language — Alerts, Benchmarks & Longevity
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Four-Week Reset — Final Reflections + Introduction goals
+**Course source:** Curso de Salud GUIDE — Longevidad; Day 1 longevity alerts
+
+### Cohort meeting focus
+Teach participants to read signals — dry mouth, skin spots, fatigue, cravings — as communication, not noise.
+
+### Teaching points (cover in session)
+- Body alerts: dry mouth, dry skin, spots, aches, acne, fatigue, hair loss — each is a message, not random bad luck.
+- Reset the alarms by responding with protocol adherence — not suppression with snacks or stimulants.
+- Shift attention from taste pleasure to body need — the course calls this transforming gustatory attention to cellular necessity.
+- Track elimination vs. intake volume — the Bolivia rule: elimination priority over ingestion.
+- Define your optimal health baseline — a vitality state you can recognize, feel, and return to (Kat's Legacy Introduction).
+
+### Participant actions (after session)
+- Re-read your Day 1 benchmark — compare honestly to today.
+- List 3 body signals you now understand that you ignored before.
+- Update Health Benchmark™ scores in daily log.
+- Set your post-event maintenance non-negotiables (3 items max).
+
+---
+
+## Day 19 — Healing Methods, Faith & the Rejuvenation Mindset
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Chapters 7–10 synthesis
+**Course source:** Day 2 — Gerson, Warburg, Burzynski; The 4 Weeks Program spirituality
+
+### Cohort meeting focus
+Connect science to spirit — gratitude, intention, and the 21-day habit architecture of transformation.
+
+### Teaching points (cover in session)
+- Healing traditions converge: Gerson (plant nutrition), Warburg (oxygen + alkaline + no sugar), fasting (autophagy), JOL (cellular density).
+- 21-day significance from course: 3 weeks × 7 days — habit formation, adulthood metaphor, pattern completion.
+- Masaru Emoto water intention (Kat's JOL preparation): consciousness in preparation affects the healing vehicle.
+- Faith in healing = knowing repair is underway while symptoms fluctuate — gratitude before evidence.
+- REJU Longevity Group™ is the bridge from event to life — this week prepares that handoff.
+
+### Participant actions (after session)
+- Write a gratitude letter to your body — include it in your Transformation Book.
+- Review all 19 prior daily log entries — notice the arc.
+- Prepare celebration week intentions: how will you honor completion?
+- Confirm book authoring password works for daily log submission.
+
+---
+
+## Day 20 — Celebration, Maintenance & Authoring Your Legacy
+
+**Duration:** 10 minutes max
+**Kat's Legacy:** Four-Week Reset — After Completion + Full book arc
+**Course source:** EVENTO DE SALUD — celebration week; Curso de Salud — 6-week structure
+
+### Cohort meeting focus
+Close the 20-day instruction arc. Transition from cohort meetings to autonomous maintenance and book completion.
+
+### Teaching points (cover in session)
+- Compare baseline photos and journal to today — the Transformation Book is already being written.
+- Celebration week is not abandonment — it is integrated maintenance: ketogenic habits, JOL or soups, fasting rhythm, hydration.
+- Corrective / preventive / autonomous maintenance (Day 1) — you now operate in autonomous mode with REJU support.
+- Day 42 of the full 6-week event: contact REJU to compile your Personalized Transformation Book™.
+- Kat's legacy lives through your documented transformation — science and love merged into your chapters.
+
+### Participant actions (after session)
+- Take final comparison photos for this 20-day instruction arc.
+- Download and archive all cohort materials from the Google Drive folder.
+- Submit today's daily log with a comprehensive Today's Victory.
+- Schedule your REJU Longevity Group™ continuation path on Telegram.
+
+### Facilitator note
+Congratulate the cohort. Preview the next 22 days of the full 42-day event protocol.

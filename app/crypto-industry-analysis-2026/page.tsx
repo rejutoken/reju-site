@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title:
-    "Why Do Most Crypto Projects Fail? | Crypto Project Survival, Token Utility, and Transparency",
+    "2026 Crypto Industry Analysis | Why Most Crypto Projects Fail",
   description:
-    "A REJU industry analysis on crypto project failure, token utility, tokenomics, crypto transparency, ecosystem continuity, and renewable economic systems.",
+    "Industry analysis of crypto project failure rates, token utility, transparency, ecosystem continuity, and long-term participation models.",
 };
 
 const links = {
@@ -28,7 +28,7 @@ export default function IndustryAnalysisPage() {
 
       <section className="px-6 py-16 text-center">
         <p className="text-lg font-bold uppercase tracking-[0.35em] text-[#f5c26b]">
-          REJU Industry Analysis
+          2026 Industry Analysis
         </p>
 
         <h1 className="mx-auto mt-10 max-w-6xl text-4xl sm:text-5xl font-bold tracking-tight text-[#f5c26b] md:text-7xl">
@@ -136,7 +136,7 @@ export default function IndustryAnalysisPage() {
             </p>
 
             <h2 className="mt-4 text-4xl font-bold text-[#f5c26b]">
-              Launch Strategy and Continuity Strategy Are Different
+              Launch and Continuity Require Different Strategies
             </h2>
 
             <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
@@ -146,12 +146,10 @@ export default function IndustryAnalysisPage() {
             </p>
 
             <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
-              Launches commonly focus on token distribution, marketing
-              campaigns, community growth, exchange listings, and incentive
-              programs. Long-term crypto project survival requires additional
-              planning around token utility, ecosystem continuity, investor
-              visibility, post-incentive participation, and renewable economic
-              activity.
+              Launches commonly focus on token distribution, marketing,
+              community growth, listings, and incentives. Long-term survival
+              requires planning around token utility, ecosystem continuity,
+              post-incentive participation, and renewable economic activity.
             </p>
           </div>
 
@@ -186,12 +184,11 @@ export default function IndustryAnalysisPage() {
         <div className="mx-auto max-w-7xl rounded-3xl border border-[#f5c26b]/25 bg-[#120904]/90 p-8 shadow-[0_0_35px_rgba(245,194,107,0.14)]">
           <div className="text-center">
             <p className="text-lg font-bold uppercase tracking-[0.3em] text-[#f5c26b]">
-              Tokenomics, Transparency, and Investor Visibility
+              Tokenomics and Investor Visibility
             </p>
 
             <h2 className="mt-4 text-4xl font-bold text-[#f5c26b]">
-              Tokenomics Explains Allocation. Investors Also Need Continuity
-              Visibility.
+              Tokenomics Explains Allocation. Investors Need Continuity Visibility Too.
             </h2>
 
             <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
@@ -242,7 +239,7 @@ export default function IndustryAnalysisPage() {
             </p>
 
             <h2 className="mt-4 text-4xl font-bold text-[#f5c26b]">
-              If Speculation Disappeared Tomorrow, What Activity Would Remain?
+              What Activity Remains If Speculation Declines?
             </h2>
 
             <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
@@ -272,7 +269,7 @@ export default function IndustryAnalysisPage() {
             </p>
 
             <h2 className="mt-4 text-4xl font-bold text-[#f5c26b]">
-              Rewards Can Start Participation. Continuity Must Carry It.
+              Incentives Can Start Participation. Continuity Must Sustain It.
             </h2>
 
             <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
@@ -295,20 +292,19 @@ export default function IndustryAnalysisPage() {
         <div className="mx-auto max-w-7xl rounded-3xl border border-[#f5c26b]/25 bg-black/55 p-8 shadow-[0_0_35px_rgba(245,194,107,0.14)]">
           <div className="text-center">
             <p className="text-lg font-bold uppercase tracking-[0.3em] text-[#f5c26b]">
-              Proposed Industry Improvements
+              Proposed Transparency Framework
             </p>
 
             <h2 className="mt-4 text-4xl font-bold text-[#f5c26b]">
-              Transparency, Token Utility, and Ecosystem Continuity
+              A Proposed Transparency Framework
             </h2>
 
             <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
-              The objective of these proposals is to improve transparency,
-              investor visibility, and long-term understanding of token
-              ecosystem structure. Traditional tokenomics provides valuable
-              information regarding supply and allocation; additional
-              disclosures can further assist investors in evaluating how a crypto
-              project intends to operate over time.
+              Traditional tokenomics provides valuable information on supply and
+              allocation. The proposals below add structured disclosures to help
+              investors better understand how projects intend to operate over
+              time — including release behavior, incentive lifecycles, and
+              ongoing ecosystem activity.
             </p>
           </div>
 
@@ -352,7 +348,7 @@ export default function IndustryAnalysisPage() {
 
           <div className="mt-10 rounded-3xl border border-[#f5c26b]/20 bg-black/30 p-6">
             <h3 className="text-2xl font-bold text-[#f5c26b]">
-              Graphic 3 — Rejunomics™ Transparency Framework
+              Graphic 3 — Transparency Framework
             </h3>
 
             <div className="mt-6 grid gap-4 md:grid-cols-5">
@@ -368,9 +364,9 @@ export default function IndustryAnalysisPage() {
             </div>
 
             <p className="mt-5 text-lg leading-relaxed text-gray-300">
-              Rejunomics™ expands traditional tokenomics by adding structured
-              disclosures for release behavior, incentive lifecycles, ecosystem
-              continuity, and token life.
+              This framework expands traditional tokenomics by adding structured
+              disclosures for release behavior, incentive lifecycles, and
+              ecosystem continuity.
             </p>
           </div>
         </div>
@@ -380,31 +376,31 @@ export default function IndustryAnalysisPage() {
         <div className="mx-auto max-w-7xl rounded-3xl border border-[#f5c26b]/25 bg-[#120904]/90 p-8 shadow-[0_0_35px_rgba(245,194,107,0.14)]">
           <div className="text-center">
             <p className="text-lg font-bold uppercase tracking-[0.3em] text-[#f5c26b]">
-              Renewable Economic System™
+              Renewable Economic Activity
             </p>
 
             <h2 className="mt-4 text-4xl font-bold text-[#f5c26b]">
-              A Proposed Model for Long-Term Crypto Project Continuity
+              Sustaining Participation Beyond Market Cycles
             </h2>
 
             <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
-              A Renewable Economic System™ connects a token ecosystem to
-              identifiable economic activity capable of generating ongoing
-              participation. The objective is to supplement market activity with
-              ecosystem activity.
+              A Renewable Economic System connects a token ecosystem to
+              identifiable ongoing activity. The goal is to supplement speculative
+              market activity with real ecosystem participation that can continue
+              after initial hype or incentives decline.
             </p>
 
             <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
               Educational programs, professional certifications, community
               participation systems, membership structures, businesses, services,
-              and real-world ecosystem activity can help support token utility
-              and long-term crypto project continuity.
+              and real-world ecosystem activity can provide ongoing token utility
+              and support long-term project continuity.
             </p>
           </div>
 
           <div className="mt-10 rounded-3xl border border-[#f5c26b]/20 bg-black/30 p-6">
             <h3 className="text-2xl font-bold text-[#f5c26b]">
-              Graphic 4 — Renewable Economic System™
+              Graphic 4 — Renewable Economic Activity
             </h3>
 
             <div className="mt-6 grid gap-4 md:grid-cols-3 lg:grid-cols-6">
@@ -421,9 +417,8 @@ export default function IndustryAnalysisPage() {
             </div>
 
             <p className="mt-5 text-lg leading-relaxed text-gray-300">
-              The Renewable Economic System™ concept is designed to ask one
-              direct question: what ecosystem activity remains when market hype
-              declines?
+              This model asks one direct question: what ecosystem activity
+              remains when market hype and incentives decline?
             </p>
           </div>
         </div>
@@ -433,34 +428,31 @@ export default function IndustryAnalysisPage() {
         <div className="mx-auto max-w-7xl rounded-3xl border border-[#f5c26b]/25 bg-black/60 p-8 shadow-[0_0_35px_rgba(245,194,107,0.14)]">
           <div className="text-center">
             <p className="text-lg font-bold uppercase tracking-[0.3em] text-[#f5c26b]">
-              REJU Case Study
+              Example Implementation
             </p>
 
             <h2 className="mt-4 text-4xl font-bold text-[#f5c26b]">
-              A Practical Implementation of Transparency and Continuity
+              Applying Transparency and Continuity in Practice
             </h2>
 
             <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
-              REJU was designed as a practical implementation of these concepts.
-              It combines Rejunomics™, release disclosure, incentive lifecycle
-              disclosure, ecosystem continuity disclosure, Token Life
-              Disclosure™, a Renewable Economic System™, non-custodial
-              participation structures, educational programs, practitioner
-              certification pathways, community participation systems, and
-              Transformation Books You Are Authoring™.
+              REJU was designed as one practical implementation of these ideas.
+              It applies release disclosures, incentive lifecycle visibility,
+              ecosystem continuity planning, and renewable economic activity
+              through non-custodial participation, educational programs,
+              certifications, and participant-authored Transformation Books.
             </p>
 
             <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
-              REJU serves as an example of how crypto transparency, token
-              utility, ecosystem continuity, and renewable economic activity may
-              be integrated into a token ecosystem.
+              It serves as an example of how greater transparency and continuity
+              planning can be integrated into a token ecosystem.
             </p>
           </div>
 
           <div className="mt-10 grid gap-5 lg:grid-cols-4">
-            <AdoptionCard title="Transparency" text="Rejunomics™ disclosures." />
+            <AdoptionCard title="Transparency" text="Structured release and incentive disclosures." />
             <AdoptionCard title="Utility" text="Wellness and education pathways." />
-            <AdoptionCard title="Continuity" text="Ecosystem activity beyond launch." />
+            <AdoptionCard title="Continuity" text="Ecosystem activity beyond launch incentives." />
             <AdoptionCard title="Renewability" text="Participation supported by real-world activity." />
           </div>
         </div>
@@ -523,10 +515,10 @@ export default function IndustryAnalysisPage() {
             </p>
 
             <p>
-              REJU presents one proposed framework for contributing to that
-              discussion. The goal is to encourage higher standards of
-              transparency, stronger continuity planning, and a more informed
-              relationship between projects, investors, and communities.
+              The proposals here represent one approach to addressing these
+              challenges. The goal is to encourage higher standards of
+              transparency, stronger continuity planning, and clearer
+              communication between projects, investors, and communities.
             </p>
 
             <p className="font-semibold text-[#f5c26b]">
@@ -585,13 +577,12 @@ export default function IndustryAnalysisPage() {
       <section className="px-6 py-16 text-center">
         <div className="mx-auto max-w-5xl rounded-3xl border border-[#f5c26b]/25 bg-black/60 p-8 shadow-[0_0_35px_rgba(245,194,107,0.14)]">
           <h2 className="text-4xl font-bold text-[#f5c26b]">
-            Continue Exploring REJU
+            Continue Exploring
           </h2>
 
           <p className="mx-auto mt-5 max-w-4xl text-xl leading-relaxed text-gray-300">
-            This industry analysis explains why REJU was designed around
-            transparency, token utility, ecosystem continuity, and renewable
-            economic activity.
+            This analysis outlines key factors in crypto project survival and
+            presents transparency and continuity frameworks for the industry.
           </p>
 
           <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
