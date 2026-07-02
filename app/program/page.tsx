@@ -1,272 +1,151 @@
+import Nav from "../components/Nav";
+
 const links = {
-  home: "/",
-  buy: "/buy",
   onboarding: "/onboarding",
-  program: "/program",
-  rejunomics: "/rejunomics",
-  blog: "/blog",
-
-  telegramOfficial: "https://t.me/rejuofficial",
-  telegramCommunity: "https://t.me/rejutokencommunity",
-
   katShortVideo: "https://www.youtube.com/embed/qqu3x0Gy-AM",
   katLongVideo: "https://www.youtube.com/embed/pzi4Qj5HMwM",
-
-  book: "https://square.link/u/zH7dIuF5",
-  streamflowLock: "https://app.streamflow.finance/token-lock",
 };
 
-
 const buttonClass =
-  "rounded-full border border-[#f5c26b] px-8 py-3 font-semibold text-[#f5c26b] transition duration-300 hover:bg-[#f5c26b] hover:text-black";
+  "rounded-full border border-[#f5c26b] px-8 py-3 text-center font-semibold text-[#f5c26b] transition duration-300 hover:bg-[#f5c26b] hover:text-black";
 
-import Nav from "../components/Nav";
+const primaryButtonClass =
+  "rounded-full border border-[#f5c26b] bg-[#f5c26b] px-8 py-3 text-center font-semibold text-black transition duration-300 hover:bg-[#ffd88a]";
 
 export default function ProgramPage() {
   return (
-  
-      <main className="min-h-screen bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] px-6 py-6 text-gray-300" id="main-content">
+    <main
+      className="min-h-screen bg-[radial-gradient(circle_at_center,_#2b1a12_0%,_#0b0b0c_70%)] px-6 py-6 text-gray-300"
+      id="main-content"
+    >
       <Nav />
 
-	 <section className="mx-auto max-w-7xl space-y-20">
-
+      <section className="mx-auto max-w-4xl space-y-14">
         <section className="text-center">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.35em] text-[#f5c26b]">
             REJU Program
           </p>
 
-          <h1 className="text-3xl sm:text-4xl font-bold text-[#f5c26b]">
+          <h1 className="text-3xl font-bold text-[#f5c26b] sm:text-4xl">
             REJU Rejuvenation Event™
           </h1>
 
-          <h2 className="mt-4 text-xl sm:text-2xl text-[#f5c26b]">
-            A Structured 6-Week Rejuvenation Experience
+          <h2 className="mt-4 text-xl text-[#f5c26b] sm:text-2xl">
+            A 6-Week Benchmark-Setting Rejuvenation Experience
           </h2>
 
-          <p className="mx-auto mt-6 max-w-4xl text-lg text-left leading-relaxed text-gray-300">
-            Built from lived experience, scientific structure, disciplined execution,
-            and a relentless pursuit of rejuvenation from within.</p>
-        
-            <p className="mx-auto mt-6 max-w-4xl text-lg text-left leading-relaxed text-gray-300">
-			The REJU Rejuvenation Event™ is a structured metabolic and rejuvenation-focused protocol designed to help participants reconnect with energy, discipline,
-            metabolic balance, visible transformation, and stronger inside-and-out results
-            through guided execution and accountability.
+          <p className="mx-auto mt-6 max-w-3xl text-left text-lg leading-relaxed text-gray-300">
+            A guided metabolic rejuvenation protocol built from lived experience, scientific
+            structure, and disciplined execution. You document your starting point, follow the
+            REJU Protocol™ for four core weeks, and finish with a clear before-and-after record
+            of your transformation.
           </p>
-          <p className="mx-auto mt-4 max-w-4xl text-lg text-left leading-relaxed text-gray-300 font-semibold">
-            You are Authoring your Personalized REJU Transformation Book using your Participant ID for every entry (required for consistent filenames and book generation). Daily journaling, photos, and reflections become the chapters you write — REJU is your editorial partner.
+
+          <p className="mx-auto mt-4 max-w-3xl text-left text-lg leading-relaxed text-gray-300">
+            Throughout the Event you are <strong className="text-white">Authoring Your Personalized REJU Transformation Book</strong> — daily photos, journaling, and reflections become the chapters you write.
           </p>
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
-            <a href="#proof" className={buttonClass}>
-              Watch Results
-            </a>
 
-            <a href={links.onboarding} className={buttonClass}>
-              Enter Program
-            </a>
-
-            <a href={links.streamflowLock} className={buttonClass}>
-              Lock REJU with Streamflow
-            </a>
-            <a href="/daily-transformation-log" className={buttonClass}>
-              Start Authoring Your Book (use your Participant ID)
-            </a>
-            <div className="text-[13px] text-[#f5c26b]/70 mt-4">Password required for registration and journaling (shared after payment)</div>
-          </div>
-        </section>
-        <section className="grid gap-8 lg:grid-cols-2">
-          <Card>
-            <h2 className="text-2xl  text-[#f5c26b]">
-              Rejuvenating From the Inside Out
-            </h2>
-
-            <p className="mt-6 text-lg leading-relaxed text-gray-300">
-              Many people spend years feeling trapped inside a body that no longer feels like their own.
-              Low energy, inflammation, weight gain, processed nutritional dependency, mental fog,
-              lack of motivation, inconsistent habits, and the quiet frustration of watching their
-              physical condition drift away from where it once was.
-            </p>
-
-            <p className="mt-4 text-lg leading-relaxed text-gray-300">
-              The REJU Rejuvenation Event™ was created to interrupt that cycle.
-            </p>
-
-            <p className="mt-4 text-lg leading-relaxed text-gray-300">
-              Built around the REJU Protocol™, this guided 6-week rejuvenation experience helps
-              participants reconnect with structure, discipline, metabolic balance, physical awareness,
-              and visible transformation through a realistic process rooted in lived experience.
-            </p>
-
-            <p className="mt-4 text-lg leading-relaxed text-gray-300">
-              REJU focuses on visible rejuvenation, body composition changes, reduced inflammation,
-              restored consistency, and rebuilding the relationship between the participant and their body.
-              Daily pictures, journaling, and accountability create a visible transformation history.
-            </p>
-			
-			<div className="mt-10 rounded-3xl border border-[#f5c26b]/20 bg-black/20 p-6">
-  <h3 className="text-2xl text-[#f5c26b]">
-    Enter the REJU Program
-  </h3>
-
-  <p className="mt-4 text-base leading-relaxed text-gray-300">
-    Join the guided 6-week rejuvenation program built around structure,
-    accountability, visible transformation, and metabolic rejuvenation.
-    You will Author your Personalized REJU Transformation Book as you go.
-  </p>
-
-  <div className="mt-6 grid gap-4 md:grid-cols-2">
-
-    <Info
-      title="Program Format"
-      text="6-week guided rejuvenation program with daily structure, education, accountability, and recorded sessions."
-    />
-
-    <Info
-      title="Required Entry"
-      text="$69 book + admin fee. You will Author your Personalized REJU Transformation Book."
-    />
-
-    <Info
-      title="REJU Lock Path"
-      text="Program access included with a $600 REJU lock. You will Author your Book during the Event."
-    />
-
-    <Info
-      title="Direct Entry Path"
-      text="Enter directly. You will Author your Personalized REJU Transformation Book through the program."
-    />
-  </div>
-
-  <div className="mt-8 flex flex-col gap-4 text-center sm:flex-row sm:justify-center">
-
-    <a href={links.streamflowLock} className={buttonClass}>
-      Lock REJU with Streamflow
-    </a>
-
-    <a href={links.onboarding} className={buttonClass}>
-      Start Onboarding
-    </a>
-
-  </div>
-</div>
-			
-          </Card>
-
-          <Card>
-            <h2 className="text-2xl text-[#f5c26b]">
-              The REJU Rejuvenation Journey™
-            </h2>
-
-            <div className="mt-10 space-y-10">
-              <JourneyWeek
-                title="Week 1 — Establishing Your Starting Point"
-                text="Participants document their current condition through daily pictures, journaling, and personal reflections describing energy, emotional state, habits, physical condition, and overall well-being."
-              />
-
-              <JourneyWeek
-                title="Week 2 — Metabolic Transition and Adaptation"
-                text="Nourishment timing and intake are systematically adjusted through the REJU Protocol™ and Kat’s JOL™ to guide the body toward ketosis and autophagy-supportive rejuvenation states."
-              />
-
-              <JourneyWeek
-                title="Week 3 — Entering a Rejuvenation State"
-                text="Energy stability, reduced bloating, improved mental clarity, visible volume reduction, and stronger physical awareness often become more noticeable."
-              />
-
-              <JourneyWeek
-                title="Week 4 — Reinforcing Cellular Rejuvenation"
-                text="The body continues adapting to the rejuvenation-focused metabolic environment, supporting deeper physical transformation, clearer thinking, discipline, and well-being."
-              />
-
-              <JourneyWeek
-                title="Week 5 — Building Longevity Habits"
-                text="Week five reinforces structure, consistency, metabolic efficiency, confidence, self-awareness, and habits designed to continue into the REJU Longevity Group™."
-              />
-
-              <JourneyWeek
-                title="Week 6 — Reclaiming Control"
-                text="Participants complete the event with documented transformation history, visible physical changes, stronger metabolic awareness, and renewed control over body, habits, and energy."
-              />
-            </div>
-          </Card>
+          <ProgramCtas />
         </section>
 
         <Card>
-          <div className="flex flex-col items-center text-center">
+          <h2 className="text-2xl font-bold text-[#f5c26b]">How the 6 Weeks Are Structured</h2>
+          <p className="mt-4 text-lg leading-relaxed text-gray-300">
+            The Event runs six weeks total: one week of preparation, four weeks of core rejuvenation
+            protocol, and one week of celebration. The preparation week sets your{" "}
+            <strong className="text-white">REJU Health Benchmark™</strong> — your honest Day 1
+            reference for photos, energy, and how your body feels. That benchmark is what you compare
+            against at the end.
+          </p>
 
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#f5c26b]">
-              The Book You Author
+          <div className="mt-8 space-y-4">
+            <Phase
+              label="Preparation Week"
+              text="Set your benchmark. Document where you are before the protocol begins — photos, energy, habits, and how your body feels in daily life."
+            />
+            <Phase
+              label="Week 1 — Introduction"
+              text="Introduction to your body and to the systems of ketosis and autophagy. You learn the structure and begin the metabolic transition."
+            />
+            <Phase
+              label="Week 2 — Repair Begins"
+              text="Your body is in ketosis and autophagy. Cellular repair begins, the feeling of freedom starts, and you begin to see and feel changes."
+            />
+            <Phase
+              label="Week 3 — Freedom & Lightness"
+              text="The feeling of freedom becomes more apparent. Euphoria, lightness, and happiness often emerge as the body adapts."
+            />
+            <Phase
+              label="Week 4 — Optimal State"
+              text="You begin recognizing the optimal state you have achieved and how your body performs at its best. Before-and-after photos from Day 1 to now tell the story."
+            />
+            <Phase
+              label="Celebration Week"
+              text="Celebrate what you documented, compare your benchmark to your results, and carry the habits forward."
+            />
+          </div>
+
+          <p className="mt-8 rounded-2xl border border-[#f5c26b]/20 bg-black/25 p-5 text-sm leading-relaxed text-gray-400">
+            These outcomes are not a guarantee. They reflect what participants regularly experience
+            when they adhere fully to the protocol and commit to recovering themselves.
+          </p>
+        </Card>
+
+        <Card>
+          <h2 className="text-2xl font-bold text-[#f5c26b]">Built on Kat&apos;s Legacy</h2>
+          <div className="mt-6 flex flex-col items-center gap-8 sm:flex-row sm:items-start">
+            <img
+              src="/book-cover.jpg"
+              alt="Kat's Legacy Book Cover"
+              className="w-[200px] shrink-0 rounded-2xl border border-[#f5c26b]/20 shadow-[0_0_35px_rgba(245,194,107,0.18)]"
+            />
+            <p className="text-lg leading-relaxed text-gray-300">
+              <em>Kat&apos;s Legacy</em> is the foundation of the REJU Protocol™ — the science-based
+              path behind the Event, Kat&apos;s JOL™ (Juice Of Life™), and the self-guided structure
+              participants follow. Enrollment, payment, and registration are handled on the onboarding
+              page.
             </p>
-
-            <h2 className="mt-4 max-w-4xl text-2xl font-bold text-[#f5c26b]">
-              Kat’s Legacy: A Science-Based Path to Healing and Longevity
-            </h2>
-
-            <div className="mt-10 flex flex-col items-center gap-10 lg:flex-row lg:items-start lg:text-left">
-
-              <div className="flex shrink-0 justify-center">
-                <img
-                  src="/book-cover.jpg"
-                  alt="Kat's Legacy Book Cover"
-                  className="w-[280px] rounded-2xl border border-[#f5c26b]/20 shadow-[0_0_35px_rgba(245,194,107,0.18)]"
-                />
-              </div>
-
-              <div className="max-w-3xl">
-                <p className="text-lg leading-relaxed text-left text-gray-300">
-                  <em>Kat’s Legacy</em> is the foundation of the REJU Protocol™ and the starting point
-                  of the REJU Ecosystem™. It contains the structure behind the rejuvenation process,
-                  the self-guided version of the event, and the recipe for Kat’s JOL™ — Juice Of Life™.
-                </p>
-
-                <p className="mt-4 text-lg leading-relaxed text-left text-gray-300">
-                  You can begin your journey through the book and Author your Personalized REJU Transformation Book. Participants
-                  who want support, accountability, daily structure, and guided execution can enter the
-                  REJU Rejuvenation Event™.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-12 grid w-full gap-5 md:grid-cols-2 lg:grid-cols-4">
-              <Info title="Kat’s JOL™" text="The original Juice Of Life™ rejuvenation recipe." />
-              <Info title="Self-Guided Event" text="Follow the structure and Author your own Transformation Book." />
-              <Info title="REJU Protocol™" text="The philosophy and rejuvenation framework behind the event." />
-              <Info title="Metabolic Rejuvenation" text="Structured rejuvenation principles designed for long-term longevity habits." />
-            </div>
-
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <a href={links.book} className={buttonClass}>
-                Buy the Book — Begin Authoring Your Personalized Book
-              </a>
-
-              <a href={links.onboarding} className={buttonClass}>
-                Enter the Program
-              </a>
-            </div>
           </div>
         </Card>
 
-        <section id="proof" className="space-y-8">
-
+        <section id="proof" className="space-y-6">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-[#f5c26b]">
-              Real Transformation. Real Results.
-            </h2>
-
-            <p className="mx-auto mt-4 max-w-3xl text-lg leading-relaxed text-gray-300">
-              The videos below show visible transformation, disciplined execution,
-              and the power of following the REJU structure.
+            <h2 className="text-2xl font-bold text-[#f5c26b]">Real Transformation. Real Results.</h2>
+            <p className="mx-auto mt-3 max-w-2xl text-gray-400">
+              Visible change through disciplined execution and the REJU structure.
             </p>
           </div>
 
           <div className="grid gap-6 lg:grid-cols-2">
-            <Video title="Short Transformation Video, Created From Full Video below" src={links.katShortVideo} />
-            <Video title="Full Transformation Video, Months Compiled Into One Video" src={links.katLongVideo} />
+            <Video title="Short Transformation Video" src={links.katShortVideo} />
+            <Video title="Full Transformation Video" src={links.katLongVideo} />
           </div>
         </section>
 
- 
+        <section className="rounded-3xl border border-[#f5c26b]/25 bg-[#120904]/70 p-8 text-center">
+          <h2 className="text-2xl font-bold text-[#f5c26b]">Ready to Enter?</h2>
+          <p className="mx-auto mt-3 max-w-xl text-gray-300">
+            Onboarding handles your entry path, payment, registration, and next steps.
+          </p>
+          <div className="mt-8">
+            <ProgramCtas />
+          </div>
+        </section>
       </section>
     </main>
+  );
+}
+
+function ProgramCtas() {
+  return (
+    <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+      <a href={links.onboarding} className={primaryButtonClass}>
+        Enter the Program
+      </a>
+      <a href={links.onboarding} className={buttonClass}>
+        Onboarding
+      </a>
+    </div>
   );
 }
 
@@ -278,20 +157,11 @@ function Card({ children }: { children: React.ReactNode }) {
   );
 }
 
-function JourneyWeek({ title, text }: { title: string; text: string }) {
+function Phase({ label, text }: { label: string; text: string }) {
   return (
     <div className="rounded-2xl border border-[#f5c26b]/20 bg-black/30 p-5">
-      <h3 className="text-xl font-bold text-[#f5c26b]">{title}</h3>
-      <p className="mt-3 text-sm leading-relaxed text-gray-300">{text}</p>
-    </div>
-  );
-}
-
-function Info({ title, text }: { title: string; text: string }) {
-  return (
-    <div className="rounded-2xl border border-[#f5c26b]/20 bg-black/30 p-5">
-      <h3 className="font-bold text-[#f5c26b]">{title}</h3>
-      <p className="mt-3 text-sm leading-relaxed text-gray-300">{text}</p>
+      <h3 className="text-lg font-bold text-[#f5c26b]">{label}</h3>
+      <p className="mt-2 text-sm leading-relaxed text-gray-300">{text}</p>
     </div>
   );
 }
@@ -299,8 +169,7 @@ function Info({ title, text }: { title: string; text: string }) {
 function Video({ title, src }: { title: string; src: string }) {
   return (
     <div className="rounded-3xl border border-[#f5c26b]/20 bg-black/30 p-4">
-      <h3 className="mb-4 text-xl font-bold text-[#f5c26b]">{title}</h3>
-
+      <h3 className="mb-4 text-lg font-bold text-[#f5c26b]">{title}</h3>
       <div className="aspect-video overflow-hidden rounded-2xl">
         <iframe
           src={src}

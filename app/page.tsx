@@ -114,12 +114,8 @@ export default function Home() {
             Buy REJU
           </a>
 
-          <a href={links.onboarding} className={buttonClass}>
-            Enter REJU
-          </a>
-
           <a href={links.program} className={buttonClass}>
-            View Program
+            Enter REJU
           </a>
 
           <a href={links.industry} className={buttonClass}>
@@ -372,16 +368,16 @@ export default function Home() {
         </p>
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
-          <a href={links.buy} className={buttonClass}>
-            Buy REJU
+          <a href={links.program} className={buttonClass}>
+            View Program
           </a>
 
           <a href={links.onboarding} className={buttonClass}>
             Start Onboarding
           </a>
 
-          <a href={links.program} className={buttonClass}>
-            View Program
+          <a href={links.buy} className={buttonClass}>
+            Buy REJU
           </a>
 
           <a
