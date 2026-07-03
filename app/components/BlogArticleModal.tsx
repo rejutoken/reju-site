@@ -100,7 +100,7 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
 
   if (!slug || !mounted) return null;
 
-  const showFooter = Boolean(post && !loading && !error) || Boolean(error);
+  const showFooter = !loading;
 
   return createPortal(
     <div role="dialog" aria-modal="true" aria-labelledby="blog-article-title">
@@ -112,9 +112,9 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
       />
 
       <div
-        className="blog-article-modal-panel fixed z-[201] flex flex-col overflow-hidden rounded-2xl border border-[#f5c26b]/30 bg-[#120904] shadow-[0_0_50px_rgba(245,194,107,0.15)]
+        className="blog-article-modal-panel fixed z-[201] overflow-hidden rounded-2xl border border-[#f5c26b]/30 bg-[#120904] shadow-[0_0_50px_rgba(245,194,107,0.15)]
           left-2 right-2
-          sm:left-1/2 sm:right-auto sm:top-1/2 sm:bottom-auto sm:w-full sm:max-w-4xl sm:max-h-[90vh] sm:-translate-x-1/2 sm:-translate-y-1/2"
+          sm:left-1/2 sm:right-auto sm:top-1/2 sm:bottom-auto sm:flex sm:w-full sm:max-w-4xl sm:max-h-[90vh] sm:-translate-x-1/2 sm:-translate-y-1/2"
       >
         <div className="flex shrink-0 items-center justify-between border-b border-[#f5c26b]/20 px-4 py-3 sm:px-8 sm:py-4">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#f5c26b]">
@@ -129,7 +129,7 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
           </button>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 sm:px-8 sm:py-6">
+        <div className="blog-article-modal-body min-h-0 overflow-y-auto overscroll-contain px-4 py-4 sm:flex-1 sm:px-8 sm:py-6">
           {loading && <p className="text-center text-gray-400">Loading article…</p>}
 
           {error && (

@@ -64,15 +64,33 @@ a {
   }
 }
 
-/* Blog article modal: pin to top of mobile viewport (portal renders on body) */
+/* Blog article modal: fit exactly within mobile viewport (portal on body) */
 .blog-article-modal-panel {
   top: max(0.5rem, env(safe-area-inset-top, 0px));
-  bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+  bottom: auto;
+  height: calc(
+    100svh - max(0.5rem, env(safe-area-inset-top, 0px)) -
+      max(0.5rem, env(safe-area-inset-bottom, 0px))
+  );
+  max-height: calc(
+    100svh - max(0.5rem, env(safe-area-inset-top, 0px)) -
+      max(0.5rem, env(safe-area-inset-bottom, 0px))
+  );
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.blog-article-modal-body {
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (min-width: 640px) {
   .blog-article-modal-panel {
     top: 50%;
-    bottom: auto;
+    height: auto;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    grid-template-rows: unset;
   }
 }
