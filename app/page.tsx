@@ -3,6 +3,7 @@
 
 
 import Nav from "./components/Nav";
+import SiteNewsBanner from "./components/SiteNewsBanner";
 
 const links = {
   home: "/",
@@ -46,6 +47,9 @@ export default function Home() {
         <p className="mt-3 max-w-2xl mx-auto text-lg text-gray-300">
           Lock REJU. Transform in the Event. <strong>You Are Authoring Your Personalized REJU Transformation Book</strong>. Sustained by Rejunomics™.
         </p>
+
+        <SiteNewsBanner />
+
         <div className="mt-6">
           <a href="/daily-transformation-log" className="inline-block text-[#f5c26b] underline hover:no-underline text-lg">
             Start Authoring Your Personalized Book →
