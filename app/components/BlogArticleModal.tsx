@@ -82,9 +82,11 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
 
   if (!slug) return null;
 
+  const showFooter = Boolean(post && !loading && !error) || Boolean(error);
+
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+      className="fixed inset-0 z-50 flex items-start justify-center px-3 pb-3 pt-2 sm:items-center sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby="blog-article-title"
@@ -96,8 +98,8 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
         aria-label="Close article"
       />
 
-      <div className="relative z-10 flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-[#f5c26b]/30 bg-[#120904] shadow-[0_0_50px_rgba(245,194,107,0.15)]">
-        <div className="flex items-center justify-between border-b border-[#f5c26b]/20 px-5 py-4 sm:px-8">
+      <div className="relative z-10 flex h-[calc(100dvh-0.5rem)] w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-[#f5c26b]/30 bg-[#120904] shadow-[0_0_50px_rgba(245,194,107,0.15)] sm:h-auto sm:max-h-[90vh]">
+        <div className="flex shrink-0 items-center justify-between border-b border-[#f5c26b]/20 px-4 py-3 sm:px-8 sm:py-4">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#f5c26b]">
             REJU Research
           </p>
@@ -110,7 +112,7 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-5 py-6 sm:px-8 sm:py-8">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-5 sm:px-8 sm:py-8">
           {loading && (
             <p className="text-center text-gray-400">Loading article…</p>
           )}
@@ -118,13 +120,6 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
           {error && (
             <div className="text-center">
               <p className="text-red-300">{error}</p>
-              <button
-                type="button"
-                onClick={handleClose}
-                className="mt-6 rounded-full border border-[#f5c26b] px-6 py-2 text-sm font-semibold text-[#f5c26b] hover:bg-[#f5c26b] hover:text-black"
-              >
-                Back to Blog
-              </button>
             </div>
           )}
 
@@ -147,18 +142,21 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
                 className={articleProseClass}
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
-              <div className="mt-10 border-t border-[#f5c26b]/20 pt-8 text-center">
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  className="rounded-full border border-[#f5c26b] bg-[#f5c26b] px-8 py-3 font-semibold text-black transition hover:bg-[#ffd88a]"
-                >
-                  Close &amp; Read Another Article
-                </button>
-              </div>
             </article>
           )}
         </div>
+
+        {showFooter && (
+          <div className="shrink-0 border-t border-[#f5c26b]/20 bg-[#120904] px-4 py-3 sm:px-8 sm:py-4">
+            <button
+              type="button"
+              onClick={handleClose}
+              className="w-full rounded-full border border-[#f5c26b] bg-[#f5c26b] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#ffd88a] sm:w-auto sm:px-8"
+            >
+              {error ? "Back to Blog" : "Close & Read Another Article"}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
