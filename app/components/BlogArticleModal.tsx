@@ -19,30 +19,60 @@ const articleProseClass = `
 const MOBILE_MAX_WIDTH = 639;
 const VIEWPORT_MARGIN = 8;
 
-type ViewportBox = {
+type OverlayBox = {
   top: number;
   left: number;
   width: number;
   height: number;
 };
 
-function getVisibleViewport(): ViewportBox {
-  const vv = window.visualViewport;
-  const top = vv?.offsetTop ?? 0;
-  const left = vv?.offsetLeft ?? 0;
-  const width = vv?.width ?? window.innerWidth;
-  const height = vv?.height ?? window.innerHeight;
-
-  return {
-    top: top + VIEWPORT_MARGIN,
-    left: left + VIEWPORT_MARGIN,
-    width: Math.max(width - VIEWPORT_MARGIN * 2, 0),
-    height: Math.max(height - VIEWPORT_MARGIN * 2, 200),
-  };
-}
+type OverlayStyle = OverlayBox & {
+  position: "absolute" | "fixed";
+};
 
 function isMobileViewport() {
   return window.matchMedia(`(max-width: ${MOBILE_MAX_WIDTH}px)`).matches;
+}
+
+/** Absolute + scrollY survives Google/in-app browsers where position:fixed scrolls away */
+function getMobileOverlayGeometry(): { panel: OverlayStyle; backdrop: OverlayStyle } {
+  const vv = window.visualViewport;
+  const scrollY = window.scrollY;
+  const vvTop = vv?.offsetTop ?? 0;
+  const vvLeft = vv?.offsetLeft ?? 0;
+  const vvWidth = vv?.width ?? window.innerWidth;
+  const vvHeight = vv?.height ?? window.innerHeight;
+  const m = VIEWPORT_MARGIN;
+
+  return {
+    backdrop: {
+      position: "absolute",
+      top: scrollY + vvTop,
+      left: vvLeft,
+      width: vvWidth,
+      height: vvHeight,
+    },
+    panel: {
+      position: "absolute",
+      top: scrollY + vvTop + m,
+      left: vvLeft + m,
+      width: Math.max(vvWidth - m * 2, 0),
+      height: Math.max(vvHeight - m * 2, 200),
+    },
+  };
+}
+
+function boxToCss(box: OverlayStyle): React.CSSProperties {
+  return {
+    position: box.position,
+    top: `${box.top}px`,
+    left: `${box.left}px`,
+    width: `${box.width}px`,
+    height: `${box.height}px`,
+    maxHeight: `${box.height}px`,
+    right: "auto",
+    bottom: "auto",
+  };
 }
 
 type BlogArticleModalProps = {
@@ -55,8 +85,12 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [viewportBox, setViewportBox] = useState<ViewportBox | null>(null);
+  const [mobileLayout, setMobileLayout] = useState<{
+    panel: OverlayStyle;
+    backdrop: OverlayStyle;
+  } | null>(null);
   const scrollBodyRef = useRef<HTMLDivElement>(null);
+  const savedScrollYRef = useRef(0);
   const isOpen = slug !== null;
 
   const handleClose = useCallback(() => {
@@ -65,62 +99,92 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
     onClose();
   }, [onClose]);
 
+  const updateMobileLayout = useCallback(() => {
+    if (!isMobileViewport()) {
+      setMobileLayout(null);
+      return;
+    }
+    setMobileLayout(getMobileOverlayGeometry());
+  }, []);
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Track the visible viewport (fixes Google app / in-app browsers)
-  useEffect(() => {
-    if (!isOpen) {
-      setViewportBox(null);
-      return;
-    }
-
-    const updateViewport = () => {
-      if (!isMobileViewport()) {
-        setViewportBox(null);
-        return;
-      }
-      setViewportBox(getVisibleViewport());
-    };
-
-    updateViewport();
-    window.visualViewport?.addEventListener("resize", updateViewport);
-    window.visualViewport?.addEventListener("scroll", updateViewport);
-    window.addEventListener("resize", updateViewport);
-    window.addEventListener("orientationchange", updateViewport);
-
-    return () => {
-      window.visualViewport?.removeEventListener("resize", updateViewport);
-      window.visualViewport?.removeEventListener("scroll", updateViewport);
-      window.removeEventListener("resize", updateViewport);
-      window.removeEventListener("orientationchange", updateViewport);
-    };
-  }, [isOpen]);
-
-  // Light scroll lock — avoid body position:fixed (breaks many in-app browsers)
+  // Scroll lock + reposition on every scroll/resize (Google in-app browser)
   useEffect(() => {
     if (!isOpen) return;
+
+    savedScrollYRef.current = window.scrollY;
+    window.scrollTo(0, 0);
 
     const html = document.documentElement;
     const body = document.body;
     const prevHtmlOverflow = html.style.overflow;
     const prevBodyOverflow = body.style.overflow;
+    const prevBodyPosition = body.style.position;
+    const prevBodyTop = body.style.top;
+    const prevBodyLeft = body.style.left;
+    const prevBodyRight = body.style.right;
+    const prevBodyWidth = body.style.width;
 
     html.style.overflow = "hidden";
     body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = "0";
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    body.classList.add("blog-modal-open");
+
+    const isInsideModal = (target: EventTarget | null) => {
+      if (!(target instanceof Node)) return false;
+      return scrollBodyRef.current?.contains(target) ?? false;
+    };
+
+    const preventBackgroundScroll = (event: TouchEvent | WheelEvent) => {
+      if (!isInsideModal(event.target)) {
+        event.preventDefault();
+      }
+    };
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") handleClose();
     };
+
+    updateMobileLayout();
+    document.addEventListener("touchmove", preventBackgroundScroll, { passive: false });
+    document.addEventListener("wheel", preventBackgroundScroll, { passive: false });
+    window.addEventListener("scroll", updateMobileLayout, { passive: true });
+    window.visualViewport?.addEventListener("resize", updateMobileLayout);
+    window.visualViewport?.addEventListener("scroll", updateMobileLayout);
+    window.addEventListener("resize", updateMobileLayout);
+    window.addEventListener("orientationchange", updateMobileLayout);
     window.addEventListener("keydown", onKeyDown);
 
     return () => {
       html.style.overflow = prevHtmlOverflow;
       body.style.overflow = prevBodyOverflow;
+      body.style.position = prevBodyPosition;
+      body.style.top = prevBodyTop;
+      body.style.left = prevBodyLeft;
+      body.style.right = prevBodyRight;
+      body.style.width = prevBodyWidth;
+      body.classList.remove("blog-modal-open");
+
+      document.removeEventListener("touchmove", preventBackgroundScroll);
+      document.removeEventListener("wheel", preventBackgroundScroll);
+      window.removeEventListener("scroll", updateMobileLayout);
+      window.visualViewport?.removeEventListener("resize", updateMobileLayout);
+      window.visualViewport?.removeEventListener("scroll", updateMobileLayout);
+      window.removeEventListener("resize", updateMobileLayout);
+      window.removeEventListener("orientationchange", updateMobileLayout);
       window.removeEventListener("keydown", onKeyDown);
+
+      window.scrollTo(0, savedScrollYRef.current);
+      setMobileLayout(null);
     };
-  }, [isOpen, handleClose]);
+  }, [isOpen, handleClose, updateMobileLayout]);
 
   // Load article when slug changes
   useEffect(() => {
@@ -172,44 +236,28 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
 
   if (!slug || !mounted) return null;
 
-  const mobilePanelStyle = viewportBox
-    ? {
-        top: `${viewportBox.top}px`,
-        left: `${viewportBox.left}px`,
-        width: `${viewportBox.width}px`,
-        right: "auto",
-        height: `${viewportBox.height}px`,
-        maxHeight: `${viewportBox.height}px`,
-      }
-    : undefined;
-
-  const mobileBackdropStyle = viewportBox
-    ? {
-        top: `${viewportBox.top - VIEWPORT_MARGIN}px`,
-        left: `${viewportBox.left - VIEWPORT_MARGIN}px`,
-        width: `${viewportBox.width + VIEWPORT_MARGIN * 2}px`,
-        height: `${viewportBox.height + VIEWPORT_MARGIN * 2}px`,
-        right: "auto",
-        bottom: "auto",
-      }
-    : undefined;
+  const useMobileLayout = Boolean(mobileLayout);
+  const panelStyle = useMobileLayout ? boxToCss(mobileLayout!.panel) : undefined;
+  const backdropStyle = useMobileLayout ? boxToCss(mobileLayout!.backdrop) : undefined;
 
   return createPortal(
     <div role="dialog" aria-modal="true" aria-labelledby="blog-article-title">
       <button
         type="button"
-        className="fixed inset-0 z-[200] bg-black/85 max-sm:backdrop-blur-none sm:bg-black/80 sm:backdrop-blur-sm"
-        style={mobileBackdropStyle}
+        className={`z-[200] bg-black/85 max-sm:backdrop-blur-none sm:bg-black/80 sm:backdrop-blur-sm ${
+          useMobileLayout ? "" : "fixed inset-0"
+        }`}
+        style={backdropStyle}
         onClick={handleClose}
         aria-label="Close article"
       />
 
       <div
         key={slug}
-        className="blog-article-modal-panel fixed z-[201] overflow-hidden rounded-2xl border border-[#f5c26b]/30 bg-[#120904] shadow-[0_0_50px_rgba(245,194,107,0.15)]
-          left-2 right-2
-          sm:left-1/2 sm:right-auto sm:top-1/2 sm:bottom-auto sm:flex sm:w-full sm:max-w-4xl sm:max-h-[90vh] sm:-translate-x-1/2 sm:-translate-y-1/2"
-        style={mobilePanelStyle}
+        className={`blog-article-modal-panel z-[201] overflow-hidden rounded-2xl border border-[#f5c26b]/30 bg-[#120904] shadow-[0_0_50px_rgba(245,194,107,0.15)]
+          ${useMobileLayout ? "" : "fixed left-2 right-2"}
+          sm:fixed sm:left-1/2 sm:right-auto sm:top-1/2 sm:bottom-auto sm:flex sm:w-full sm:max-w-4xl sm:max-h-[90vh] sm:-translate-x-1/2 sm:-translate-y-1/2`}
+        style={panelStyle}
       >
         <div className="flex shrink-0 items-center justify-between border-b border-[#f5c26b]/20 px-4 py-3 sm:px-8 sm:py-4">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#f5c26b]">

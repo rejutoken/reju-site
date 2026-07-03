@@ -64,7 +64,7 @@ a {
   }
 }
 
-/* Blog article modal: CSS fallback before JS visualViewport sizing (in-app browsers) */
+/* Blog article modal: desktop/fallback layout (mobile uses JS absolute positioning) */
 .blog-article-modal-panel {
   top: 0.5rem;
   bottom: auto;
@@ -74,6 +74,15 @@ a {
   max-height: calc(100svh - 1rem);
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+body.blog-modal-open {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
+body.blog-modal-open .blog-article-modal-body {
+  touch-action: pan-y;
 }
 
 .blog-article-modal-body {
