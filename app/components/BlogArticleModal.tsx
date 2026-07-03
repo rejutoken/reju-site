@@ -16,6 +16,35 @@ const articleProseClass = `
   [&_a]:text-[#f5c26b] [&_a]:font-semibold [&_a]:underline
 `;
 
+const MOBILE_MAX_WIDTH = 639;
+const VIEWPORT_MARGIN = 8;
+
+type ViewportBox = {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+};
+
+function getVisibleViewport(): ViewportBox {
+  const vv = window.visualViewport;
+  const top = vv?.offsetTop ?? 0;
+  const left = vv?.offsetLeft ?? 0;
+  const width = vv?.width ?? window.innerWidth;
+  const height = vv?.height ?? window.innerHeight;
+
+  return {
+    top: top + VIEWPORT_MARGIN,
+    left: left + VIEWPORT_MARGIN,
+    width: Math.max(width - VIEWPORT_MARGIN * 2, 0),
+    height: Math.max(height - VIEWPORT_MARGIN * 2, 200),
+  };
+}
+
+function isMobileViewport() {
+  return window.matchMedia(`(max-width: ${MOBILE_MAX_WIDTH}px)`).matches;
+}
+
 type BlogArticleModalProps = {
   slug: string | null;
   onClose: () => void;
@@ -26,6 +55,7 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [viewportBox, setViewportBox] = useState<ViewportBox | null>(null);
   const scrollBodyRef = useRef<HTMLDivElement>(null);
   const isOpen = slug !== null;
 
@@ -39,20 +69,46 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
     setMounted(true);
   }, []);
 
-  // Lock body scroll only when modal opens/closes — NOT when switching articles
+  // Track the visible viewport (fixes Google app / in-app browsers)
+  useEffect(() => {
+    if (!isOpen) {
+      setViewportBox(null);
+      return;
+    }
+
+    const updateViewport = () => {
+      if (!isMobileViewport()) {
+        setViewportBox(null);
+        return;
+      }
+      setViewportBox(getVisibleViewport());
+    };
+
+    updateViewport();
+    window.visualViewport?.addEventListener("resize", updateViewport);
+    window.visualViewport?.addEventListener("scroll", updateViewport);
+    window.addEventListener("resize", updateViewport);
+    window.addEventListener("orientationchange", updateViewport);
+
+    return () => {
+      window.visualViewport?.removeEventListener("resize", updateViewport);
+      window.visualViewport?.removeEventListener("scroll", updateViewport);
+      window.removeEventListener("resize", updateViewport);
+      window.removeEventListener("orientationchange", updateViewport);
+    };
+  }, [isOpen]);
+
+  // Light scroll lock — avoid body position:fixed (breaks many in-app browsers)
   useEffect(() => {
     if (!isOpen) return;
 
-    const scrollY = window.scrollY;
-    const previousOverflow = document.body.style.overflow;
-    const previousPosition = document.body.style.position;
-    const previousTop = document.body.style.top;
-    const previousWidth = document.body.style.width;
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtmlOverflow = html.style.overflow;
+    const prevBodyOverflow = body.style.overflow;
 
-    document.body.style.overflow = "hidden";
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.width = "100%";
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") handleClose();
@@ -60,11 +116,8 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
     window.addEventListener("keydown", onKeyDown);
 
     return () => {
-      document.body.style.overflow = previousOverflow;
-      document.body.style.position = previousPosition;
-      document.body.style.top = previousTop;
-      document.body.style.width = previousWidth;
-      window.scrollTo(0, scrollY);
+      html.style.overflow = prevHtmlOverflow;
+      body.style.overflow = prevBodyOverflow;
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [isOpen, handleClose]);
@@ -119,11 +172,34 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
 
   if (!slug || !mounted) return null;
 
+  const mobilePanelStyle = viewportBox
+    ? {
+        top: `${viewportBox.top}px`,
+        left: `${viewportBox.left}px`,
+        width: `${viewportBox.width}px`,
+        right: "auto",
+        height: `${viewportBox.height}px`,
+        maxHeight: `${viewportBox.height}px`,
+      }
+    : undefined;
+
+  const mobileBackdropStyle = viewportBox
+    ? {
+        top: `${viewportBox.top - VIEWPORT_MARGIN}px`,
+        left: `${viewportBox.left - VIEWPORT_MARGIN}px`,
+        width: `${viewportBox.width + VIEWPORT_MARGIN * 2}px`,
+        height: `${viewportBox.height + VIEWPORT_MARGIN * 2}px`,
+        right: "auto",
+        bottom: "auto",
+      }
+    : undefined;
+
   return createPortal(
     <div role="dialog" aria-modal="true" aria-labelledby="blog-article-title">
       <button
         type="button"
-        className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm"
+        className="fixed inset-0 z-[200] bg-black/85 max-sm:backdrop-blur-none sm:bg-black/80 sm:backdrop-blur-sm"
+        style={mobileBackdropStyle}
         onClick={handleClose}
         aria-label="Close article"
       />
@@ -133,6 +209,7 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
         className="blog-article-modal-panel fixed z-[201] overflow-hidden rounded-2xl border border-[#f5c26b]/30 bg-[#120904] shadow-[0_0_50px_rgba(245,194,107,0.15)]
           left-2 right-2
           sm:left-1/2 sm:right-auto sm:top-1/2 sm:bottom-auto sm:flex sm:w-full sm:max-w-4xl sm:max-h-[90vh] sm:-translate-x-1/2 sm:-translate-y-1/2"
+        style={mobilePanelStyle}
       >
         <div className="flex shrink-0 items-center justify-between border-b border-[#f5c26b]/20 px-4 py-3 sm:px-8 sm:py-4">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#f5c26b]">

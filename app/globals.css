@@ -64,18 +64,14 @@ a {
   }
 }
 
-/* Blog article modal: fit exactly within mobile viewport (portal on body) */
+/* Blog article modal: CSS fallback before JS visualViewport sizing (in-app browsers) */
 .blog-article-modal-panel {
-  top: max(0.5rem, env(safe-area-inset-top, 0px));
+  top: 0.5rem;
   bottom: auto;
-  height: calc(
-    100svh - max(0.5rem, env(safe-area-inset-top, 0px)) -
-      max(0.5rem, env(safe-area-inset-bottom, 0px))
-  );
-  max-height: calc(
-    100svh - max(0.5rem, env(safe-area-inset-top, 0px)) -
-      max(0.5rem, env(safe-area-inset-bottom, 0px))
-  );
+  height: calc(100vh - 1rem);
+  max-height: calc(100vh - 1rem);
+  height: calc(100svh - 1rem);
+  max-height: calc(100svh - 1rem);
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
 }
