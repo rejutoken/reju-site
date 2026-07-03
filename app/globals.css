@@ -63,3 +63,16 @@ a {
     color: #ededed;
   }
 }
+
+/* Blog article modal: pin to top of mobile viewport (portal renders on body) */
+.blog-article-modal-panel {
+  top: max(0.5rem, env(safe-area-inset-top, 0px));
+  bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+}
+
+@media (min-width: 640px) {
+  .blog-article-modal-panel {
+    top: 50%;
+    bottom: auto;
+  }
+}

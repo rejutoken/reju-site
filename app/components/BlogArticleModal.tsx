@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import type { Post } from "@/lib/posts";
 
 const articleProseClass = `
@@ -21,6 +22,7 @@ type BlogArticleModalProps = {
 };
 
 export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProps) {
+  const [mounted, setMounted] = useState(false);
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -32,10 +34,22 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
   }, [onClose]);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
     if (!slug) return;
 
+    const scrollY = window.scrollY;
     const previousOverflow = document.body.style.overflow;
+    const previousPosition = document.body.style.position;
+    const previousTop = document.body.style.top;
+    const previousWidth = document.body.style.width;
+
     document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = "100%";
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") handleClose();
@@ -44,6 +58,10 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
 
     return () => {
       document.body.style.overflow = previousOverflow;
+      document.body.style.position = previousPosition;
+      document.body.style.top = previousTop;
+      document.body.style.width = previousWidth;
+      window.scrollTo(0, scrollY);
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [slug, handleClose]);
@@ -80,25 +98,24 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
     };
   }, [slug]);
 
-  if (!slug) return null;
+  if (!slug || !mounted) return null;
 
   const showFooter = Boolean(post && !loading && !error) || Boolean(error);
 
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-start justify-center px-3 pb-3 pt-2 sm:items-center sm:p-6"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="blog-article-title"
-    >
+  return createPortal(
+    <div role="dialog" aria-modal="true" aria-labelledby="blog-article-title">
       <button
         type="button"
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+        className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm"
         onClick={handleClose}
         aria-label="Close article"
       />
 
-      <div className="relative z-10 flex h-[calc(100dvh-0.5rem)] w-full max-w-4xl flex-col overflow-hidden rounded-3xl border border-[#f5c26b]/30 bg-[#120904] shadow-[0_0_50px_rgba(245,194,107,0.15)] sm:h-auto sm:max-h-[90vh]">
+      <div
+        className="blog-article-modal-panel fixed z-[201] flex flex-col overflow-hidden rounded-2xl border border-[#f5c26b]/30 bg-[#120904] shadow-[0_0_50px_rgba(245,194,107,0.15)]
+          left-2 right-2
+          sm:left-1/2 sm:right-auto sm:top-1/2 sm:bottom-auto sm:w-full sm:max-w-4xl sm:max-h-[90vh] sm:-translate-x-1/2 sm:-translate-y-1/2"
+      >
         <div className="flex shrink-0 items-center justify-between border-b border-[#f5c26b]/20 px-4 py-3 sm:px-8 sm:py-4">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#f5c26b]">
             REJU Research
@@ -112,10 +129,8 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
           </button>
         </div>
 
-        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-5 sm:px-8 sm:py-8">
-          {loading && (
-            <p className="text-center text-gray-400">Loading article…</p>
-          )}
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 sm:px-8 sm:py-6">
+          {loading && <p className="text-center text-gray-400">Loading article…</p>}
 
           {error && (
             <div className="text-center">
@@ -134,7 +149,7 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
               </p>
               <h1
                 id="blog-article-title"
-                className="mt-3 text-2xl font-bold leading-tight text-[#f5c26b] sm:text-3xl"
+                className="mt-2 text-xl font-bold leading-snug text-[#f5c26b] sm:mt-3 sm:text-3xl"
               >
                 {post.title}
               </h1>
@@ -158,6 +173,7 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
