@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { Post } from "@/lib/posts";
 
@@ -26,6 +26,8 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const scrollBodyRef = useRef<HTMLDivElement>(null);
+  const isOpen = slug !== null;
 
   const handleClose = useCallback(() => {
     setPost(null);
@@ -37,8 +39,9 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
     setMounted(true);
   }, []);
 
+  // Lock body scroll only when modal opens/closes — NOT when switching articles
   useEffect(() => {
-    if (!slug) return;
+    if (!isOpen) return;
 
     const scrollY = window.scrollY;
     const previousOverflow = document.body.style.overflow;
@@ -64,30 +67,46 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
       window.scrollTo(0, scrollY);
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [slug, handleClose]);
+  }, [isOpen, handleClose]);
 
+  // Load article when slug changes
   useEffect(() => {
     if (!slug) {
       setPost(null);
       setError("");
+      setLoading(false);
       return;
     }
 
+    const requestedSlug = slug;
     let cancelled = false;
+
     setLoading(true);
     setError("");
     setPost(null);
 
-    fetch(`/api/blog/${encodeURIComponent(slug)}`)
+    if (scrollBodyRef.current) {
+      scrollBodyRef.current.scrollTop = 0;
+    }
+
+    fetch(`/api/blog/${encodeURIComponent(requestedSlug)}`)
       .then(async (res) => {
         if (!res.ok) throw new Error("Article could not be loaded.");
         return res.json() as Promise<Post>;
       })
       .then((data) => {
-        if (!cancelled) setPost(data);
+        if (cancelled || data.slug !== requestedSlug) return;
+        setPost(data);
+        requestAnimationFrame(() => {
+          if (scrollBodyRef.current) {
+            scrollBodyRef.current.scrollTop = 0;
+          }
+        });
       })
       .catch(() => {
-        if (!cancelled) setError("Unable to load this article. Please try again.");
+        if (!cancelled) {
+          setError("Unable to load this article. Please try again.");
+        }
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -100,8 +119,6 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
 
   if (!slug || !mounted) return null;
 
-  const showFooter = !loading;
-
   return createPortal(
     <div role="dialog" aria-modal="true" aria-labelledby="blog-article-title">
       <button
@@ -112,6 +129,7 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
       />
 
       <div
+        key={slug}
         className="blog-article-modal-panel fixed z-[201] overflow-hidden rounded-2xl border border-[#f5c26b]/30 bg-[#120904] shadow-[0_0_50px_rgba(245,194,107,0.15)]
           left-2 right-2
           sm:left-1/2 sm:right-auto sm:top-1/2 sm:bottom-auto sm:flex sm:w-full sm:max-w-4xl sm:max-h-[90vh] sm:-translate-x-1/2 sm:-translate-y-1/2"
@@ -129,11 +147,16 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
           </button>
         </div>
 
-        <div className="blog-article-modal-body min-h-0 overflow-y-auto overscroll-contain px-4 py-4 sm:flex-1 sm:px-8 sm:py-6">
-          {loading && <p className="text-center text-gray-400">Loading article…</p>}
+        <div
+          ref={scrollBodyRef}
+          className="blog-article-modal-body min-h-0 overflow-y-auto overscroll-contain px-4 py-4 sm:flex-1 sm:px-8 sm:py-6"
+        >
+          {loading && (
+            <p className="py-12 text-center text-gray-400">Loading article…</p>
+          )}
 
-          {error && (
-            <div className="text-center">
+          {error && !loading && (
+            <div className="py-12 text-center">
               <p className="text-red-300">{error}</p>
             </div>
           )}
@@ -161,17 +184,15 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
           )}
         </div>
 
-        {showFooter && (
-          <div className="shrink-0 border-t border-[#f5c26b]/20 bg-[#120904] px-4 py-3 sm:px-8 sm:py-4">
-            <button
-              type="button"
-              onClick={handleClose}
-              className="w-full rounded-full border border-[#f5c26b] bg-[#f5c26b] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#ffd88a] sm:w-auto sm:px-8"
-            >
-              {error ? "Back to Blog" : "Close & Read Another Article"}
-            </button>
-          </div>
-        )}
+        <div className="shrink-0 border-t border-[#f5c26b]/20 bg-[#120904] px-4 py-3 sm:px-8 sm:py-4">
+          <button
+            type="button"
+            onClick={handleClose}
+            className="w-full rounded-full border border-[#f5c26b] bg-[#f5c26b] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#ffd88a] sm:w-auto sm:px-8"
+          >
+            {error ? "Back to Blog" : "Close & Read Another Article"}
+          </button>
+        </div>
       </div>
     </div>,
     document.body
