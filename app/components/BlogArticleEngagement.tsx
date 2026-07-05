@@ -11,7 +11,60 @@ type EngagementState = {
 };
 
 const inputClass =
-  "w-full rounded-2xl border border-[#f5c26b]/25 bg-black/30 px-4 py-3 text-gray-200 placeholder:text-gray-500 focus:border-[#f5c26b] focus:outline-none";
+  "w-full rounded-2xl border border-[#f5c26b]/25 bg-black/30 px-4 py-3 text-base text-gray-200 placeholder:text-gray-500 focus:border-[#f5c26b] focus:outline-none";
+
+type CommentDraft = {
+  commentName: string;
+  commentBody: string;
+  replyName: string;
+  replyBody: string;
+  replyTargetId: string | null;
+};
+
+function draftStorageKey(slug: string) {
+  return `rejuBlogCommentDraft:${slug}`;
+}
+
+function readCommentDraft(slug: string): CommentDraft | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = sessionStorage.getItem(draftStorageKey(slug));
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as Partial<CommentDraft>;
+    return {
+      commentName: String(parsed.commentName || ""),
+      commentBody: String(parsed.commentBody || ""),
+      replyName: String(parsed.replyName || ""),
+      replyBody: String(parsed.replyBody || ""),
+      replyTargetId:
+        typeof parsed.replyTargetId === "string" ? parsed.replyTargetId : null,
+    };
+  } catch {
+    return null;
+  }
+}
+
+function writeCommentDraft(slug: string, draft: CommentDraft) {
+  if (typeof window === "undefined") return;
+  const hasContent =
+    draft.commentName.trim() ||
+    draft.commentBody.trim() ||
+    draft.replyName.trim() ||
+    draft.replyBody.trim() ||
+    draft.replyTargetId;
+
+  if (!hasContent) {
+    sessionStorage.removeItem(draftStorageKey(slug));
+    return;
+  }
+
+  sessionStorage.setItem(draftStorageKey(slug), JSON.stringify(draft));
+}
+
+function clearCommentDraft(slug: string) {
+  if (typeof window === "undefined") return;
+  sessionStorage.removeItem(draftStorageKey(slug));
+}
 
 const buttonClass =
   "rounded-full border border-[#f5c26b] px-5 py-2 text-sm font-semibold text-[#f5c26b] transition hover:bg-[#f5c26b] hover:text-black disabled:cursor-not-allowed disabled:opacity-50";
@@ -44,6 +97,26 @@ export default function BlogArticleEngagement({ slug }: { slug: string }) {
   const [replyName, setReplyName] = useState("");
   const [replyBody, setReplyBody] = useState("");
   const [replyBusy, setReplyBusy] = useState(false);
+
+  useEffect(() => {
+    const draft = readCommentDraft(slug);
+    if (!draft) return;
+    setCommentName(draft.commentName);
+    setCommentBody(draft.commentBody);
+    setReplyName(draft.replyName);
+    setReplyBody(draft.replyBody);
+    setReplyTargetId(draft.replyTargetId);
+  }, [slug]);
+
+  useEffect(() => {
+    writeCommentDraft(slug, {
+      commentName,
+      commentBody,
+      replyName,
+      replyBody,
+      replyTargetId,
+    });
+  }, [slug, commentName, commentBody, replyName, replyBody, replyTargetId]);
 
   const loadEngagement = useCallback(async () => {
     setLoading(true);
@@ -115,6 +188,7 @@ export default function BlogArticleEngagement({ slug }: { slug: string }) {
         comments: [data.comment, ...current.comments],
       }));
       setCommentBody("");
+      clearCommentDraft(slug);
       setStatus("Comment posted.");
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Unable to post comment.");
@@ -151,6 +225,13 @@ export default function BlogArticleEngagement({ slug }: { slug: string }) {
       }));
       setReplyBody("");
       setReplyTargetId(null);
+      writeCommentDraft(slug, {
+        commentName,
+        commentBody,
+        replyName,
+        replyBody: "",
+        replyTargetId: null,
+      });
       setStatus("Reply posted.");
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Unable to post reply.");

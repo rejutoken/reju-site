@@ -35,14 +35,20 @@ function isMobileViewport() {
   return window.matchMedia(`(max-width: ${MOBILE_MAX_WIDTH}px)`).matches;
 }
 
+/** Keep layout height so the modal does not shrink when the on-screen keyboard opens. */
+function getLockedLayoutHeight() {
+  return window.innerHeight;
+}
+
 /** Absolute + scrollY survives Google/in-app browsers where position:fixed scrolls away */
-function getMobileOverlayGeometry(): { panel: OverlayStyle; backdrop: OverlayStyle } {
+function getMobileOverlayGeometry(
+  lockedHeight: number
+): { panel: OverlayStyle; backdrop: OverlayStyle } {
   const vv = window.visualViewport;
   const scrollY = window.scrollY;
   const vvTop = vv?.offsetTop ?? 0;
   const vvLeft = vv?.offsetLeft ?? 0;
   const vvWidth = vv?.width ?? window.innerWidth;
-  const vvHeight = vv?.height ?? window.innerHeight;
   const m = VIEWPORT_MARGIN;
 
   return {
@@ -51,16 +57,31 @@ function getMobileOverlayGeometry(): { panel: OverlayStyle; backdrop: OverlaySty
       top: scrollY + vvTop,
       left: vvLeft,
       width: vvWidth,
-      height: vvHeight,
+      height: lockedHeight,
     },
     panel: {
       position: "absolute",
       top: scrollY + vvTop + m,
       left: vvLeft + m,
       width: Math.max(vvWidth - m * 2, 0),
-      height: Math.max(vvHeight - m * 2, 200),
+      height: Math.max(lockedHeight - m * 2, 240),
     },
   };
+}
+
+function scrollFieldIntoView(field: HTMLElement, container: HTMLElement) {
+  const vv = window.visualViewport;
+  const visibleTop = vv?.offsetTop ?? 0;
+  const visibleBottom = visibleTop + (vv?.height ?? window.innerHeight);
+  const fieldRect = field.getBoundingClientRect();
+  const headerOffset = 72;
+  const keyboardPadding = 24;
+
+  if (fieldRect.bottom > visibleBottom - keyboardPadding) {
+    container.scrollTop += fieldRect.bottom - (visibleBottom - keyboardPadding);
+  } else if (fieldRect.top < visibleTop + headerOffset) {
+    container.scrollTop += fieldRect.top - (visibleTop + headerOffset);
+  }
 }
 
 function boxToCss(box: OverlayStyle): React.CSSProperties {
@@ -92,6 +113,8 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
   } | null>(null);
   const scrollBodyRef = useRef<HTMLDivElement>(null);
   const savedScrollYRef = useRef(0);
+  const lockedViewportHeightRef = useRef(0);
+  const [mobileInputFocused, setMobileInputFocused] = useState(false);
   const isOpen = slug !== null;
 
   const handleClose = useCallback(() => {
@@ -100,12 +123,45 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
     onClose();
   }, [onClose]);
 
+  const handleFieldFocus = useCallback((event: React.FocusEvent<HTMLDivElement>) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement) || !target.matches("input, textarea")) {
+      return;
+    }
+    if (isMobileViewport()) {
+      setMobileInputFocused(true);
+    }
+    const container = scrollBodyRef.current;
+    if (!container) return;
+    requestAnimationFrame(() => {
+      scrollFieldIntoView(target, container);
+      window.setTimeout(() => scrollFieldIntoView(target, container), 120);
+    });
+  }, []);
+
+  const handleFieldBlur = useCallback(() => {
+    window.setTimeout(() => {
+      const active = document.activeElement;
+      const container = scrollBodyRef.current;
+      const stillFocused =
+        active instanceof HTMLElement &&
+        active.matches("input, textarea") &&
+        (container?.contains(active) ?? false);
+      if (!stillFocused) {
+        setMobileInputFocused(false);
+      }
+    }, 0);
+  }, []);
+
   const updateMobileLayout = useCallback(() => {
     if (!isMobileViewport()) {
       setMobileLayout(null);
       return;
     }
-    setMobileLayout(getMobileOverlayGeometry());
+    if (!lockedViewportHeightRef.current) {
+      lockedViewportHeightRef.current = getLockedLayoutHeight();
+    }
+    setMobileLayout(getMobileOverlayGeometry(lockedViewportHeightRef.current));
   }, []);
 
   useEffect(() => {
@@ -117,6 +173,7 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
     if (!isOpen) return;
 
     savedScrollYRef.current = window.scrollY;
+    lockedViewportHeightRef.current = getLockedLayoutHeight();
     window.scrollTo(0, 0);
 
     const html = document.documentElement;
@@ -183,6 +240,8 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
       window.removeEventListener("keydown", onKeyDown);
 
       window.scrollTo(0, savedScrollYRef.current);
+      lockedViewportHeightRef.current = 0;
+      setMobileInputFocused(false);
       setMobileLayout(null);
     };
   }, [isOpen, handleClose, updateMobileLayout]);
@@ -276,6 +335,8 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
         <div
           ref={scrollBodyRef}
           className="blog-article-modal-body min-h-0 overflow-y-auto overscroll-contain px-4 py-4 sm:flex-1 sm:px-8 sm:py-6"
+          onFocusCapture={handleFieldFocus}
+          onBlurCapture={handleFieldBlur}
         >
           {loading && (
             <p className="py-12 text-center text-gray-400">Loading article…</p>
@@ -311,7 +372,11 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
           )}
         </div>
 
-        <div className="shrink-0 border-t border-[#f5c26b]/20 bg-[#120904] px-4 py-3 sm:px-8 sm:py-4">
+        <div
+          className={`shrink-0 border-t border-[#f5c26b]/20 bg-[#120904] px-4 py-3 sm:px-8 sm:py-4 ${
+            useMobileLayout && mobileInputFocused ? "hidden" : ""
+          }`}
+        >
           <button
             type="button"
             onClick={handleClose}
