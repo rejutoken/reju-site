@@ -102,11 +102,6 @@ body.blog-modal-open .blog-article-modal-body {
   padding-bottom: 0.5rem;
 }
 
-.blog-article-modal-composer-bar {
-  flex-shrink: 0;
-  z-index: 2;
-}
-
 @media (min-width: 640px) {
   .blog-article-modal-panel {
     top: 50%;

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { Post } from "@/lib/posts";
 import BlogArticleEngagement from "./BlogArticleEngagement";
-import { commentFormId, type BlogComposerTarget } from "./blogModalComposer";
+
 
 const articleProseClass = `
   max-w-none text-gray-300 leading-relaxed
@@ -152,7 +152,6 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
   const savedScrollYRef = useRef(0);
   const baselineViewportHeightRef = useRef(0);
   const [mobileInputFocused, setMobileInputFocused] = useState(false);
-  const [composerTarget, setComposerTarget] = useState<BlogComposerTarget>(null);
   const [keyboardOpen, setKeyboardOpen] = useState(false);
   const isOpen = slug !== null;
 
@@ -161,11 +160,6 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
     setError("");
     onClose();
   }, [onClose]);
-
-  const handleComposerChange = useCallback((target: BlogComposerTarget) => {
-    setComposerTarget(target);
-    setMobileInputFocused(Boolean(target));
-  }, []);
 
   const updateMobileLayout = useCallback(() => {
     if (!isMobileViewport()) {
@@ -265,7 +259,6 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
       window.scrollTo(0, savedScrollYRef.current);
       baselineViewportHeightRef.current = 0;
       setMobileInputFocused(false);
-      setComposerTarget(null);
       setKeyboardOpen(false);
       setMobileLayout(null);
     };
@@ -280,7 +273,7 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
       window.setTimeout(() => scrollComposerIntoView(container), 150);
       window.setTimeout(() => scrollComposerIntoView(container), 320);
     });
-  }, [mobileInputFocused, keyboardOpen, composerTarget?.formId]);
+  }, [mobileInputFocused, keyboardOpen]);
 
   // Load article when slug changes
   useEffect(() => {
@@ -334,15 +327,6 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
 
   const useMobileLayout = Boolean(mobileLayout);
   const isComposing = useMobileLayout && mobileInputFocused;
-  const activeComposer =
-    composerTarget ??
-    (isComposing && post
-      ? {
-          formId: commentFormId(post.slug),
-          label: "Post Comment",
-          busy: false,
-        }
-      : null);
   const panelStyle = useMobileLayout ? boxToCss(mobileLayout!.panel) : undefined;
   const backdropStyle = useMobileLayout ? boxToCss(mobileLayout!.backdrop) : undefined;
 
@@ -387,27 +371,10 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
             const target = event.target;
             if (target instanceof HTMLElement && target.matches("input, textarea")) {
               setMobileInputFocused(true);
+              requestAnimationFrame(() => {
+                target.scrollIntoView({ block: "center", behavior: "smooth" });
+              });
             }
-          }}
-          onBlurCapture={() => {
-            if (!useMobileLayout) return;
-            window.setTimeout(() => {
-              const active = document.activeElement;
-              if (active instanceof HTMLElement) {
-                if (
-                  active.matches("input, textarea") &&
-                  scrollBodyRef.current?.contains(active)
-                ) {
-                  return;
-                }
-                const linkedForm = active.getAttribute("form");
-                if (linkedForm && post && linkedForm.startsWith(`blog-`)) {
-                  return;
-                }
-              }
-              setMobileInputFocused(false);
-              setComposerTarget(null);
-            }, 150);
           }}
         >
           {loading && (
@@ -441,37 +408,24 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
               </div>
-              <BlogArticleEngagement
-                slug={post.slug}
-                mobileComposer={useMobileLayout}
-                onComposerChange={handleComposerChange}
-              />
+              <BlogArticleEngagement slug={post.slug} />
             </article>
           )}
         </div>
 
-        {isComposing && activeComposer ? (
-          <div className="blog-article-modal-composer-bar shrink-0 border-t border-[#f5c26b]/20 bg-[#120904] px-4 py-3">
-            <button
-              type="submit"
-              form={activeComposer.formId}
-              disabled={activeComposer.busy}
-              className="w-full rounded-full border border-[#f5c26b] bg-[#f5c26b] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#ffd88a] disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {activeComposer.busy ? "Posting..." : activeComposer.label}
-            </button>
-          </div>
-        ) : (
-          <div className="shrink-0 border-t border-[#f5c26b]/20 bg-[#120904] px-4 py-3 sm:px-8 sm:py-4">
-            <button
-              type="button"
-              onClick={handleClose}
-              className="w-full rounded-full border border-[#f5c26b] bg-[#f5c26b] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#ffd88a] sm:w-auto sm:px-8"
-            >
-              {error ? "Back to Blog" : "Close & Read Another Article"}
-            </button>
-          </div>
-        )}
+        <div
+          className={`shrink-0 border-t border-[#f5c26b]/20 bg-[#120904] px-4 py-3 sm:px-8 sm:py-4 ${
+            isComposing ? "max-sm:hidden" : ""
+          }`}
+        >
+          <button
+            type="button"
+            onClick={handleClose}
+            className="w-full rounded-full border border-[#f5c26b] bg-[#f5c26b] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#ffd88a] sm:w-auto sm:px-8"
+          >
+            {error ? "Back to Blog" : "Close & Read Another Article"}
+          </button>
+        </div>
       </div>
     </div>,
     document.body

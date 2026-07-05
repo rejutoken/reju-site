@@ -1,9 +1,3 @@
-export type BlogComposerTarget = {
-  formId: string;
-  label: string;
-  busy: boolean;
-} | null;
-
 export function commentFormId(slug: string) {
   return `blog-comment-form-${slug}`;
 }
