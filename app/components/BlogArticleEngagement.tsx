@@ -80,7 +80,21 @@ function formatWhen(iso: string) {
   });
 }
 
-export default function BlogArticleEngagement({ slug }: { slug: string }) {
+export type MobileCommentForm = {
+  formId: string;
+  label: string;
+  busy: boolean;
+};
+
+type BlogArticleEngagementProps = {
+  slug: string;
+  onMobileFormChange?: (form: MobileCommentForm) => void;
+};
+
+export default function BlogArticleEngagement({
+  slug,
+  onMobileFormChange,
+}: BlogArticleEngagementProps) {
   const [engagement, setEngagement] = useState<EngagementState>({
     likeCount: 0,
     likedByViewer: false,
@@ -99,6 +113,32 @@ export default function BlogArticleEngagement({ slug }: { slug: string }) {
   const [replyBody, setReplyBody] = useState("");
   const [replyBusy, setReplyBusy] = useState(false);
   const commentForm = commentFormId(slug);
+
+  useEffect(() => {
+    if (!onMobileFormChange) return;
+
+    if (replyTargetId) {
+      onMobileFormChange({
+        formId: replyFormId(slug, replyTargetId),
+        label: "Post Reply",
+        busy: replyBusy,
+      });
+      return;
+    }
+
+    onMobileFormChange({
+      formId: commentForm,
+      label: "Post Comment",
+      busy: commentBusy,
+    });
+  }, [
+    onMobileFormChange,
+    replyTargetId,
+    slug,
+    commentForm,
+    commentBusy,
+    replyBusy,
+  ]);
 
   useEffect(() => {
     const draft = readCommentDraft(slug);
@@ -245,7 +285,7 @@ export default function BlogArticleEngagement({ slug }: { slug: string }) {
   return (
     <section
       data-blog-engagement
-      className="mt-10 border-t border-[#f5c26b]/20 pt-8 max-sm:pb-24"
+      className="mt-10 border-t border-[#f5c26b]/20 pt-8 max-sm:pb-4"
     >
       <div className="flex flex-wrap items-center gap-4">
         <button
@@ -273,40 +313,9 @@ export default function BlogArticleEngagement({ slug }: { slug: string }) {
       <div className="mt-8">
         <h2 className="text-xl font-bold text-[#f5c26b]">Comments</h2>
 
-        <form
-          id={commentForm}
-          onSubmit={handleCommentSubmit}
-          className="mt-4 space-y-3"
-        >
-          <input
-            type="text"
-            value={commentName}
-            onChange={(event) => setCommentName(event.target.value)}
-            placeholder="Your name"
-            className={inputClass}
-            maxLength={60}
-            required
-          />
-          <textarea
-            value={commentBody}
-            onChange={(event) => setCommentBody(event.target.value)}
-            placeholder="Share your thoughts on this article..."
-            className={`${inputClass} min-h-[110px] resize-y`}
-            maxLength={2000}
-            required
-          />
-          <button
-            type="submit"
-            disabled={commentBusy}
-            className={`${buttonClass} max-sm:sticky max-sm:bottom-2 max-sm:z-10 max-sm:bg-[#120904] max-sm:py-3`}
-          >
-            {commentBusy ? "Posting..." : "Post Comment"}
-          </button>
-        </form>
-
         {status && <p className="mt-4 text-sm text-gray-400">{status}</p>}
 
-        <div className="mt-8 space-y-5">
+        <div className="mt-4 space-y-5">
           {loading && <p className="text-sm text-gray-500">Loading comments...</p>}
 
           {!loading && engagement.comments.length === 0 && (
@@ -378,11 +387,7 @@ export default function BlogArticleEngagement({ slug }: { slug: string }) {
                     maxLength={2000}
                     required
                   />
-                  <button
-                    type="submit"
-                    disabled={replyBusy}
-                    className={`${buttonClass} max-sm:sticky max-sm:bottom-2 max-sm:z-10 max-sm:bg-[#120904] max-sm:py-3`}
-                  >
+                  <button type="submit" disabled={replyBusy} className={buttonClass}>
                     {replyBusy ? "Posting..." : "Post Reply"}
                   </button>
                 </form>
@@ -390,6 +395,34 @@ export default function BlogArticleEngagement({ slug }: { slug: string }) {
             </div>
           ))}
         </div>
+
+        <form
+          id={commentForm}
+          onSubmit={handleCommentSubmit}
+          className="blog-comment-form mt-8 space-y-3 scroll-mt-24"
+        >
+          <h3 className="text-lg font-semibold text-[#f5c26b]">Add a comment</h3>
+          <input
+            type="text"
+            value={commentName}
+            onChange={(event) => setCommentName(event.target.value)}
+            placeholder="Your name"
+            className={inputClass}
+            maxLength={60}
+            required
+          />
+          <textarea
+            value={commentBody}
+            onChange={(event) => setCommentBody(event.target.value)}
+            placeholder="Share your thoughts on this article..."
+            className={`${inputClass} min-h-[110px] resize-y`}
+            maxLength={2000}
+            required
+          />
+          <button type="submit" disabled={commentBusy} className={`${buttonClass} hidden sm:inline-flex`}>
+            {commentBusy ? "Posting..." : "Post Comment"}
+          </button>
+        </form>
       </div>
     </section>
   );

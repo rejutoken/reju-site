@@ -3,7 +3,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { Post } from "@/lib/posts";
-import BlogArticleEngagement from "./BlogArticleEngagement";
+import BlogArticleEngagement, {
+  type MobileCommentForm,
+} from "./BlogArticleEngagement";
+import { commentFormId } from "./blogModalComposer";
 
 
 const articleProseClass = `
@@ -108,16 +111,22 @@ function getMobileOverlayGeometry(
   };
 }
 
-function scrollComposerIntoView(container: HTMLElement) {
-  const engagement = container.querySelector("[data-blog-engagement]");
-  const target = engagement instanceof HTMLElement ? engagement : container;
-  const vv = window.visualViewport;
-  const visibleTop = vv?.offsetTop ?? 0;
-  const targetRect = target.getBoundingClientRect();
-  const headerOffset = 64;
+function scrollFormIntoView(container: HTMLElement, field: HTMLElement) {
+  const form = field.closest("form");
+  const target =
+    form instanceof HTMLElement
+      ? form
+      : field.closest("[data-blog-engagement]");
+  if (!(target instanceof HTMLElement)) return;
 
-  if (targetRect.top < visibleTop + headerOffset) {
-    container.scrollTop += targetRect.top - (visibleTop + headerOffset);
+  const containerRect = container.getBoundingClientRect();
+  const targetRect = target.getBoundingClientRect();
+  const footerRoom = 72;
+
+  if (targetRect.bottom > containerRect.bottom - footerRoom) {
+    container.scrollTop += targetRect.bottom - (containerRect.bottom - footerRoom);
+  } else if (targetRect.top < containerRect.top + 56) {
+    container.scrollTop += targetRect.top - (containerRect.top + 56);
   }
 }
 
@@ -153,6 +162,7 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
   const baselineViewportHeightRef = useRef(0);
   const [mobileInputFocused, setMobileInputFocused] = useState(false);
   const [keyboardOpen, setKeyboardOpen] = useState(false);
+  const [mobileForm, setMobileForm] = useState<MobileCommentForm | null>(null);
   const isOpen = slug !== null;
 
   const handleClose = useCallback(() => {
@@ -260,20 +270,12 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
       baselineViewportHeightRef.current = 0;
       setMobileInputFocused(false);
       setKeyboardOpen(false);
+      setMobileForm(null);
       setMobileLayout(null);
     };
   }, [isOpen, handleClose, updateMobileLayout]);
 
-  useEffect(() => {
-    if (!mobileInputFocused) return;
-    const container = scrollBodyRef.current;
-    if (!container) return;
-    requestAnimationFrame(() => {
-      scrollComposerIntoView(container);
-      window.setTimeout(() => scrollComposerIntoView(container), 150);
-      window.setTimeout(() => scrollComposerIntoView(container), 320);
-    });
-  }, [mobileInputFocused, keyboardOpen]);
+
 
   // Load article when slug changes
   useEffect(() => {
@@ -326,8 +328,16 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
   if (!slug || !mounted) return null;
 
   const useMobileLayout = Boolean(mobileLayout);
-  const isComposing = useMobileLayout && mobileInputFocused;
   const panelStyle = useMobileLayout ? boxToCss(mobileLayout!.panel) : undefined;
+  const mobileFooterForm =
+    mobileForm ??
+    (post
+      ? {
+          formId: commentFormId(post.slug),
+          label: "Post Comment",
+          busy: false,
+        }
+      : null);
   const backdropStyle = useMobileLayout ? boxToCss(mobileLayout!.backdrop) : undefined;
 
   return createPortal(
@@ -346,7 +356,6 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
         key={slug}
         className={`blog-article-modal-panel z-[201] overflow-hidden rounded-2xl border border-[#f5c26b]/30 bg-[#120904] shadow-[0_0_50px_rgba(245,194,107,0.15)]
           ${useMobileLayout ? "blog-article-modal-mobile" : "fixed left-2 right-2"}
-          ${isComposing ? "blog-article-modal-composing" : ""}
           sm:fixed sm:left-1/2 sm:right-auto sm:top-1/2 sm:bottom-auto sm:flex sm:w-full sm:max-w-4xl sm:max-h-[90vh] sm:-translate-x-1/2 sm:-translate-y-1/2`}
         style={panelStyle}
       >
@@ -371,8 +380,11 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
             const target = event.target;
             if (target instanceof HTMLElement && target.matches("input, textarea")) {
               setMobileInputFocused(true);
+              const container = scrollBodyRef.current;
+              if (!container) return;
               requestAnimationFrame(() => {
-                target.scrollIntoView({ block: "center", behavior: "smooth" });
+                scrollFormIntoView(container, target);
+                window.setTimeout(() => scrollFormIntoView(container, target), 160);
               });
             }
           }}
@@ -408,24 +420,36 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
               </div>
-              <BlogArticleEngagement slug={post.slug} />
+              <BlogArticleEngagement
+                slug={post.slug}
+                onMobileFormChange={useMobileLayout ? setMobileForm : undefined}
+              />
             </article>
           )}
         </div>
 
-        <div
-          className={`shrink-0 border-t border-[#f5c26b]/20 bg-[#120904] px-4 py-3 sm:px-8 sm:py-4 ${
-            isComposing ? "max-sm:hidden" : ""
-          }`}
-        >
-          <button
-            type="button"
-            onClick={handleClose}
-            className="w-full rounded-full border border-[#f5c26b] bg-[#f5c26b] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#ffd88a] sm:w-auto sm:px-8"
-          >
-            {error ? "Back to Blog" : "Close & Read Another Article"}
-          </button>
-        </div>
+        {useMobileLayout && mobileFooterForm && !error ? (
+          <div className="blog-article-mobile-footer shrink-0 border-t border-[#f5c26b]/20 bg-[#120904] px-4 py-3">
+            <button
+              type="submit"
+              form={mobileFooterForm.formId}
+              disabled={mobileFooterForm.busy}
+              className="w-full rounded-full border border-[#f5c26b] bg-[#f5c26b] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#ffd88a] disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {mobileFooterForm.busy ? "Posting..." : mobileFooterForm.label}
+            </button>
+          </div>
+        ) : (
+          <div className="shrink-0 border-t border-[#f5c26b]/20 bg-[#120904] px-4 py-3 sm:px-8 sm:py-4">
+            <button
+              type="button"
+              onClick={handleClose}
+              className="w-full rounded-full border border-[#f5c26b] bg-[#f5c26b] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#ffd88a] sm:w-auto sm:px-8"
+            >
+              {error ? "Back to Blog" : "Close & Read Another Article"}
+            </button>
+          </div>
+        )}
       </div>
     </div>,
     document.body

@@ -94,12 +94,12 @@ body.blog-modal-open .blog-article-modal-body {
   max-height: none;
 }
 
-.blog-article-modal-composing .blog-article-content {
-  display: none;
+.blog-article-mobile-footer {
+  flex-shrink: 0;
 }
 
-.blog-article-modal-composing .blog-article-modal-body {
-  padding-bottom: 0.5rem;
+.blog-comment-form {
+  scroll-margin-bottom: 5rem;
 }
 
 @media (min-width: 640px) {
