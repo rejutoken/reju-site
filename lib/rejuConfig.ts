@@ -36,7 +36,10 @@ async function findConfigFileId(drive: any, bookFolderId: string): Promise<strin
   const list = await drive.files.list({
     q: `'${bookFolderId}' in parents and name = '${CONFIG_FILE_NAME}' and trashed = false`,
     fields: "files(id)",
+    orderBy: "modifiedTime desc",
+    pageSize: 1,
     supportsAllDrives: true,
+    includeItemsFromAllDrives: true,
   });
   return list.data.files?.[0]?.id || null;
 }

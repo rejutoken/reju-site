@@ -1,5 +1,6 @@
 import { google } from "googleapis";
 import { randomUUID } from "crypto";
+import { Readable } from "stream";
 
 export type BlogReply = {
   id: string;
@@ -59,7 +60,10 @@ async function findEngagementFileId(drive: ReturnType<typeof google.drive>, fold
   const list = await drive.files.list({
     q: `'${folderId}' in parents and name = '${ENGAGEMENT_FILE_NAME}' and trashed = false`,
     fields: "files(id)",
+    orderBy: "modifiedTime desc",
+    pageSize: 1,
     supportsAllDrives: true,
+    includeItemsFromAllDrives: true,
   });
   return list.data.files?.[0]?.id || null;
 }
@@ -88,16 +92,18 @@ async function writeStore(store: BlogEngagementStore): Promise<void> {
   const body = JSON.stringify(store, null, 2);
   let fileId = await findEngagementFileId(drive, folderId);
 
+  const media = {
+    mimeType: "application/json",
+    body: Readable.from(Buffer.from(body, "utf8")),
+  };
+
   if (!fileId) {
     await drive.files.create({
       requestBody: {
         name: ENGAGEMENT_FILE_NAME,
         parents: [folderId],
       },
-      media: {
-        mimeType: "application/json",
-        body,
-      },
+      media,
       fields: "id",
       supportsAllDrives: true,
     });
@@ -106,10 +112,7 @@ async function writeStore(store: BlogEngagementStore): Promise<void> {
 
   await drive.files.update({
     fileId,
-    media: {
-      mimeType: "application/json",
-      body,
-    },
+    media,
     fields: "id",
     supportsAllDrives: true,
   });
