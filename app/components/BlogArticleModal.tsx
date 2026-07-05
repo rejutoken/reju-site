@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { Post } from "@/lib/posts";
+import BlogArticleEngagement from "./BlogArticleEngagement";
 
 const articleProseClass = `
   max-w-none text-gray-300 leading-relaxed
@@ -305,6 +306,7 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
                 className={articleProseClass}
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
+              <BlogArticleEngagement slug={post.slug} />
             </article>
           )}
         </div>
