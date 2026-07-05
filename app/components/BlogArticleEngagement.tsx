@@ -266,6 +266,7 @@ export default function BlogArticleEngagement({
       }));
       setCommentBody("");
       clearCommentDraft(slug);
+      onComposerChange?.(null);
       setStatus("Comment posted.");
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Unable to post comment.");
@@ -309,6 +310,7 @@ export default function BlogArticleEngagement({
         replyBody: "",
         replyTargetId: null,
       });
+      onComposerChange?.(null);
       setStatus("Reply posted.");
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Unable to post reply.");
@@ -325,23 +327,6 @@ export default function BlogArticleEngagement({
         if (event.target instanceof HTMLElement) {
           setComposerForElement(event.target);
         }
-      }}
-      onBlurCapture={() => {
-        window.setTimeout(() => {
-          const active = document.activeElement;
-          if (active instanceof HTMLElement) {
-            if (active.closest("[data-blog-engagement]")) {
-              setComposerForElement(active);
-              return;
-            }
-
-            const linkedForm = active.getAttribute("form");
-            if (linkedForm === commentForm || linkedForm?.startsWith(`blog-reply-form-${slug}-`)) {
-              return;
-            }
-          }
-          setComposerForElement(null);
-        }, 0);
       }}
     >
       <div className="flex flex-wrap items-center gap-4">

@@ -103,8 +103,7 @@ body.blog-modal-open .blog-article-modal-body {
 }
 
 .blog-article-modal-composer-bar {
-  position: sticky;
-  bottom: 0;
+  flex-shrink: 0;
   z-index: 2;
 }
 

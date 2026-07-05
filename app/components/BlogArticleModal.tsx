@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import type { Post } from "@/lib/posts";
 import BlogArticleEngagement from "./BlogArticleEngagement";
-import type { BlogComposerTarget } from "./blogModalComposer";
+import { commentFormId, type BlogComposerTarget } from "./blogModalComposer";
 
 const articleProseClass = `
   max-w-none text-gray-300 leading-relaxed
@@ -47,7 +47,11 @@ function isKeyboardVisible(baselineHeight: number) {
   return vv.height < baselineHeight - 72;
 }
 
-/** Absolute + scrollY survives Google/in-app browsers where position:fixed scrolls away */
+/**
+ * Absolute + scrollY survives Google/in-app browsers where position:fixed scrolls away.
+ * When the keyboard opens, pin with position:fixed to the top — never follow vv.offsetTop,
+ * which otherwise shoves the modal to the middle of the screen.
+ */
 function getMobileOverlayGeometry(
   baselineHeight: number,
   composing: boolean
@@ -60,9 +64,30 @@ function getMobileOverlayGeometry(
   const vvHeight = vv?.height ?? window.innerHeight;
   const m = VIEWPORT_MARGIN;
   const keyboardOpen = isKeyboardVisible(baselineHeight) || composing;
+  const pinToTop = keyboardOpen;
   const panelHeight = keyboardOpen
     ? Math.max(vvHeight - m * 2, 220)
     : Math.max(baselineHeight - m * 2, 240);
+
+  if (pinToTop) {
+    return {
+      keyboardOpen,
+      backdrop: {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: window.innerWidth,
+        height: baselineHeight,
+      },
+      panel: {
+        position: "fixed",
+        top: m,
+        left: m,
+        width: Math.max(window.innerWidth - m * 2, 0),
+        height: panelHeight,
+      },
+    };
+  }
 
   return {
     keyboardOpen,
@@ -71,7 +96,7 @@ function getMobileOverlayGeometry(
       top: scrollY + vvTop,
       left: vvLeft,
       width: vvWidth,
-      height: keyboardOpen ? vvHeight : baselineHeight,
+      height: baselineHeight,
     },
     panel: {
       position: "absolute",
@@ -308,7 +333,16 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
   if (!slug || !mounted) return null;
 
   const useMobileLayout = Boolean(mobileLayout);
-  const isComposing = useMobileLayout && Boolean(composerTarget);
+  const isComposing = useMobileLayout && mobileInputFocused;
+  const activeComposer =
+    composerTarget ??
+    (isComposing && post
+      ? {
+          formId: commentFormId(post.slug),
+          label: "Post Comment",
+          busy: false,
+        }
+      : null);
   const panelStyle = useMobileLayout ? boxToCss(mobileLayout!.panel) : undefined;
   const backdropStyle = useMobileLayout ? boxToCss(mobileLayout!.backdrop) : undefined;
 
@@ -348,6 +382,33 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
         <div
           ref={scrollBodyRef}
           className="blog-article-modal-body min-h-0 overflow-y-auto overscroll-contain px-4 py-4 sm:flex-1 sm:px-8 sm:py-6"
+          onFocusCapture={(event) => {
+            if (!useMobileLayout) return;
+            const target = event.target;
+            if (target instanceof HTMLElement && target.matches("input, textarea")) {
+              setMobileInputFocused(true);
+            }
+          }}
+          onBlurCapture={() => {
+            if (!useMobileLayout) return;
+            window.setTimeout(() => {
+              const active = document.activeElement;
+              if (active instanceof HTMLElement) {
+                if (
+                  active.matches("input, textarea") &&
+                  scrollBodyRef.current?.contains(active)
+                ) {
+                  return;
+                }
+                const linkedForm = active.getAttribute("form");
+                if (linkedForm && post && linkedForm.startsWith(`blog-`)) {
+                  return;
+                }
+              }
+              setMobileInputFocused(false);
+              setComposerTarget(null);
+            }, 150);
+          }}
         >
           {loading && (
             <p className="py-12 text-center text-gray-400">Loading article…</p>
@@ -389,15 +450,15 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
           )}
         </div>
 
-        {isComposing && composerTarget ? (
+        {isComposing && activeComposer ? (
           <div className="blog-article-modal-composer-bar shrink-0 border-t border-[#f5c26b]/20 bg-[#120904] px-4 py-3">
             <button
               type="submit"
-              form={composerTarget.formId}
-              disabled={composerTarget.busy}
+              form={activeComposer.formId}
+              disabled={activeComposer.busy}
               className="w-full rounded-full border border-[#f5c26b] bg-[#f5c26b] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#ffd88a] disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {composerTarget.busy ? "Posting..." : composerTarget.label}
+              {activeComposer.busy ? "Posting..." : activeComposer.label}
             </button>
           </div>
         ) : (
