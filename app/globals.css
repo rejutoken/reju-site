@@ -89,6 +89,25 @@ body.blog-modal-open .blog-article-modal-body {
   -webkit-overflow-scrolling: touch;
 }
 
+.blog-article-modal-mobile {
+  height: auto;
+  max-height: none;
+}
+
+.blog-article-modal-composing .blog-article-content {
+  display: none;
+}
+
+.blog-article-modal-composing .blog-article-modal-body {
+  padding-bottom: 0.5rem;
+}
+
+.blog-article-modal-composer-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+}
+
 @media (min-width: 640px) {
   .blog-article-modal-panel {
     top: 50%;

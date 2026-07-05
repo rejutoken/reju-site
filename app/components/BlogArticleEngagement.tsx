@@ -3,6 +3,11 @@
 import { useCallback, useEffect, useState } from "react";
 import type { BlogComment } from "@/lib/blogEngagement";
 import { getOrCreateVoterId } from "@/lib/blogVoter";
+import {
+  commentFormId,
+  replyFormId,
+  type BlogComposerTarget,
+} from "./blogModalComposer";
 
 type EngagementState = {
   likeCount: number;
@@ -79,7 +84,17 @@ function formatWhen(iso: string) {
   });
 }
 
-export default function BlogArticleEngagement({ slug }: { slug: string }) {
+type BlogArticleEngagementProps = {
+  slug: string;
+  mobileComposer?: boolean;
+  onComposerChange?: (target: BlogComposerTarget) => void;
+};
+
+export default function BlogArticleEngagement({
+  slug,
+  mobileComposer = false,
+  onComposerChange,
+}: BlogArticleEngagementProps) {
   const [engagement, setEngagement] = useState<EngagementState>({
     likeCount: 0,
     likedByViewer: false,
@@ -97,6 +112,68 @@ export default function BlogArticleEngagement({ slug }: { slug: string }) {
   const [replyName, setReplyName] = useState("");
   const [replyBody, setReplyBody] = useState("");
   const [replyBusy, setReplyBusy] = useState(false);
+  const commentForm = commentFormId(slug);
+
+  const setComposerForElement = useCallback(
+    (element: HTMLElement | null) => {
+      if (!mobileComposer || !onComposerChange) return;
+
+      if (!element) {
+        onComposerChange(null);
+        return;
+      }
+
+      const form = element.closest("form");
+      if (!(form instanceof HTMLFormElement) || !form.id) {
+        onComposerChange(null);
+        return;
+      }
+
+      if (form.id === commentForm) {
+        onComposerChange({
+          formId: commentForm,
+          label: "Post Comment",
+          busy: commentBusy,
+        });
+        return;
+      }
+
+      if (form.id.startsWith(`blog-reply-form-${slug}-`)) {
+        onComposerChange({
+          formId: form.id,
+          label: "Post Reply",
+          busy: replyBusy,
+        });
+      }
+    },
+    [mobileComposer, onComposerChange, commentForm, slug, commentBusy, replyBusy]
+  );
+
+  useEffect(() => {
+    if (!mobileComposer || !onComposerChange) return;
+
+    if (replyTargetId) {
+      onComposerChange({
+        formId: replyFormId(slug, replyTargetId),
+        label: "Post Reply",
+        busy: replyBusy,
+      });
+      return;
+    }
+
+    const active = document.activeElement;
+    if (active instanceof HTMLElement) {
+      setComposerForElement(active);
+    }
+  }, [
+    mobileComposer,
+    onComposerChange,
+    replyTargetId,
+    slug,
+    replyBusy,
+    commentBusy,
+    setComposerForElement,
+  ]);
 
   useEffect(() => {
     const draft = readCommentDraft(slug);
@@ -241,7 +318,32 @@ export default function BlogArticleEngagement({ slug }: { slug: string }) {
   }
 
   return (
-    <section className="mt-10 border-t border-[#f5c26b]/20 pt-8">
+    <section
+      data-blog-engagement
+      className="mt-10 border-t border-[#f5c26b]/20 pt-8"
+      onFocusCapture={(event) => {
+        if (event.target instanceof HTMLElement) {
+          setComposerForElement(event.target);
+        }
+      }}
+      onBlurCapture={() => {
+        window.setTimeout(() => {
+          const active = document.activeElement;
+          if (active instanceof HTMLElement) {
+            if (active.closest("[data-blog-engagement]")) {
+              setComposerForElement(active);
+              return;
+            }
+
+            const linkedForm = active.getAttribute("form");
+            if (linkedForm === commentForm || linkedForm?.startsWith(`blog-reply-form-${slug}-`)) {
+              return;
+            }
+          }
+          setComposerForElement(null);
+        }, 0);
+      }}
+    >
       <div className="flex flex-wrap items-center gap-4">
         <button
           type="button"
@@ -268,7 +370,11 @@ export default function BlogArticleEngagement({ slug }: { slug: string }) {
       <div className="mt-8">
         <h2 className="text-xl font-bold text-[#f5c26b]">Comments</h2>
 
-        <form onSubmit={handleCommentSubmit} className="mt-4 space-y-3">
+        <form
+          id={commentForm}
+          onSubmit={handleCommentSubmit}
+          className="mt-4 space-y-3"
+        >
           <input
             type="text"
             value={commentName}
@@ -286,7 +392,11 @@ export default function BlogArticleEngagement({ slug }: { slug: string }) {
             maxLength={2000}
             required
           />
-          <button type="submit" disabled={commentBusy} className={buttonClass}>
+          <button
+            type="submit"
+            disabled={commentBusy}
+            className={`${buttonClass} max-sm:hidden`}
+          >
             {commentBusy ? "Posting..." : "Post Comment"}
           </button>
         </form>
@@ -314,10 +424,18 @@ export default function BlogArticleEngagement({ slug }: { slug: string }) {
               <button
                 type="button"
                 onClick={() => {
+                  const opening = replyTargetId !== comment.id;
                   setReplyTargetId((current) =>
                     current === comment.id ? null : comment.id
                   );
                   setReplyName(commentName);
+                  if (opening && mobileComposer && onComposerChange) {
+                    onComposerChange({
+                      formId: replyFormId(slug, comment.id),
+                      label: "Post Reply",
+                      busy: replyBusy,
+                    });
+                  }
                 }}
                 className="mt-3 text-sm font-semibold text-[#f5c26b] underline underline-offset-4"
               >
@@ -344,6 +462,7 @@ export default function BlogArticleEngagement({ slug }: { slug: string }) {
 
               {replyTargetId === comment.id && (
                 <form
+                  id={replyFormId(slug, comment.id)}
                   onSubmit={(event) => handleReplySubmit(event, comment.id)}
                   className="mt-4 space-y-3"
                 >
@@ -364,7 +483,11 @@ export default function BlogArticleEngagement({ slug }: { slug: string }) {
                     maxLength={2000}
                     required
                   />
-                  <button type="submit" disabled={replyBusy} className={buttonClass}>
+                  <button
+                    type="submit"
+                    disabled={replyBusy}
+                    className={`${buttonClass} max-sm:hidden`}
+                  >
                     {replyBusy ? "Posting..." : "Post Reply"}
                   </button>
                 </form>

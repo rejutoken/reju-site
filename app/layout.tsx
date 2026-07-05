@@ -27,6 +27,7 @@ export const viewport = {
   initialScale: 1,
   maximumScale: 5,
   viewportFit: "cover",
+  interactiveWidget: "overlays-content",
 };
 export default function RootLayout({
   children,
