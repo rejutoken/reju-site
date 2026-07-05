@@ -45,6 +45,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
     [&_li]:text-xl [&_li]:leading-8
     [&_strong]:text-black [&_strong]:font-semibold
     [&_a]:text-[#f5c26b] [&_a]:font-semibold [&_a]:underline
+    [&_img]:my-8 [&_img]:mx-auto [&_img]:block [&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-xl [&_img]:shadow-md
   "
   dangerouslySetInnerHTML={{ __html: post.content }}
 />

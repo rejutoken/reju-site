@@ -5,6 +5,7 @@ import matter from 'gray-matter';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
+import rehypeRaw from 'rehype-raw';
 import rehypeStringify from 'rehype-stringify';
 
 const postsDirectory = path.join(process.cwd(), 'app/content/blog');
@@ -21,12 +22,26 @@ export type Post = PostMeta & {
   content: string;
 };
 
+function normalizeBlogImages(markdown: string): string {
+  return markdown.replace(
+    /<Image\b[\s\S]*?\/>/gi,
+    (block) => {
+      const src = block.match(/src=["']([^"']+)["']/i)?.[1];
+      const alt = block.match(/alt=["']([^"']*)["']/i)?.[1] ?? "";
+      if (!src) return "";
+      return `![${alt}](${src})`;
+    }
+  );
+}
+
 async function markdownToHtml(markdown: string): Promise<string> {
+  const normalized = normalizeBlogImages(markdown);
   const processedContent = await unified()
     .use(remarkParse)
-    .use(remarkRehype)
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
     .use(rehypeStringify)
-    .process(markdown);
+    .process(normalized);
 
   return processedContent.toString();
 }

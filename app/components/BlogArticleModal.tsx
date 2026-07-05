@@ -19,6 +19,7 @@ const articleProseClass = `
   [&_li]:text-base [&_li]:leading-7
   [&_strong]:text-white [&_strong]:font-semibold
   [&_a]:text-[#f5c26b] [&_a]:font-semibold [&_a]:underline
+  [&_img]:my-6 [&_img]:mx-auto [&_img]:block [&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-xl [&_img]:border [&_img]:border-[#f5c26b]/20
 `;
 
 const MOBILE_MAX_WIDTH = 639;
