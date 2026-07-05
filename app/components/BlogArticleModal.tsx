@@ -39,6 +39,10 @@ function isMobileViewport() {
   return window.matchMedia(`(max-width: ${MOBILE_MAX_WIDTH}px)`).matches;
 }
 
+function isEdgeBrowser() {
+  return /Edg/i.test(navigator.userAgent);
+}
+
 function getBaselineViewportHeight() {
   const vv = window.visualViewport;
   return Math.max(window.innerHeight, vv?.height ?? 0);
@@ -52,13 +56,15 @@ function isKeyboardVisible(baselineHeight: number) {
 
 /**
  * Absolute + scrollY survives Google/in-app browsers where position:fixed scrolls away.
- * When the keyboard opens, pin with position:fixed to the top — never follow vv.offsetTop,
- * which otherwise shoves the modal to the middle of the screen.
+ * When the keyboard opens, switch to fixed positioning sized to the visual viewport.
+ * Chrome/Google keep offsetTop near 0 (pin to layout top). Edge shifts offsetTop, so we
+ * anchor the panel to the visual viewport rectangle instead.
  */
-function getMobileOverlayGeometry(
-  baselineHeight: number,
-  composing: boolean
-): { panel: OverlayStyle; backdrop: OverlayStyle; keyboardOpen: boolean } {
+function getMobileOverlayGeometry(baselineHeight: number): {
+  panel: OverlayStyle;
+  backdrop: OverlayStyle;
+  keyboardOpen: boolean;
+} {
   const vv = window.visualViewport;
   const scrollY = window.scrollY;
   const vvTop = vv?.offsetTop ?? 0;
@@ -66,27 +72,31 @@ function getMobileOverlayGeometry(
   const vvWidth = vv?.width ?? window.innerWidth;
   const vvHeight = vv?.height ?? window.innerHeight;
   const m = VIEWPORT_MARGIN;
-  const keyboardOpen = isKeyboardVisible(baselineHeight) || composing;
-  const pinToTop = keyboardOpen;
+  const keyboardOpen = isKeyboardVisible(baselineHeight);
   const panelHeight = keyboardOpen
     ? Math.max(vvHeight - m * 2, 220)
     : Math.max(baselineHeight - m * 2, 240);
 
-  if (pinToTop) {
+  if (keyboardOpen) {
+    const anchorToVisualViewport = isEdgeBrowser() || vvTop >= 30;
+
     return {
       keyboardOpen,
       backdrop: {
         position: "fixed",
-        top: 0,
-        left: 0,
-        width: window.innerWidth,
-        height: baselineHeight,
+        top: anchorToVisualViewport ? vvTop : 0,
+        left: anchorToVisualViewport ? vvLeft : 0,
+        width: anchorToVisualViewport ? vvWidth : window.innerWidth,
+        height: anchorToVisualViewport ? vvHeight : baselineHeight,
       },
       panel: {
         position: "fixed",
-        top: m,
-        left: m,
-        width: Math.max(window.innerWidth - m * 2, 0),
+        top: anchorToVisualViewport ? vvTop + m : m,
+        left: anchorToVisualViewport ? vvLeft + m : m,
+        width: Math.max(
+          (anchorToVisualViewport ? vvWidth : window.innerWidth) - m * 2,
+          0
+        ),
         height: panelHeight,
       },
     };
@@ -111,22 +121,13 @@ function getMobileOverlayGeometry(
   };
 }
 
-function scrollFormIntoView(container: HTMLElement, field: HTMLElement) {
-  const form = field.closest("form");
-  const target =
-    form instanceof HTMLElement
-      ? form
-      : field.closest("[data-blog-engagement]");
-  if (!(target instanceof HTMLElement)) return;
-
+function scrollFieldIntoView(container: HTMLElement, field: HTMLElement) {
+  const fieldRect = field.getBoundingClientRect();
   const containerRect = container.getBoundingClientRect();
-  const targetRect = target.getBoundingClientRect();
-  const footerRoom = 72;
+  const footerRoom = 80;
 
-  if (targetRect.bottom > containerRect.bottom - footerRoom) {
-    container.scrollTop += targetRect.bottom - (containerRect.bottom - footerRoom);
-  } else if (targetRect.top < containerRect.top + 56) {
-    container.scrollTop += targetRect.top - (containerRect.top + 56);
+  if (fieldRect.bottom > containerRect.bottom - footerRoom) {
+    container.scrollTop += fieldRect.bottom - (containerRect.bottom - footerRoom);
   }
 }
 
@@ -160,7 +161,6 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
   const scrollBodyRef = useRef<HTMLDivElement>(null);
   const savedScrollYRef = useRef(0);
   const baselineViewportHeightRef = useRef(0);
-  const [mobileInputFocused, setMobileInputFocused] = useState(false);
   const [keyboardOpen, setKeyboardOpen] = useState(false);
   const [mobileForm, setMobileForm] = useState<MobileCommentForm | null>(null);
   const isOpen = slug !== null;
@@ -180,16 +180,13 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
     if (!baselineViewportHeightRef.current) {
       baselineViewportHeightRef.current = getBaselineViewportHeight();
     }
-    const geometry = getMobileOverlayGeometry(
-      baselineViewportHeightRef.current,
-      mobileInputFocused
-    );
+    const geometry = getMobileOverlayGeometry(baselineViewportHeightRef.current);
     setKeyboardOpen(geometry.keyboardOpen);
     setMobileLayout({
       panel: geometry.panel,
       backdrop: geometry.backdrop,
     });
-  }, [mobileInputFocused]);
+  }, []);
 
   useEffect(() => {
     setMounted(true);
@@ -268,7 +265,6 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
 
       window.scrollTo(0, savedScrollYRef.current);
       baselineViewportHeightRef.current = 0;
-      setMobileInputFocused(false);
       setKeyboardOpen(false);
       setMobileForm(null);
       setMobileLayout(null);
@@ -379,12 +375,11 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
             if (!useMobileLayout) return;
             const target = event.target;
             if (target instanceof HTMLElement && target.matches("input, textarea")) {
-              setMobileInputFocused(true);
               const container = scrollBodyRef.current;
               if (!container) return;
               requestAnimationFrame(() => {
-                scrollFormIntoView(container, target);
-                window.setTimeout(() => scrollFormIntoView(container, target), 160);
+                scrollFieldIntoView(container, target);
+                window.setTimeout(() => scrollFieldIntoView(container, target), 200);
               });
             }
           }}
