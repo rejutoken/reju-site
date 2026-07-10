@@ -95,7 +95,7 @@ export default function ProgramPage() {
           <h2 className="text-2xl font-bold text-[#f5c26b]">Built on Kat&apos;s Legacy</h2>
           <div className="mt-6 flex flex-col items-center gap-8 sm:flex-row sm:items-start">
             <img
-              src="/book-cover.jpg"
+              src="/book-cover.png"
               alt="Kat's Legacy Book Cover"
               className="w-[200px] shrink-0 rounded-2xl border border-[#f5c26b]/20 shadow-[0_0_35px_rgba(245,194,107,0.18)]"
             />

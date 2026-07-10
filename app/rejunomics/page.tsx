@@ -31,23 +31,21 @@ export default function RejunomicsPage() {
 
         <h2 className="mx-auto mt-12 max-w-5xl text-3xl font-bold leading-tight text-[#f5c26b] md:text-4xl">
           Tokenomics show allocation.
-        		<p>Rejunomics™ shows release behavior.</p>
+        		<p>Rejunomics™: Transparency That Protects Investors.</p>
 		
 		
 		</h2>
 
         <p className="mx-auto mt-8 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
-          Rejunomics™ is a transparency disclosure system for tokenomics. It
-          expands traditional tokenomics by revealing where holdings are
-          allocated, how they may enter circulation, what mechanisms are intended
-          to support token life, and how ecosystem continuity is intended to
-          operate beyond launch.
+          Rejunomics™ is a transparency disclosure system for tokenomics. It expands traditional tokenomics by clearly revealing where holdings are allocated, how they may enter circulation, what mechanisms support token life, and how the ecosystem is intended to operate beyond launch. With standardized notation, it gives investors easy understanding and confident review.
         </p>
 
         <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
-          Rejunomics™ was developed with standardized notation for easier
-          understanding, clearer investor review, and potential industry
-          adoption by projects seeking stronger transparency disclosures.
+          When projects adopt Rejunomics™, investors no longer invest blindly. They gain full visibility into release behavior and aligned incentives. This builds trust, attracts serious long-term supporters, and sets a new standard for the industry.
+        </p>
+
+		<p className="mx-auto mt-5 max-w-4xl text-left text-2xl leading-relaxed text-[#f5c26b]">
+           Rejunomics™ turns transparency into protection and clarity into confidence.
         </p>
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">

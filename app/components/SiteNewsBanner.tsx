@@ -3,7 +3,7 @@ import { SITE_NEWS } from "@/lib/siteNews";
 export default function SiteNewsBanner() {
   return (
     <div
-      className="mx-auto mt-8 max-w-2xl rounded-2xl border border-[#f5c26b]/35 bg-[#1a1008]/90 px-6 py-5 text-left shadow-[0_0_24px_rgba(245,194,107,0.08)]"
+      className="mx-auto mt-8 max-w-2xl rounded-2xl border border-[#f5c26b]/100 bg-[#2b2119]/90 px-6 py-5 text-left shadow-[0_0_24px_rgba(245,194,107,0.08)]"
       role="status"
       aria-live="polite"
     >
@@ -15,7 +15,7 @@ export default function SiteNewsBanner() {
           Launch: {SITE_NEWS.launchDate}
         </p>
       )}
-      <p className="mt-3 text-base leading-relaxed text-gray-300">{SITE_NEWS.message}</p>
+      <p className="mt-3 text-base leading-relaxed text-gray-100">{SITE_NEWS.message}</p>
     </div>
   );
 }

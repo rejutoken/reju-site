@@ -45,8 +45,15 @@ export default function Home() {
           Participation-Driven Ecosystem™
         </h2>
         <p className="mt-3 max-w-2xl mx-auto text-lg text-gray-300">
-          Lock REJU. Transform in the Event. <strong>You Are Authoring Your Personalized REJU Transformation Book</strong>. Sustained by Rejunomics™.
+          Lock REJU to participate. Transform throughout the Event.
         </p>
+        <p className="mt-2 max-w-2xl mx-auto text-lg text-gray-300">
+          <strong>Author Your Personalized publisheable Hard Cover Transformation Book</strong>
+        </p>
+        <p className="mt-2 max-w-2xl mx-auto text-lg text-gray-300">
+          REJU introdues transparency with its new concept Rejunomics™
+        </p>
+        <p className="mt-2 text-[#f5c26b]">REJU is a long term project</p>
 
         <SiteNewsBanner />
 
@@ -444,13 +451,13 @@ function InfrastructureSection() {
       </h3>
 
       <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <FlowStep number="1" title="Buy or Hold REJU" text="Acquire and hold REJU in your wallet." />
-        <FlowStep number="2" title="Lock REJU" text="Lock $600 in REJU for 6 months." />
-        <FlowStep number="3" title="Submit Verification" text="Submit proof of participation." />
-        <FlowStep number="4" title="Receive Cohort Access" text="Gain access to your assigned cohort." />
-        <FlowStep number="5" title="Complete the Program" text="Participate + Journal daily." />
-        <FlowStep number="6" title="Author Your Book" text="You are Authoring Your Personalized REJU Transformation Book." />
-        <FlowStep number="7" title="Sustain & Share" text="Supported by transparent Rejunomics™." />
+        <FlowStep number="1" title="Fiat or REJU for access" text="Acquire REJU or simply pay $600 to access the rejuvenation program. Purchase or pay for the book ''Kat's Legacy, a Science Based Path to Healing and Longevity'' it is the guide for the rejuvenation event" />
+        <FlowStep number="2" title="Lock your REJU or Complete Registration" text="Lock $600 in REJU with Streamflow for 6 months, Your REJU comes back to your wallet after lock period is over. If paid $600 fiat (Dollars) complete next steps " />
+       
+        <FlowStep number="3" title="Receive Cohort Access" text="Complete registration, get aquainted with the system and start your journaling also take pictures of your self, selfies, Same place, same light, same camera every day for the whole program. Preapare yourself for an emotional adventure" />
+        <FlowStep number="4" title="Through the program" text="Participation + Journaling daily, Authoring your Book written by you. Please dedicate some time to your book. It will be a legacy of your achievement" />
+        <FlowStep number="5" title="Set a benchmark" text="Once you are complete the program, you will be asked to set a physical, health, menthal state, Benchmark. This Benchmark writing of the optimal state you are in health, appearance, physical. In case in the future you go back, you will have this benchmark to remind you of the state you can achieve" />
+        <FlowStep number="6" title="Sustain & Share" text="you will end with a plan for longevity and sustainability and have also the oportunity to register for the longevity cohort, where you will be guided on a daily basis. Share with your people you care." />
       </div>
 
       <div className="mx-auto mt-10 max-w-7xl rounded-2xl border border-[#f5c26b]/40 bg-[#120904] p-6 text-center">
@@ -472,7 +479,6 @@ function InfrastructureSection() {
         <TrustCard title="Secure Locking" text="Your REJU stays in your wallet." />
         <TrustCard title="Transparent Verification" text="Clear and auditable participation verification." />
         <TrustCard title="Limited Cohorts" text="Structured participation with controlled scaling." />
-        <TrustCard title="Merit-Based Access" text="Participation through commitment and verification." />
         <TrustCard title="Aligned Incentives" text="Participation rewards tied to ecosystem growth." />
       </div>
 
