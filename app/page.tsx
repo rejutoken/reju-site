@@ -49,11 +49,11 @@ export default function Home() {
           while you <strong className="text-gray-100">author your publishable hard-cover Transformation Book</strong>.
         </p>
         <p className="mt-3 max-w-3xl mx-auto text-lg leading-relaxed text-gray-300">
-          Rejunomics™ brings transparency to tokenomics — so participants and investors
+          Rejunomics™ brings transparency to tokenomics, so participants and investors
           can see how value is allocated, released, and sustained.
         </p>
         <p className="mt-3 text-lg font-semibold text-[#f5c26b]">
-          REJU is a long-term project — built for real participation, not short-term hype.
+          REJU is a long-term project, built for real participation, not short-term hype.
         </p>
 
         <SiteNewsBanner />
@@ -78,7 +78,7 @@ export default function Home() {
             <span className="font-bold text-[#f5c26b]">
               Renewable Economic Engine™
             </span>
-            — participation, utility, and business activity designed to support
+           ,  participation, utility, and business activity designed to support
             the ecosystem long after launch.
           </p>
 
@@ -122,7 +122,7 @@ export default function Home() {
           </p>
           <p className="mt-4 text-left text-[1.05rem] font-normal leading-relaxed text-gray-300">
             Daily journaling, photos, and reflections become your publishable
-            Transformation Book — you are the author; REJU is the editorial partner.
+            Transformation Book,  you are the author; REJU is the editorial partner.
           </p>
         </div>
 
@@ -155,7 +155,7 @@ export default function Home() {
           <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
             Through the Rejuvenation Event™, every journal entry, selfie, and reflection
             becomes a chapter <strong className="text-gray-100">you</strong> write.
-            At the end, you hold a personal record of your transformation — and a
+            At the end, you hold a personal record of your transformation,  and a
             benchmark of the optimal state you achieved.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -241,7 +241,7 @@ export default function Home() {
               </h3>
 
               <p className="mx-auto mt-6 max-w-3xl text-left text-lg text-gray-300">
-                Tokenomics shows allocation. Rejunomics™ shows release behavior — holdings,
+                Tokenomics shows allocation. Rejunomics™ shows release behavior,  holdings,
                 lock periods, incentives, and the mechanisms meant to support the ecosystem
                 beyond launch. Transparency protects investors; clarity builds confidence.
               </p>
@@ -388,7 +388,7 @@ export default function Home() {
         <h2 className="text-4xl font-bold text-[#f5c26b]">Enter REJU™</h2>
 
         <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-300">
-          Choose your path — invest, lock REJU, or enroll directly. Start the
+          Choose your path,  invest, lock REJU, or enroll directly. Start the
           Rejuvenation Event and author your Transformation Book.
         </p>
 
@@ -451,7 +451,7 @@ function InfrastructureSection() {
           items={[
             "Program participation included",
             "REJU stays in your wallet",
-            "Unlocks after six months — outcome depends on market value at release",
+            "Unlocks after six months, economical outcome depends on market value at release",
           ]}
         />
 
@@ -472,7 +472,7 @@ function InfrastructureSection() {
         <span className="text-[#f5c26b]">
           Kat&apos;s Legacy ($69)
         </span>
-        — the science-based guide for the Rejuvenation Event™.
+       ,  the science-based guide for the Rejuvenation Event™.
       </div>
 
       <h3 className="mt-12 text-center text-3xl font-bold text-[#f5c26b]">
@@ -488,12 +488,12 @@ function InfrastructureSection() {
         <FlowStep
           number="2"
           title="Lock or Register"
-          text="Lock $600 in REJU via Streamflow for six months — it returns to your wallet when the lock ends. On the fiat path, complete registration instead."
+          text="Lock $600 in REJU via Streamflow for six months,  it returns to your wallet when the lock ends. On the fiat path, complete registration instead."
         />
         <FlowStep
           number="3"
           title="Enter Your Cohort"
-          text="Complete registration, learn the system, and begin daily journaling plus progress selfies — same place, same light, same camera."
+          text="Complete registration, learn the system, and begin daily journaling plus progress selfies,  same place, same light, same camera."
         />
         <FlowStep
           number="4"
@@ -503,7 +503,7 @@ function InfrastructureSection() {
         <FlowStep
           number="5"
           title="Set Your Benchmark"
-          text="At program completion, document your optimal physical, mental, and health state — a reference you can return to if you ever drift."
+          text="At program completion, document your optimal physical, mental, and health state,  a reference you can return to if you ever drift."
         />
         <FlowStep
           number="6"
@@ -536,7 +536,7 @@ function InfrastructureSection() {
       </div>
 
       <div className="mt-8 rounded-2xl border border-[#f5c26b]/30 bg-black/40 p-5 text-center font-semibold text-gray-300">
-        REJU is a long-term, participation-driven ecosystem — built on transparency,
+        REJU is a long-term, participation-driven ecosystem,  built on transparency,
         transformation, and lasting value.{" "}
         <span className="text-[#f5c26b]">Not hype. A structured path forward.</span>
       </div>
