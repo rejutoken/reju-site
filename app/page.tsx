@@ -44,16 +44,17 @@ export default function Home() {
         <h2 className="mt-4 text-xl font-bold leading-relaxed text-[#f5c26b] sm:text-2xl md:text-3xl">
           Participation-Driven Ecosystem™
         </h2>
-        <p className="mt-3 max-w-2xl mx-auto text-lg text-gray-300">
-          Lock REJU to participate. Transform throughout the Event.
+        <p className="mt-4 max-w-3xl mx-auto text-lg leading-relaxed text-gray-300">
+          Lock REJU or pay $600 to enter the Rejuvenation Event™. Transform over six weeks
+          while you <strong className="text-gray-100">author your publishable hard-cover Transformation Book</strong>.
         </p>
-        <p className="mt-2 max-w-2xl mx-auto text-lg text-gray-300">
-          <strong>Author Your Personalized publisheable Hard Cover Transformation Book</strong>
+        <p className="mt-3 max-w-3xl mx-auto text-lg leading-relaxed text-gray-300">
+          Rejunomics™ brings transparency to tokenomics — so participants and investors
+          can see how value is allocated, released, and sustained.
         </p>
-        <p className="mt-2 max-w-2xl mx-auto text-lg text-gray-300">
-          REJU introdues transparency with its new concept Rejunomics™
+        <p className="mt-3 text-lg font-semibold text-[#f5c26b]">
+          REJU is a long-term project — built for real participation, not short-term hype.
         </p>
-        <p className="mt-2 text-[#f5c26b]">REJU is a long term project</p>
 
         <SiteNewsBanner />
 
@@ -73,12 +74,12 @@ export default function Home() {
           </h3>
 
           <p className="mt-5 text-left text-[1.05rem] font-normal leading-relaxed text-gray-300">
-            REJU was designed with a{" "}
+            REJU combines a structured rejuvenation program with a{" "}
             <span className="font-bold text-[#f5c26b]">
               Renewable Economic Engine™
             </span>
-            , where participation, utility, and business activity are structured
-            to support ecosystem continuity beyond launch speculation.
+            — participation, utility, and business activity designed to support
+            the ecosystem long after launch.
           </p>
 
           <div className="mt-5 text-left text-[1.05rem] font-normal leading-relaxed text-gray-300">
@@ -110,13 +111,18 @@ export default function Home() {
           </h3>
 
           <p className="mt-5 text-left text-[1.05rem] font-normal leading-relaxed text-gray-300">
-            Lock $600 in REJU for 6 months and participate in the REJU
-            Rejuvenation Event™ without paying the standard program fee. At the
-            end of the lock period, your REJU unlocks back to your wallet.
+            <strong className="text-gray-100">Crypto path:</strong> Lock $600 in REJU
+            for six months via Streamflow and enter the Event without the standard
+            program fee. Your REJU stays in your wallet and unlocks when the period ends.
           </p>
           <p className="mt-4 text-left text-[1.05rem] font-normal leading-relaxed text-gray-300">
-            Daily journaling throughout the Event becomes your REJU Transformation Book, 
-            a personal record of rejuvenation, co-authored with REJU as editorial.
+            <strong className="text-gray-100">Fiat path:</strong> Pay $600 directly to
+            enroll without locking REJU. Both paths include the Rejuvenation Event and
+            book-authoring journey.
+          </p>
+          <p className="mt-4 text-left text-[1.05rem] font-normal leading-relaxed text-gray-300">
+            Daily journaling, photos, and reflections become your publishable
+            Transformation Book — you are the author; REJU is the editorial partner.
           </p>
         </div>
 
@@ -143,10 +149,14 @@ export default function Home() {
       <section className="px-6 py-12 text-center bg-[#120904]/60">
         <div className="max-w-4xl mx-auto">
           <p className="uppercase tracking-[0.3em] text-sm text-[#f5c26b] mb-3">The Heart of Participation</p>
-          <h2 className="text-4xl font-bold text-[#f5c26b] mb-6">You Are Authoring Your Personalized REJU Transformation Book</h2>
+          <h2 className="text-4xl font-bold text-[#f5c26b] mb-6">
+            Author Your Publishable Hard-Cover Transformation Book
+          </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-            When you go through the REJU Rejuvenation Event, you are <strong>Authoring Your Personalized REJU Transformation Book</strong>.
-            Every journal entry, photo, and reflection is a chapter you write. You are the Author. REJU is editorial.
+            Through the Rejuvenation Event™, every journal entry, selfie, and reflection
+            becomes a chapter <strong className="text-gray-100">you</strong> write.
+            At the end, you hold a personal record of your transformation — and a
+            benchmark of the optimal state you achieved.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="/daily-transformation-log" className={buttonClass}>
@@ -231,7 +241,9 @@ export default function Home() {
               </h3>
 
               <p className="mx-auto mt-6 max-w-3xl text-left text-lg text-gray-300">
-                Rejunomics™ reveals holdings, release schedules, finite incentives, and the mechanisms that support long-term continuity, so your personal transformation is backed by a transparent, enduring economy.
+                Tokenomics shows allocation. Rejunomics™ shows release behavior — holdings,
+                lock periods, incentives, and the mechanisms meant to support the ecosystem
+                beyond launch. Transparency protects investors; clarity builds confidence.
               </p>
 
               <a
@@ -276,6 +288,7 @@ export default function Home() {
       "Incentives funded by REJU holdings",
       "Business activity continuity",
       "Expansion and participation mechanisms",
+      "Incentives beyond allocation exhaustion",
     ]}
   />
 </div>
@@ -344,17 +357,17 @@ export default function Home() {
               <div className="mt-8 grid gap-6 lg:grid-cols-3">
                 <EngineCard
                   title="REJU Lifecycle™"
-                  text="Lock $600 in REJU for 6 months and participate in the Rejuvenation Event™ without paying the standard program fee. At the end of the lock period, REJU unlocks back to the participant’s wallet."
+                  text="Lock $600 in REJU for six months to participate in the Rejuvenation Event™ without paying the standard program fee. At the end of the lock period, REJU is released back to the participant’s wallet. This participation option may be effectively free and could produce a positive economic outcome. However, if REJU loses market value, the participant may experience a limited loss equal to a percentage of the $600 in REJU, not the full amount."
                 />
 
                 <EngineCard
                   title="Incentives Funded by REJU Holdings"
-                  text="Referral rewards, completion rewards, CRP rewards, and participation incentives are funded from designated REJU allocations and remain available while those allocations last."
+                  text="Referral rewards, completion rewards, CRP rewards, and participation incentives are funded from designated REJU allocations while those allocations remain. Referral awards distribute 33% immediately and 67% locked for six months."
                 />
 
                 <EngineCard
+                  text="Enrollment in the fiat program, Rejuvenation Events, Longevity Group activities, educational services, and future ecosystem services are designed to continue independently of any remaining REJU incentive allocations. On the crypto side, once those allocations are exhausted, a 50% rebate on event participation on REJU locks will remain in place."
                   title="Business Activity Continuity"
-                  text="Fiat program enrollment, Rejuvenation Events, Longevity Group activity, educational services, and future ecosystem services are designed to continue independently of remaining REJU incentive allocations."
                 />
               </div>
 
@@ -374,8 +387,9 @@ export default function Home() {
       <section className="px-6 py-12 sm:py-20 text-center">
         <h2 className="text-4xl font-bold text-[#f5c26b]">Enter REJU™</h2>
 
-        <p className="mx-auto mt-4 max-w-2xl text-gray-300">
-          Participation-driven ecosystem access.
+        <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-300">
+          Choose your path — invest, lock REJU, or enroll directly. Start the
+          Rejuvenation Event and author your Transformation Book.
         </p>
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
@@ -421,43 +435,81 @@ function InfrastructureSection() {
       <div className="mt-10 grid gap-6 lg:grid-cols-3">
         <EntryCard
           letter="A"
-          title="Buy REJU"
-          text="Buy REJU as an investment token."
-          items={["No lock required", "Full flexibility"]}
+          title="REJU for Investment"
+          text="Hold REJU as an investment without participating in the program."
+          items={[
+            "No lock required",
+            "Full flexibility",
+            "No program enrollment required",
+          ]}
         />
 
         <EntryCard
           letter="B"
-          title="Lock REJU"
-          text="Lock $600 in REJU for 6 months and enter the ecosystem path."
-          items={["Program participation included", "REJU stays in your wallet"]}
+          title="Lock REJU to Participate"
+          text="Lock $600 in REJU for six months with Streamflow and enter the Rejuvenation Event™."
+          items={[
+            "Program participation included",
+            "REJU stays in your wallet",
+            "Unlocks after six months — outcome depends on market value at release",
+          ]}
         />
 
         <EntryCard
           letter="C"
-          title="Direct Program Entry"
-          text="Enter the program directly without locking REJU."
-          items={["No REJU lock required", "Standard enrollment path"]}
+          title="Direct Program Entry (Fiat)"
+          text="Enroll in the Rejuvenation Event™ without locking REJU."
+          items={[
+            "Pay $600 directly",
+            "No REJU lock required",
+            "Same program and book-authoring journey",
+          ]}
         />
       </div>
 
-      <div className="mt-8 rounded-2xl border border-[#f5c26b]/40 bg-[#120904] p-5 text-center text-xl font-bold text-gray-300">
-        All participants in groups B and C above pay the{" "}
-        <span className="text-[#f5c26b]">$69 Book + Admin fee.</span>
+      <div className="mt-8 rounded-2xl border border-[#f5c26b]/40 bg-[#362716] p-5 text-center text-lg font-semibold text-gray-100">
+        Participants on paths B and C also purchase{" "}
+        <span className="text-[#f5c26b]">
+          Kat&apos;s Legacy ($69)
+        </span>
+        — the science-based guide for the Rejuvenation Event™.
       </div>
 
-      <h3 className="mt-12 text-center text-2xl font-bold text-[#f5c26b]">
-        The REJU Participation Flow — You Are Authoring the Book
+      <h3 className="mt-12 text-center text-3xl font-bold text-[#f5c26b]">
+        The REJU Participation Flow
       </h3>
 
-      <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <FlowStep number="1" title="Fiat or REJU for access" text="Acquire REJU or simply pay $600 to access the rejuvenation program. Purchase or pay for the book ''Kat's Legacy, a Science Based Path to Healing and Longevity'' it is the guide for the rejuvenation event" />
-        <FlowStep number="2" title="Lock your REJU or Complete Registration" text="Lock $600 in REJU with Streamflow for 6 months, Your REJU comes back to your wallet after lock period is over. If paid $600 fiat (Dollars) complete next steps " />
-       
-        <FlowStep number="3" title="Receive Cohort Access" text="Complete registration, get aquainted with the system and start your journaling also take pictures of your self, selfies, Same place, same light, same camera every day for the whole program. Preapare yourself for an emotional adventure" />
-        <FlowStep number="4" title="Through the program" text="Participation + Journaling daily, Authoring your Book written by you. Please dedicate some time to your book. It will be a legacy of your achievement" />
-        <FlowStep number="5" title="Set a benchmark" text="Once you are complete the program, you will be asked to set a physical, health, menthal state, Benchmark. This Benchmark writing of the optimal state you are in health, appearance, physical. In case in the future you go back, you will have this benchmark to remind you of the state you can achieve" />
-        <FlowStep number="6" title="Sustain & Share" text="you will end with a plan for longevity and sustainability and have also the oportunity to register for the longevity cohort, where you will be guided on a daily basis. Share with your people you care." />
+      <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <FlowStep
+          number="1"
+          title="Choose Your Path"
+          text="Buy REJU or pay $600 (fiat) for program access. Purchase Kat's Legacy ($69), the guide for the Rejuvenation Event™."
+        />
+        <FlowStep
+          number="2"
+          title="Lock or Register"
+          text="Lock $600 in REJU via Streamflow for six months — it returns to your wallet when the lock ends. On the fiat path, complete registration instead."
+        />
+        <FlowStep
+          number="3"
+          title="Enter Your Cohort"
+          text="Complete registration, learn the system, and begin daily journaling plus progress selfies — same place, same light, same camera."
+        />
+        <FlowStep
+          number="4"
+          title="Author Your Book"
+          text="Participate daily and dedicate time to your Transformation Book. You write every chapter; it becomes a legacy of your achievement."
+        />
+        <FlowStep
+          number="5"
+          title="Set Your Benchmark"
+          text="At program completion, document your optimal physical, mental, and health state — a reference you can return to if you ever drift."
+        />
+        <FlowStep
+          number="6"
+          title="Sustain & Share"
+          text="Leave with a longevity plan, option to join the longevity cohort for daily guidance, and share the journey with people you care about."
+        />
       </div>
 
       <div className="mx-auto mt-10 max-w-7xl rounded-2xl border border-[#f5c26b]/40 bg-[#120904] p-6 text-center">
@@ -479,12 +531,14 @@ function InfrastructureSection() {
         <TrustCard title="Secure Locking" text="Your REJU stays in your wallet." />
         <TrustCard title="Transparent Verification" text="Clear and auditable participation verification." />
         <TrustCard title="Limited Cohorts" text="Structured participation with controlled scaling." />
+        <TrustCard title="Rejunomics™" text="Transparent disclosure of holdings, releases, and ecosystem continuity." />
         <TrustCard title="Aligned Incentives" text="Participation rewards tied to ecosystem growth." />
       </div>
 
       <div className="mt-8 rounded-2xl border border-[#f5c26b]/30 bg-black/40 p-5 text-center font-semibold text-gray-300">
-        REJU is built on transparency and long-term value creation.{" "}
-        <span className="text-[#f5c26b]">Participation-Driven Ecosystem.</span>
+        REJU is a long-term, participation-driven ecosystem — built on transparency,
+        transformation, and lasting value.{" "}
+        <span className="text-[#f5c26b]">Not hype. A structured path forward.</span>
       </div>
     </div>
   );
