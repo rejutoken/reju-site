@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import { alignResearchWithLibrary } from "../../../../lib/conceptLibrary";
 import { fetchWebResearch } from "../../../../lib/postResearch";
+import { requireXPostSession } from "../../../../lib/xPostAuth";
 
 export async function POST(req: NextRequest) {
+  const auth = await requireXPostSession();
+  if (auth instanceof NextResponse) return auth;
+
   try {
     const body = await req.json();
     const category = body.category === "crypto" ? "crypto" : "rejuvenation";
@@ -14,6 +19,12 @@ export async function POST(req: NextRequest) {
       themes,
     });
 
+    const alignment = await alignResearchWithLibrary({
+      notes: result.notes,
+      themes,
+      category,
+    });
+
     return NextResponse.json({
       success: true,
       queryUsed: result.queryUsed,
@@ -22,6 +33,13 @@ export async function POST(req: NextRequest) {
       fetchedAt: result.fetchedAt,
       category,
       live: true,
+      conceptMatches: alignment.matches,
+      libraryStats: {
+        bookConceptCount: alignment.bookConceptCount,
+        driveConceptCount: alignment.driveConceptCount,
+        driveFileCount: alignment.driveFileCount,
+        libraryLoadedAt: alignment.libraryLoadedAt,
+      },
     });
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Research failed";

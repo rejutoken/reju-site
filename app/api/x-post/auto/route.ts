@@ -11,9 +11,10 @@ import {
   PostCategory,
 } from "../../../../lib/xPostGenerator";
 import { getBookKnowledgeMeta } from "../../../../lib/katsLegacyBook";
+import { alignResearchWithLibrary } from "../../../../lib/conceptLibrary";
 import { fetchWebResearch } from "../../../../lib/postResearch";
 
-// Automated endpoint for Vercel Cron / n8n
+// Automated endpoint for Vercel Cron
 // Schedule: Mon/Wed/Fri → crypto | Tue/Thu/Sat → rejuvenation | Sun → rest day
 
 function verifyCronAuth(req: NextRequest): boolean {
@@ -76,6 +77,12 @@ async function handleAuto(req: NextRequest) {
     themes: schedule.themes,
   });
 
+  const alignment = await alignResearchWithLibrary({
+    notes: live.notes,
+    themes: schedule.themes,
+    category,
+  });
+
   const post = generateHighQualityPost({
     selectedThemes: schedule.themes,
     coreCategory: schedule.category === "rest" ? undefined : schedule.category,
@@ -84,6 +91,7 @@ async function handleAuto(req: NextRequest) {
     tone: "Educational",
     includeVisual: true,
     researchContext: live.notes,
+    conceptMatches: alignment.matches,
     variantSeed: now.getDay() * 10000 + now.getDate() * 100 + now.getHours(),
   });
 
@@ -107,6 +115,13 @@ async function handleAuto(req: NextRequest) {
       researchSources: live.sourcesUsed,
       researchQuery: live.queryUsed,
       researchFetchedAt: live.fetchedAt,
+      conceptMatches: alignment.matches,
+      libraryStats: {
+        bookConceptCount: alignment.bookConceptCount,
+        driveConceptCount: alignment.driveConceptCount,
+        driveFileCount: alignment.driveFileCount,
+        libraryLoadedAt: alignment.libraryLoadedAt,
+      },
       ...(post.category === "rejuvenation" && {
         bookSource: KATS_LEGACY_BOOK.title,
         bookAuthor: KATS_LEGACY_BOOK.author,

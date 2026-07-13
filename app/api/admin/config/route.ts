@@ -13,6 +13,7 @@ export async function GET() {
         registrationPassword: config.registrationPassword,
         bookPassword: config.bookPassword,
         adminPassword: config.adminPassword,
+        xPostPassword: config.xPostPassword,
         currentCohort: config.currentCohort,
         active: config.active,
       },
@@ -26,7 +27,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { adminPassword, registrationPassword, bookPassword, currentCohort, active } = body || {};
+    const { adminPassword, registrationPassword, bookPassword, xPostPassword, currentCohort, active } = body || {};
 
     if (!adminPassword) {
       return NextResponse.json({ success: false, error: "Admin password required" }, { status: 400 });
@@ -43,6 +44,9 @@ export async function POST(req: Request) {
     }
     if (typeof bookPassword === "string" && bookPassword.trim()) {
       updates.bookPassword = bookPassword.trim();
+    }
+    if (typeof xPostPassword === "string" && xPostPassword.trim()) {
+      updates.xPostPassword = xPostPassword.trim();
     }
     if (typeof currentCohort === "string") {
       updates.currentCohort = currentCohort.trim();
@@ -62,6 +66,7 @@ export async function POST(req: Request) {
       config: {
         registrationPassword: updated.registrationPassword,
         bookPassword: updated.bookPassword,
+        xPostPassword: updated.xPostPassword,
         currentCohort: updated.currentCohort,
         active: updated.active,
         // do not echo admin pw back

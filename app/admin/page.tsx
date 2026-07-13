@@ -6,6 +6,7 @@ interface AdminConfig {
   registrationPassword: string;
   bookPassword: string;
   adminPassword: string;
+  xPostPassword: string;
   currentCohort: string;
   active: boolean;
 }
@@ -21,6 +22,7 @@ export default function AdminDashboard() {
   const [newRegPass, setNewRegPass] = useState("");
   const [newBookPass, setNewBookPass] = useState("");
   const [newAdminPass, setNewAdminPass] = useState("");
+  const [newXPostPass, setNewXPostPass] = useState("");
   const [newCohort, setNewCohort] = useState("");
   const [newActive, setNewActive] = useState(true);
 
@@ -68,6 +70,7 @@ export default function AdminDashboard() {
           registrationPassword: c.registrationPassword,
           bookPassword: c.bookPassword,
           adminPassword: c.adminPassword,
+          xPostPassword: c.xPostPassword || "",
           currentCohort: c.currentCohort,
           active: c.active,
         });
@@ -139,6 +142,15 @@ export default function AdminDashboard() {
     await performUpdate({ adminPassword: newAdminPass.trim() }, "Admin password updated successfully.");
   }
 
+  async function updateXPostPassword() {
+    if (!newXPostPass.trim()) {
+      setStatus("Enter a collaborator password for X Post Studio.");
+      return;
+    }
+    await performUpdate({ xPostPassword: newXPostPass.trim() }, "X Post collaborator password updated.");
+    setNewXPostPass("");
+  }
+
   async function updateCohort() {
     await performUpdate({ currentCohort: newCohort.trim() }, "Current cohort updated.");
   }
@@ -181,6 +193,14 @@ export default function AdminDashboard() {
               className="text-sm border border-[#f5c26b]/60 px-4 py-2 rounded hover:bg-[#f5c26b] hover:text-black transition"
             >
               X Post Studio →
+            </a>
+            <a
+              href="/x-post"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm border border-[#f5c26b]/40 px-4 py-2 rounded hover:bg-[#f5c26b]/10 transition"
+            >
+              Collaborator Link ↗
             </a>
           </div>
         </div>
@@ -294,6 +314,47 @@ export default function AdminDashboard() {
                 </button>
               </div>
               <p className="text-[11px] text-gray-500 mt-2">Used by participants to submit daily chapters that compile into their book.</p>
+            </div>
+
+            {/* X Post Collaborator Password */}
+            <div className="bg-[#120904] border border-[#f5c26b]/20 rounded-3xl p-8">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <div className="uppercase tracking-widest text-xs text-[#f5c26b]">X Post Studio</div>
+                  <div className="text-2xl font-semibold mt-1">Collaborator Password</div>
+                </div>
+                <div className="text-right text-xs text-gray-500 font-mono pt-1">/x-post</div>
+              </div>
+
+              <p className="text-sm text-gray-400 mb-4">
+                Team members use this password at <span className="font-mono text-[#f5c26b]/80">rejutkn.com/x-post</span> to research and generate posts only.
+                They cannot access admin, change passwords, or edit site settings.
+              </p>
+
+              <div className="mb-4 text-sm">
+                Current:{" "}
+                <span className="font-mono bg-black/60 px-3 py-1 rounded border border-white/10">
+                  {config?.xPostPassword || "— not set —"}
+                </span>
+              </div>
+
+              <div className="flex gap-3">
+                <input
+                  type="text"
+                  value={newXPostPass}
+                  onChange={(e) => setNewXPostPass(e.target.value)}
+                  placeholder="New collaborator password"
+                  className="flex-1 p-4 bg-black/60 border border-[#f5c26b]/30 rounded-2xl font-mono"
+                />
+                <button
+                  onClick={updateXPostPassword}
+                  disabled={actionLoading || !newXPostPass.trim()}
+                  className="px-8 border border-[#f5c26b] text-[#f5c26b] font-semibold rounded-2xl hover:bg-[#f5c26b] hover:text-black disabled:opacity-60"
+                >
+                  Set
+                </button>
+              </div>
+              <p className="text-[11px] text-gray-500 mt-2">Share only with trusted collaborators. Admin password also works on the X Post page.</p>
             </div>
 
             {/* Admin Password (for this dashboard) */}

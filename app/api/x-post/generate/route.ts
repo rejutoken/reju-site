@@ -5,9 +5,14 @@ import {
   KATS_LEGACY_BOOK,
   resolveCoreCategory,
 } from "../../../../lib/xPostGenerator";
+import { alignResearchWithLibrary } from "../../../../lib/conceptLibrary";
 import { fetchWebResearch } from "../../../../lib/postResearch";
+import { requireXPostSession } from "../../../../lib/xPostAuth";
 
 export async function POST(req: NextRequest) {
+  const auth = await requireXPostSession();
+  if (auth instanceof NextResponse) return auth;
+
   try {
     const body = await req.json() as Partial<GeneratePostInput> & {
       researchQuery?: string;
@@ -42,6 +47,18 @@ export async function POST(req: NextRequest) {
       };
     }
 
+    let conceptAlignment:
+      | Awaited<ReturnType<typeof alignResearchWithLibrary>>
+      | undefined;
+
+    if (researchContext && researchContext.length > 0) {
+      conceptAlignment = await alignResearchWithLibrary({
+        notes: researchContext,
+        themes: body.selectedThemes || [],
+        category: category === "crypto" ? "crypto" : "rejuvenation",
+      });
+    }
+
     const input: GeneratePostInput = {
       selectedThemes: body.selectedThemes || [],
       coreCategory: body.coreCategory,
@@ -50,6 +67,7 @@ export async function POST(req: NextRequest) {
       tone: body.tone || "Educational",
       includeVisual: body.includeVisual !== false,
       researchContext,
+      conceptMatches: conceptAlignment?.matches,
       variantSeed: body.variantSeed ?? Date.now(),
     };
 
@@ -66,6 +84,15 @@ export async function POST(req: NextRequest) {
         category: post.category,
         researchUsed: researchContext?.length ?? 0,
         ...researchMeta,
+        ...(conceptAlignment && {
+          conceptMatches: conceptAlignment.matches,
+          libraryStats: {
+            bookConceptCount: conceptAlignment.bookConceptCount,
+            driveConceptCount: conceptAlignment.driveConceptCount,
+            driveFileCount: conceptAlignment.driveFileCount,
+            libraryLoadedAt: conceptAlignment.libraryLoadedAt,
+          },
+        }),
         ...(post.category === "rejuvenation" && {
           bookSource: KATS_LEGACY_BOOK.title,
           bookAmazon: KATS_LEGACY_BOOK.amazonPaperback,
@@ -81,8 +108,11 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// Optional GET for testing
+// Optional GET for testing (admin/collaborator session required)
 export async function GET() {
+  const auth = await requireXPostSession();
+  if (auth instanceof NextResponse) return auth;
+
   const sample = generateHighQualityPost({
     selectedThemes: ["rejunomics"],
     coreCategory: "crypto",

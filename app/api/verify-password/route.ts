@@ -11,7 +11,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, error: "Missing type or password" }, { status: 400 });
     }
 
-    if (type !== "registration" && type !== "book" && type !== "admin") {
+    if (type !== "registration" && type !== "book" && type !== "admin" && type !== "xpost") {
       return NextResponse.json({ ok: false, error: "Invalid type" }, { status: 400 });
     }
 

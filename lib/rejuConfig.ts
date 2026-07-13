@@ -4,6 +4,8 @@ export interface RejuConfig {
   registrationPassword: string;
   bookPassword: string;
   adminPassword: string;
+  /** Collaborator-only password for /x-post — no admin access */
+  xPostPassword: string;
   currentCohort: string;
   active: boolean;
 }
@@ -55,6 +57,7 @@ export async function getRejuConfig(): Promise<RejuConfig> {
       registrationPassword: "REJU1stcohort2026",
       bookPassword: "REJU1stcohort2026",
       adminPassword: "REJUAdmin2026",
+      xPostPassword: "",
       currentCohort: "1st Cohort 2026",
       active: true,
     };
@@ -85,6 +88,7 @@ export async function getRejuConfig(): Promise<RejuConfig> {
     registrationPassword: raw.registrationPassword || "REJU1stcohort2026",
     bookPassword: raw.bookPassword || "REJU1stcohort2026",
     adminPassword: raw.adminPassword || "REJUAdmin2026",
+    xPostPassword: raw.xPostPassword || "",
     currentCohort: raw.currentCohort || "1st Cohort 2026",
     active: raw.active !== false,
   };
@@ -120,14 +124,22 @@ export async function updateRejuConfig(partial: Partial<RejuConfig>): Promise<Re
   return next;
 }
 
-export async function verifyPassword(type: "registration" | "book" | "admin", password: string): Promise<boolean> {
+export async function verifyPassword(
+  type: "registration" | "book" | "admin" | "xpost",
+  password: string
+): Promise<boolean> {
   const config = await getRejuConfig();
   if (!config.active) return false;
+
+  if (type === "admin") return password === config.adminPassword;
+  if (type === "xpost") {
+    if (password === config.adminPassword) return true;
+    return Boolean(config.xPostPassword?.trim()) && password === config.xPostPassword;
+  }
 
   let current = "";
   if (type === "registration") current = config.registrationPassword;
   else if (type === "book") current = config.bookPassword;
-  else if (type === "admin") current = config.adminPassword;
   else return false;
 
   return password === current;

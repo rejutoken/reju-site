@@ -11,6 +11,8 @@ import {
   KATS_LEGACY_BOOK,
   REJUVENATION_POST_INSTRUCTION,
 } from "./katsLegacyBook";
+import type { ConceptMatch } from "./conceptLibrary";
+import { buildConceptBridge, getTopAlignedConcept } from "./conceptLibrary";
 import type { ResearchNote } from "./postResearch";
 
 const X_SINGLE_MAX = 280;
@@ -80,6 +82,7 @@ export interface GeneratePostInput {
   tone: string;
   includeVisual: boolean;
   researchContext?: ResearchNote[];
+  conceptMatches?: ConceptMatch[];
   variantSeed?: number;
 }
 
@@ -367,10 +370,48 @@ function smartComplete(text: string, max: number): string {
   return cut.trim() + "...";
 }
 
+function ensureTerminalPunctuation(text: string): string {
+  const trimmed = text.trim();
+  if (!trimmed) return trimmed;
+  if (/[.!?…]["']?$/.test(trimmed) || trimmed.endsWith("...")) return trimmed;
+  return `${trimmed}.`;
+}
+
 function firstSentence(text: string, maxLen: number): string {
-  const match = text.match(/^[^.!?]+[.!?]?/);
-  const sentence = (match?.[0] ?? text).trim();
-  return sentence.length <= maxLen ? sentence : smartComplete(sentence, maxLen);
+  const withPunctuation = text.match(/^[^.!?]+[.!?]/);
+  if (withPunctuation) {
+    const sentence = withPunctuation[0].trim();
+    return sentence.length <= maxLen ? sentence : smartComplete(sentence, maxLen);
+  }
+  const clause = text.trim();
+  return clause.length <= maxLen ? clause : smartComplete(clause, maxLen);
+}
+
+function joinInsightAndBridge(
+  rawInsight: string,
+  bridge: string,
+  link: string,
+  maxLen: number = X_SINGLE_MAX
+): string {
+  const bridgeSentence = ensureTerminalPunctuation(bridge.trim());
+  const suffix = ` → ${link}`;
+  const insightMax = Math.max(55, maxLen - bridgeSentence.length - suffix.length - 1);
+
+  let insight = ensureTerminalPunctuation(firstSentence(rawInsight, insightMax));
+  if (insight.length > insightMax) {
+    insight = ensureTerminalPunctuation(smartComplete(insight, insightMax));
+  }
+
+  let post = `${insight} ${bridgeSentence}${suffix}`;
+  if (post.length > maxLen) {
+    const tighterInsightMax = Math.max(45, insightMax - (post.length - maxLen) - 2);
+    insight = ensureTerminalPunctuation(smartComplete(firstSentence(rawInsight, tighterInsightMax), tighterInsightMax));
+    post = `${insight} ${bridgeSentence}${suffix}`;
+  }
+  if (post.length > maxLen) {
+    post = smartComplete(post, maxLen - 1);
+  }
+  return post;
 }
 
 function resolveVariantSeed(input: GeneratePostInput): number {
@@ -386,23 +427,21 @@ function pickCryptoSinglePost(themeId: CryptoThemeId, variantSeed: number): stri
 function buildResearchBridgedSinglePost(
   notes: ResearchNote[],
   category: PostCategory,
-  variantSeed: number
+  variantSeed: number,
+  conceptMatches?: ConceptMatch[]
 ): string {
-  const note = notes[variantSeed % notes.length];
+  const noteIndex = variantSeed % notes.length;
+  const note = notes[noteIndex];
+  const noteMatch = conceptMatches?.find((m) => m.researchNoteId === note.id);
+  const alignedConcept = noteMatch?.matchedConcepts[0] ?? getTopAlignedConcept(conceptMatches ?? []);
+  const bridgeCategory = category === "crypto" ? "crypto" : "rejuvenation";
+  const conceptBridge = buildConceptBridge(alignedConcept, bridgeCategory);
   const bridges = category === "crypto" ? CRYPTO_REJU_BRIDGES : REJUVENATION_REJU_BRIDGES;
-  const bridge = bridges[(variantSeed + 1) % bridges.length];
-  const insight = firstSentence(note.text, 130);
+  const fallbackBridge = bridges[(variantSeed + 1) % bridges.length];
+  const bridge = alignedConcept && (noteMatch?.alignmentScore ?? 0) >= 4 ? conceptBridge : fallbackBridge;
   const link = category === "crypto" ? "rejutkn.com/rejunomics" : "rejutkn.com";
 
-  let post = `${insight} ${bridge} → ${link}`;
-  if (post.length > X_SINGLE_MAX) {
-    const shorterBridge = bridges[variantSeed % bridges.length];
-    post = `${firstSentence(note.text, 100)} ${shorterBridge} → ${link}`;
-  }
-  if (post.length > X_SINGLE_MAX) {
-    post = smartComplete(post, X_SINGLE_MAX - 1);
-  }
-  return post;
+  return joinInsightAndBridge(note.text, bridge, link);
 }
 
 function buildCryptoPost(
@@ -411,6 +450,7 @@ function buildCryptoPost(
   includeVisual: boolean,
   postType: "single" | "thread",
   researchContext: ResearchNote[] | undefined,
+  conceptMatches: ConceptMatch[] | undefined,
   variantSeed: number
 ) {
   const cryptoThemes = filterThemesForCategory(activeThemes, "crypto") as CryptoThemeId[];
@@ -420,7 +460,7 @@ function buildCryptoPost(
   if (postType === "single") {
     const hasResearch = researchContext && researchContext.length > 0;
     const text = hasResearch
-      ? buildResearchBridgedSinglePost(researchContext, "crypto", variantSeed)
+      ? buildResearchBridgedSinglePost(researchContext, "crypto", variantSeed, conceptMatches)
       : pickCryptoSinglePost(primaryId, variantSeed);
 
     return {
@@ -472,6 +512,7 @@ function buildRejuvenationPost(
   includeVisual: boolean,
   postType: "single" | "thread",
   researchContext: ResearchNote[] | undefined,
+  conceptMatches: ConceptMatch[] | undefined,
   variantSeed: number
 ) {
   const rejuvenationThemes = filterThemesForCategory(activeThemes, "rejuvenation");
@@ -483,7 +524,7 @@ function buildRejuvenationPost(
   if (postType === "single") {
     const hasResearch = researchContext && researchContext.length > 0;
     const single = hasResearch
-      ? buildResearchBridgedSinglePost(researchContext, "rejuvenation", variantSeed)
+      ? buildResearchBridgedSinglePost(researchContext, "rejuvenation", variantSeed, conceptMatches)
       : getBookSinglePostForTheme(primaryId, new Date(), variantSeed) ||
         getBookSinglePostForTheme("health", new Date(), variantSeed) ||
         `${REJUVENATION_CONTENT.health.hook} → rejutkn.com`;
@@ -549,7 +590,16 @@ function buildRejuvenationPost(
 }
 
 export function generateHighQualityPost(input: GeneratePostInput): GeneratedPost {
-  const { selectedThemes, coreCategory, customFocus = "", postType, tone, includeVisual, researchContext } = input;
+  const {
+    selectedThemes,
+    coreCategory,
+    customFocus = "",
+    postType,
+    tone,
+    includeVisual,
+    researchContext,
+    conceptMatches,
+  } = input;
   const variantSeed = resolveVariantSeed(input);
 
   const category = resolveCoreCategory(selectedThemes, coreCategory);
@@ -570,8 +620,8 @@ export function generateHighQualityPost(input: GeneratePostInput): GeneratedPost
 
   const built =
     category === "crypto"
-      ? buildCryptoPost(activeThemes, focus, includeVisual, postType, researchContext, variantSeed)
-      : buildRejuvenationPost(activeThemes, focus, includeVisual, postType, researchContext, variantSeed);
+      ? buildCryptoPost(activeThemes, focus, includeVisual, postType, researchContext, conceptMatches, variantSeed)
+      : buildRejuvenationPost(activeThemes, focus, includeVisual, postType, researchContext, conceptMatches, variantSeed);
 
   let mainText = built.mainText;
   let thread: string[] = [];
