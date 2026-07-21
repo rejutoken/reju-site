@@ -31,10 +31,10 @@ export default function RejunomicsPage() {
 
         <h2 className="mx-auto mt-12 max-w-5xl text-3xl font-bold leading-tight text-[#f5c26b] md:text-4xl">
           Tokenomics show allocation.
-        		<p>Rejunomics™: Transparency That Protects Investors.</p>
-		
-		
-		</h2>
+        </h2>
+        <p className="mx-auto mt-4 max-w-5xl text-2xl font-semibold leading-tight text-[#f5c26b] md:text-3xl">
+          Rejunomics™: Transparency That Protects Investors.
+        </p>
 
         <p className="mx-auto mt-8 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
           Rejunomics™ is a transparency disclosure system for tokenomics. It expands traditional tokenomics by clearly revealing where holdings are allocated, how they may enter circulation, what mechanisms support token life, and how the ecosystem is intended to operate beyond launch. With standardized notation, it gives investors easy understanding and confident review.
@@ -232,38 +232,77 @@ export default function RejunomicsPage() {
                 </h3>
 
                 <p className="mx-auto mt-4 max-w-4xl text-left text-lg leading-relaxed text-gray-300">
-                  Traditional tokenomics shows allocation. Rejunomics™ adds the
-                  technical disclosure layer: holdings behavior, release
-                  behavior, token life, continuity mechanisms, and event-based
-                  incentive disclosures.
+                  Traditional tokenomics shows allocation. Rejunomics™ adds a
+                  technical disclosure layer using standardized distribution
+                  notation: type, allocation, and release duration in one
+                  consistent code.
+                </p>
+
+                <p className="mx-auto mt-4 max-w-4xl rounded-2xl border border-[#f5c26b]/20 bg-black/40 px-5 py-4 font-mono text-lg font-bold tracking-wide text-[#f5c26b] md:text-xl">
+                  REJU-[TYPE]-[ALLOCATION]/[DURATION]
                 </p>
               </div>
 
-              <div className="mt-8 grid gap-6 lg:grid-cols-4">
-                <TechnicalDisclosureGroup title="Token">
-                  <TechnicalDisclosureLine code="REJU-PMR-40" />
-                  <TechnicalDisclosureLine code="REJU-EGPA-20" />
-                  <TechnicalDisclosureLine code="REJU-TD-15/6/1.5" />
-                  <TechnicalDisclosureLine code="REJU-TR-15" />
-                  <TechnicalDisclosureLine code="REJU-ME-10" />
+              <div className="mt-8 grid gap-6 lg:grid-cols-3">
+                <TechnicalDisclosureGroup title="Core Allocations">
+                  <TechnicalDisclosureLine
+                    code="REJU-LA-40"
+                    meaning="Liquidity Allocation — 40% public market release"
+                  />
+                  <TechnicalDisclosureLine
+                    code="REJU-ER-20"
+                    meaning="Ecosystem Rewards — 20% growth & participation awards"
+                  />
+                  <TechnicalDisclosureLine
+                    code="REJU-TA-1.0/6"
+                    meaning="Team Allocation locked 6 months, distributed 1% monthly"
+                  />
+                  <TechnicalDisclosureLine
+                    code="REJU-VA-15"
+                    meaning="Vesting Allocation — 15% treasury holdings"
+                  />
+                  <TechnicalDisclosureLine
+                    code="REJU-ER-10"
+                    meaning="Ecosystem Rewards — 10% marketing & expansion"
+                  />
                 </TechnicalDisclosureGroup>
 
-                <TechnicalDisclosureGroup title="Token Life">
-                  <TechnicalDisclosureLine code="REJU-TLD-FI" />
-                  <TechnicalDisclosureLine code="REJU-TLD-BC" />
-                  <TechnicalDisclosureLine code="REJU-TLD-LC" />
+                <TechnicalDisclosureGroup title="Distribution Examples">
+                  <TechnicalDisclosureLine
+                    code="REJU-AD-5/6"
+                    meaning="Airdrop Distribution — 5% allocation, 6-month progressive release"
+                  />
+                  <TechnicalDisclosureLine
+                    code="REJU-RA10-10/12"
+                    meaning="Referral Award (10 referrals required) — 10% allocation, 12-month progressive release"
+                  />
+                  <TechnicalDisclosureLine
+                    code="REJU-SD-8/12"
+                    meaning="Staking Distribution — 8% allocation, 12-month progressive release"
+                  />
+                  <TechnicalDisclosureLine
+                    code="REJU-YD-4/6"
+                    meaning="Yield Distribution — 4% allocation, 6-month progressive release"
+                  />
                 </TechnicalDisclosureGroup>
 
-                <TechnicalDisclosureGroup title="REE">
-                  <TechnicalDisclosureLine code="REJU-REE-LC" />
-                  <TechnicalDisclosureLine code="REJU-REE-PI" />
-                  <TechnicalDisclosureLine code="REJU-REE-BA" />
-                </TechnicalDisclosureGroup>
-
-                <TechnicalDisclosureGroup title="Events">
-                  <TechnicalDisclosureLine code="REJU-R10-10/6" />
-                  <TechnicalDisclosureLine code="REJU-PA-60/6" />
-                  <TechnicalDisclosureLine code="REJU-CRP-60/6" />
+                <TechnicalDisclosureGroup title="Token Life & REE">
+                  <TechnicalDisclosureLine
+                    code="REJU-TLD-FI"
+                    meaning="Token Life Disclosure — Finite Incentives"
+                  />
+                  <TechnicalDisclosureLine
+                    code="REJU-TLD-BC"
+                    meaning="Token Life Disclosure — Business Continuity"
+                  />
+                  <TechnicalDisclosureLine
+                    code="REJU-REE-LC"
+                    meaning="Renewable Economic Engine — Lifecycle Continuity"
+                  />
+                  <TechnicalDisclosureLine
+                    code="REJU-REE-PI"
+                    meaning="Renewable Economic Engine — Participation Incentives"
+                  />
                 </TechnicalDisclosureGroup>
               </div>
             </div>
@@ -283,34 +322,54 @@ export default function RejunomicsPage() {
             </h2>
 
             <p className="mx-auto mt-5 max-w-4xl text-left text-lg leading-relaxed text-gray-300">
-              The technical notation above is the reporting layer. This section
-              explains the meaning of the acronyms and shows how to read the
-              disclosure codes.
+              Rejunomics™ distribution notation uses a fixed structure so
+              investors can parse type, allocation, and release duration without
+              reading a full tokenomics document.
+            </p>
+
+            <p className="mx-auto mt-6 max-w-4xl rounded-2xl border border-[#f5c26b]/25 bg-black/40 px-5 py-4 font-mono text-xl font-bold tracking-wide text-[#f5c26b] md:text-2xl">
+              REJU-[TYPE]-[ALLOCATION]/[DURATION]
             </p>
           </div>
 
           <div className="mt-10 rounded-3xl border border-[#f5c26b]/20 bg-black/30 p-6">
             <h3 className="text-2xl font-bold text-[#f5c26b]">
-              Rejunomics™ Nomenclature Key
+              Distribution Type Definitions
             </h3>
 
-            <div className="mt-6 grid gap-4 md:grid-cols-2">
-              <NomenclatureItem code="REJU" meaning="Token Identifier" />
-              <NomenclatureItem code="PMR" meaning="Public Market Release" />
-              <NomenclatureItem code="EGPA" meaning="Ecosystem Growth & Participation Awards" />
-              <NomenclatureItem code="TD" meaning="Team & Development" />
-              <NomenclatureItem code="TR" meaning="Treasury" />
-              <NomenclatureItem code="ME" meaning="Marketing & Expansion" />
-              <NomenclatureItem code="TLD" meaning="Token Life Disclosure" />
-              <NomenclatureItem code="REE" meaning="Renewable Economic Engine" />
-              <NomenclatureItem code="FI" meaning="Finite Incentives" />
-              <NomenclatureItem code="BC" meaning="Business Continuity" />
-              <NomenclatureItem code="LC" meaning="Lifecycle Continuity" />
-              <NomenclatureItem code="PI" meaning="Participation Incentives" />
-              <NomenclatureItem code="R10" meaning="Referral Structure requiring 10 referrals" />
-              <NomenclatureItem code="PA" meaning="Program Award" />
-              <NomenclatureItem code="CRP" meaning="Certified Rejuvenation Practitioner Award" />
+            <p className="mt-3 text-lg text-gray-400">
+              Standard <span className="font-bold text-[#f5c26b]">[TYPE]</span> codes used in Rejunomics™ notation.
+            </p>
+
+            <div className="mt-6 overflow-x-auto">
+              <table className="w-full min-w-[320px] border-collapse text-left text-lg">
+                <thead>
+                  <tr className="border-b border-[#f5c26b]/30">
+                    <th className="px-4 py-3 font-bold text-[#f5c26b]">Code</th>
+                    <th className="px-4 py-3 font-bold text-[#f5c26b]">Distribution Type</th>
+                  </tr>
+                </thead>
+                <tbody className="text-gray-300">
+                  <DistributionTypeRow code="AD" meaning="Airdrop Distribution" />
+                  <DistributionTypeRow code="RA" meaning="Referral Award" />
+                  <DistributionTypeRow code="SD" meaning="Staking Distribution" />
+                  <DistributionTypeRow code="YD" meaning="Yield Distribution" />
+                  <DistributionTypeRow code="TA" meaning="Team Allocation" />
+                  <DistributionTypeRow code="VA" meaning="Vesting Allocation" />
+                  <DistributionTypeRow code="LA" meaning="Liquidity Allocation" />
+                  <DistributionTypeRow code="ER" meaning="Ecosystem Rewards" />
+                </tbody>
+              </table>
             </div>
+
+            <p className="mt-6 text-base leading-relaxed text-gray-400">
+              Type codes may include parameters when needed (for example{" "}
+              <span className="font-mono font-semibold text-[#f5c26b]">RA10</span>{" "}
+              = Referral Award requiring 10 referrals). Duration is expressed in
+              months. Where a rate appears (for example{" "}
+              <span className="font-mono font-semibold text-[#f5c26b]">1.0/6</span>
+              ), it means monthly distribution after a lock period.
+            </p>
           </div>
 
           <div className="mt-10 rounded-3xl border border-[#f5c26b]/20 bg-black/30 p-6">
@@ -318,31 +377,52 @@ export default function RejunomicsPage() {
               Example Interpretation
             </h3>
 
-            <div className="mt-6 grid gap-6 lg:grid-cols-2">
+            <div className="mt-6 grid gap-6 lg:grid-cols-3">
               <div className="rounded-2xl border border-[#f5c26b]/15 bg-[#120904]/80 p-6">
-                <h4 className="text-xl font-bold text-[#f5c26b]">
-                  REJU-TD-15/6/1.5
+                <h4 className="font-mono text-xl font-bold text-[#f5c26b]">
+                  REJU-AD-5/6
                 </h4>
+                <p className="mt-2 text-base leading-relaxed text-gray-400">
+                  Airdrop Distribution — 5% allocation, 6-month progressive release
+                </p>
 
                 <ul className="mt-4 space-y-2 text-lg text-gray-300">
-                  <li><span className="font-bold text-[#f5c26b]">REJU</span> = REJU Token</li>
-                  <li><span className="font-bold text-[#f5c26b]">TD</span> = Team & Development</li>
-                  <li><span className="font-bold text-[#f5c26b]">15</span> = 15% Allocation</li>
-                  <li><span className="font-bold text-[#f5c26b]">6</span> = 6-Month Lock</li>
-                  <li><span className="font-bold text-[#f5c26b]">1.5</span> = 1.5% Monthly Progressive Release</li>
+                  <li><span className="font-bold text-[#f5c26b]">REJU</span> = Token identifier</li>
+                  <li><span className="font-bold text-[#f5c26b]">AD</span> = Airdrop distribution</li>
+                  <li><span className="font-bold text-[#f5c26b]">5</span> = 5% allocation</li>
+                  <li><span className="font-bold text-[#f5c26b]">6</span> = 6-month progressive release</li>
                 </ul>
               </div>
 
               <div className="rounded-2xl border border-[#f5c26b]/15 bg-[#120904]/80 p-6">
-                <h4 className="text-xl font-bold text-[#f5c26b]">
-                  REJU-R10-10/6
+                <h4 className="font-mono text-xl font-bold text-[#f5c26b]">
+                  REJU-RA10-10/12
                 </h4>
+                <p className="mt-2 text-base leading-relaxed text-gray-400">
+                  Referral Award (10 referrals required) — 10% allocation, 12-month progressive release
+                </p>
 
                 <ul className="mt-4 space-y-2 text-lg text-gray-300">
-                  <li><span className="font-bold text-[#f5c26b]">REJU</span> = REJU Token</li>
-                  <li><span className="font-bold text-[#f5c26b]">R10</span> = Referral Structure</li>
-                  <li><span className="font-bold text-[#f5c26b]">10</span> = 10% Reward Allocation</li>
-                  <li><span className="font-bold text-[#f5c26b]">6</span> = 6-Month Structured Release</li>
+                  <li><span className="font-bold text-[#f5c26b]">REJU</span> = Token identifier</li>
+                  <li><span className="font-bold text-[#f5c26b]">RA10</span> = Referral award (10 referrals required)</li>
+                  <li><span className="font-bold text-[#f5c26b]">10</span> = 10% allocation</li>
+                  <li><span className="font-bold text-[#f5c26b]">12</span> = 12-month progressive release</li>
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-[#f5c26b]/15 bg-[#120904]/80 p-6">
+                <h4 className="font-mono text-xl font-bold text-[#f5c26b]">
+                  REJU-TA-1.0/6
+                </h4>
+                <p className="mt-2 text-base leading-relaxed text-gray-400">
+                  Team Allocation locked 6 months, distributed 1% monthly
+                </p>
+
+                <ul className="mt-4 space-y-2 text-lg text-gray-300">
+                  <li><span className="font-bold text-[#f5c26b]">REJU</span> = Token identifier</li>
+                  <li><span className="font-bold text-[#f5c26b]">TA</span> = Team allocation</li>
+                  <li><span className="font-bold text-[#f5c26b]">1.0</span> = 1% monthly distribution</li>
+                  <li><span className="font-bold text-[#f5c26b]">6</span> = 6-month lock</li>
                 </ul>
               </div>
             </div>
@@ -358,24 +438,71 @@ export default function RejunomicsPage() {
             </p>
 
             <h2 className="mt-4 text-3xl font-bold text-[#f5c26b]">
-              Why Standardized Notation?
+              Rejunomics™ Distribution Notation
             </h2>
 
-            <p className="mx-auto mt-5 max-w-4xl text-xl text-left leading-relaxed text-gray-300">
-              Rejunomics™ notation was developed to reduce interpretation and
-              improve transparency. Rather than requiring investors to analyze
-              lengthy tokenomics documents, disclosures can be summarized using
-              standardized notation that identifies allocation behavior, release
-              behavior, token life disclosures, and continuity mechanisms in a
-              consistent format.
+            <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
+              Rejunomics™ introduces a standardized notation structure designed
+              to make token distribution models easier to read, compare, and
+              understand across ecosystems.
             </p>
 
-            <p className="mx-auto mt-5 max-w-4xl text-xl text-left leading-relaxed text-gray-300">
-              The objective is to make disclosures easier to read, compare,
-              review, and understand. Rejunomics™ notation is intended to
-              provide a common disclosure language that may be adopted by token
-              projects seeking stronger transparency standards.
+            <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
+              Rather than requiring investors to analyze lengthy tokenomics
+              documents, disclosures can be summarized in a consistent format
+              that identifies distribution type, allocation percentage, and
+              release duration at a glance.
             </p>
+          </div>
+
+          <div className="mx-auto mt-10 max-w-4xl rounded-3xl border border-[#f5c26b]/25 bg-[#120904]/80 p-6 md:p-8">
+            <p className="text-center text-sm font-bold uppercase tracking-[0.28em] text-[#f5c26b]">
+              Notation Structure
+            </p>
+            <p className="mt-4 text-center font-mono text-2xl font-bold tracking-wide text-[#f5c26b] md:text-3xl">
+              REJU-[TYPE]-[ALLOCATION]/[DURATION]
+            </p>
+
+            <div className="mt-8 grid gap-4 md:grid-cols-3">
+              <div className="rounded-2xl border border-[#f5c26b]/15 bg-black/30 p-4 text-center">
+                <p className="font-mono text-lg font-bold text-[#f5c26b]">TYPE</p>
+                <p className="mt-2 text-base text-gray-300">Distribution code (AD, RA, TA…)</p>
+              </div>
+              <div className="rounded-2xl border border-[#f5c26b]/15 bg-black/30 p-4 text-center">
+                <p className="font-mono text-lg font-bold text-[#f5c26b]">ALLOCATION / RATE</p>
+                <p className="mt-2 text-base text-gray-300">Supply % or monthly distribution rate</p>
+              </div>
+              <div className="rounded-2xl border border-[#f5c26b]/15 bg-black/30 p-4 text-center">
+                <p className="font-mono text-lg font-bold text-[#f5c26b]">DURATION</p>
+                <p className="mt-2 text-base text-gray-300">Lock or release period in months</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mx-auto mt-8 max-w-4xl">
+            <p className="text-center text-lg font-bold uppercase tracking-[0.28em] text-[#f5c26b]">
+              Quick Examples
+            </p>
+            <div className="mt-5 grid gap-4">
+              <div className="rounded-2xl border border-[#f5c26b]/15 bg-black/30 px-5 py-4">
+                <p className="font-mono text-lg font-bold text-[#f5c26b]">REJU-AD-5/6</p>
+                <p className="mt-1 text-base text-gray-300">
+                  Airdrop Distribution — 5% allocation, 6-month progressive release
+                </p>
+              </div>
+              <div className="rounded-2xl border border-[#f5c26b]/15 bg-black/30 px-5 py-4">
+                <p className="font-mono text-lg font-bold text-[#f5c26b]">REJU-RA10-10/12</p>
+                <p className="mt-1 text-base text-gray-300">
+                  Referral Award (10 referrals required) — 10% allocation, 12-month progressive release
+                </p>
+              </div>
+              <div className="rounded-2xl border border-[#f5c26b]/15 bg-black/30 px-5 py-4">
+                <p className="font-mono text-lg font-bold text-[#f5c26b]">REJU-TA-1.0/6</p>
+                <p className="mt-1 text-base text-gray-300">
+                  Team Allocation locked 6 months, distributed 1% monthly
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -594,20 +721,38 @@ function TechnicalDisclosureGroup({
   );
 }
 
-function TechnicalDisclosureLine({ code }: { code: string }) {
+function TechnicalDisclosureLine({
+  code,
+  meaning,
+}: {
+  code: string;
+  meaning: string;
+}) {
   return (
-    <div className="rounded-2xl border border-[#f5c26b]/15 bg-black/30 px-5 py-3 text-center text-xl font-bold tracking-wide text-[#f5c26b]">
-      {code}
+    <div className="rounded-2xl border border-[#f5c26b]/15 bg-black/30 px-4 py-3 text-left">
+      <div className="font-mono text-base font-bold tracking-wide text-[#f5c26b] md:text-lg">
+        {code}
+      </div>
+      <p className="mt-1.5 text-sm leading-relaxed text-gray-300 md:text-base">
+        <span className="text-[#f5c26b]/80">= </span>
+        {meaning}
+      </p>
     </div>
   );
 }
 
-function NomenclatureItem({ code, meaning }: { code: string; meaning: string }) {
+function DistributionTypeRow({
+  code,
+  meaning,
+}: {
+  code: string;
+  meaning: string;
+}) {
   return (
-    <div className="rounded-2xl border border-[#f5c26b]/15 bg-[#120904]/80 p-4 text-lg">
-      <span className="font-bold text-[#f5c26b]">{code}</span>
-      <span className="text-gray-300"> = {meaning}</span>
-    </div>
+    <tr className="border-b border-[#f5c26b]/10">
+      <td className="px-4 py-3 font-mono font-bold text-[#f5c26b]">{code}</td>
+      <td className="px-4 py-3 text-gray-300">{meaning}</td>
+    </tr>
   );
 }
 
