@@ -106,7 +106,9 @@ export async function getAllPosts(): Promise<Post[]> {
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   try {
+    if (!/^[a-zA-Z0-9_-]{1,180}$/.test(slug)) return null;
     const fullPath = path.join(postsDirectory, `${slug}.mdx`);
+    if (!fullPath.startsWith(postsDirectory)) return null;
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
 

@@ -57,8 +57,10 @@ export default function BuyPage() {
             Choose Your Exchange and Lock Your REJU
           </h1>
 
-          <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed  text-left text-gray-300">
-            Find REJU inyour prefered wallets, and market tools below. Lock you rreju by following the links provided to Streamflow our sinergy partner to help stablish execute the rejunomics methodology and keep REJU neutral from holding investors funds.
+          <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-left text-gray-300">
+            Find REJU in the wallets, exchanges, and market tools below. Lock REJU on Streamflow —
+            our non-custodial partner — so tokens stay in your wallet while you complete the Event.
+            Buying REJU is not the same as joining the program.
           </p>
         </section>
 
@@ -69,7 +71,7 @@ export default function BuyPage() {
             title="Buy With Dollars?"
             items={[
               "There are some exchanges that accept Dollars",
-              "Press the button buy with dollars bellow",
+              "Press the Buy REJU With Dollars button below",
             ]}
           />
 

@@ -40,4 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# local leftovers
+terminals/
+scripts/__pycache__/
+*.pyc
+
 .vercel

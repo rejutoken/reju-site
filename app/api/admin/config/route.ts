@@ -1,24 +1,37 @@
 import { NextResponse } from "next/server";
-import { getRejuConfig, updateRejuConfig, verifyPassword } from "../../../../lib/rejuConfig";
+import {
+  getRejuConfig,
+  toPublicAdminConfig,
+  updateRejuConfig,
+  verifyPassword,
+} from "../../../../lib/rejuConfig";
+import { clientIp, rateLimit } from "../../../../lib/rateLimit";
+import { publicErrorMessage } from "../../../../lib/safeError";
 
 export const runtime = "nodejs";
 
-export async function GET() {
+function adminHeader(req: Request) {
+  return req.headers.get("x-reju-admin")?.trim() || "";
+}
+
+export async function GET(req: Request) {
   try {
+    const ip = clientIp(req);
+    if (!rateLimit(`admin-get:${ip}`, 30, 15 * 60 * 1000)) {
+      return NextResponse.json({ success: false, error: "Too many attempts." }, { status: 429 });
+    }
+
+    const adminPassword = adminHeader(req);
+    if (!adminPassword || !(await verifyPassword("admin", adminPassword))) {
+      return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
+    }
+
     const config = await getRejuConfig();
-    // Return safe view for admin UI (do not hide, admin unlocks with pw first)
     return NextResponse.json({
       success: true,
-      config: {
-        registrationPassword: config.registrationPassword,
-        bookPassword: config.bookPassword,
-        adminPassword: config.adminPassword,
-        xPostPassword: config.xPostPassword,
-        currentCohort: config.currentCohort,
-        active: config.active,
-      },
+      config: toPublicAdminConfig(config),
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("ADMIN CONFIG GET ERROR:", error);
     return NextResponse.json({ success: false, error: "Failed to load config" }, { status: 500 });
   }
@@ -26,19 +39,33 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const { adminPassword, registrationPassword, bookPassword, xPostPassword, currentCohort, active } = body || {};
+    const ip = clientIp(req);
+    if (!rateLimit(`admin-post:${ip}`, 20, 15 * 60 * 1000)) {
+      return NextResponse.json({ success: false, error: "Too many attempts." }, { status: 429 });
+    }
 
-    if (!adminPassword) {
+    const body = await req.json();
+    const {
+      adminPassword,
+      newAdminPassword,
+      registrationPassword,
+      bookPassword,
+      xPostPassword,
+      currentCohort,
+      active,
+    } = body || {};
+
+    const offered = String(adminPassword || adminHeader(req) || "").trim();
+    if (!offered) {
       return NextResponse.json({ success: false, error: "Admin password required" }, { status: 400 });
     }
 
-    const isAdmin = await verifyPassword("admin", adminPassword);
+    const isAdmin = await verifyPassword("admin", offered);
     if (!isAdmin) {
       return NextResponse.json({ success: false, error: "Invalid admin password" }, { status: 401 });
     }
 
-    const updates: any = {};
+    const updates: Record<string, string | boolean> = {};
     if (typeof registrationPassword === "string" && registrationPassword.trim()) {
       updates.registrationPassword = registrationPassword.trim();
     }
@@ -47,6 +74,15 @@ export async function POST(req: Request) {
     }
     if (typeof xPostPassword === "string" && xPostPassword.trim()) {
       updates.xPostPassword = xPostPassword.trim();
+    }
+    if (typeof newAdminPassword === "string" && newAdminPassword.trim()) {
+      if (newAdminPassword.trim().length < 10) {
+        return NextResponse.json(
+          { success: false, error: "New admin password must be at least 10 characters." },
+          { status: 400 }
+        );
+      }
+      updates.adminPassword = newAdminPassword.trim();
     }
     if (typeof currentCohort === "string") {
       updates.currentCohort = currentCohort.trim();
@@ -63,17 +99,13 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      config: {
-        registrationPassword: updated.registrationPassword,
-        bookPassword: updated.bookPassword,
-        xPostPassword: updated.xPostPassword,
-        currentCohort: updated.currentCohort,
-        active: updated.active,
-        // do not echo admin pw back
-      },
+      config: toPublicAdminConfig(updated),
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("ADMIN CONFIG UPDATE ERROR:", error);
-    return NextResponse.json({ success: false, error: "Update failed" }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: publicErrorMessage(error, "Update failed") },
+      { status: 500 }
+    );
   }
 }

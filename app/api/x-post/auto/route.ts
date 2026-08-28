@@ -19,7 +19,7 @@ import { fetchWebResearch } from "../../../../lib/postResearch";
 
 function verifyCronAuth(req: NextRequest): boolean {
   const secret = process.env.CRON_SECRET;
-  if (!secret) return true; // Allow when secret not configured (local dev)
+  if (!secret) return false;
   const auth = req.headers.get("authorization");
   return auth === `Bearer ${secret}`;
 }

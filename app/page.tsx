@@ -58,12 +58,6 @@ export default function Home() {
 
         <SiteNewsBanner />
 
-        <div className="mt-6">
-          <a href="/daily-transformation-log" className="inline-block text-[#f5c26b] underline hover:no-underline text-lg">
-            Start Authoring Your Personalized Book →
-          </a>
-        </div>
-
         <div className="mx-auto mt-10 max-w-4xl rounded-3xl border border-[#f5c26b]/15 bg-[#f5c26b]/[0.02] p-8 shadow-[0_0_10px_rgba(245,194,107,0.04)] backdrop-blur-sm">
           <p className="text-center text-lg font-bold uppercase tracking-[0.28em] text-[#f5c26b]">
             REJU Differentiator
@@ -159,11 +153,11 @@ export default function Home() {
             benchmark of the optimal state you achieved.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/daily-transformation-log" className={buttonClass}>
-              Start Authoring Your Personalized Book
-            </a>
             <a href="/program" className={buttonClass}>
               Discover the Event
+            </a>
+            <a href="/onboarding" className={buttonClass}>
+              Enrollment Path
             </a>
           </div>
         </div>

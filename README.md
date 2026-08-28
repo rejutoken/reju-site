@@ -1,54 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# REJU website
 
-## Getting Started
+Next.js site for rejutkn.com — public marketing, Event enrollment, daily book authoring, and hidden operator tools.
 
-First, run the development server:
+## Local development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). Environment variables live in `.env.local` (never commit this file). Production values live in Vercel.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Operator map
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Enrollment path: `/program` → `/onboarding` → Square / Streamflow → `/participant-registration` → `/reju-event-materials` → `/daily-transformation-log`.
 
-## Learn More
+Hidden controls:
 
-To learn more about Next.js, take a look at the following resources:
+- `/admin` — passwords, cohort name, global on/off
+- `/admin/generate-book` — compile a participant Transformation Book (admin password required)
+- `/x-post` — X Post Studio (admin or collaborator password)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Proof uploads: `/uploadbookadmin` ($69), `/uploadfiatpay` ($600), `/uploadrejulock` (Streamflow), `/uploadcrp` (CRP).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Storage
 
-## REJU Admin Controls (Personnel)
+- `GOOGLE_DRIVE_JSONFILES` — `reju-config.json` (passwords) and `blog-engagement.json` (blog likes/comments)
+- `GOOGLE_DRIVE_UPLOADBOOKADMIN` — compiled books and $69 receipts only
+- Other Drive folders — lock proofs, fiat receipts, CRP receipts, daily journal PDFs
+- Google Sheet — participant registry
 
-- Main hidden admin: `/admin`
-  - Change registration password (locks `/participant-registration`)
-  - Change book authoring password (locks `/daily-transformation-log`)
-  - Set current cohort name
-  - Toggle global access on/off (active flag)
-  - Change the admin password itself
-- Book generator remains at `/admin/generate-book`
-- Passwords + config live in `reju-config.json` inside your `GOOGLE_DRIVE_UPLOADBOOKADMIN` folder.
-- After each event: update the passwords in `/admin` and communicate the new password(s) only to paid/approved participants.
-- Initial first-cohort passwords:
-  - Registration + Book authoring: `REJU1stcohort2026`
-  - Admin (for /admin dashboard): `REJUAdmin2026`
-  - currentCohort = "1st Cohort 2026"
-  Change the admin password immediately after first access.
-- Server-side enforcement on registration and daily chapter submission.
+After each Event: rotate registration and book passwords in `/admin` and share the new values only with paid participants. Change the admin password from `/admin` after first access. Do not print passwords on the public site, in README, or in Telegram.
 
-## Deploy on Vercel
+## Deploy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Push to `main` (GitHub → Vercel) or run `vercel --prod` when logged in.

@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import crypto from "crypto";
-import { getRejuConfig } from "./rejuConfig";
+import { verifyPassword } from "./rejuConfig";
 
 export type XPostRole = "admin" | "collaborator";
 
@@ -53,16 +53,10 @@ export async function getXPostSession(): Promise<{ role: XPostRole } | null> {
 }
 
 export async function verifyXPostPassword(password: string): Promise<XPostRole | null> {
-  const config = await getRejuConfig();
-  if (!config.active) return null;
-
-  if (password === config.adminPassword) return "admin";
-
-  const collaboratorPassword = config.xPostPassword?.trim();
-  if (collaboratorPassword && password === collaboratorPassword) {
-    return "collaborator";
-  }
-
+  const offered = String(password || "").trim();
+  if (!offered) return null;
+  if (await verifyPassword("admin", offered)) return "admin";
+  if (await verifyPassword("xpost", offered)) return "collaborator";
   return null;
 }
 

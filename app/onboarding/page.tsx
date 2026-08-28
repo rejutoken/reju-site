@@ -56,16 +56,17 @@ export default function Onboarding() {
             </p>
             <h2 className="mt-2 text-2xl font-bold text-[#f5c26b]">Choose Your Entry Path</h2>
             <p className="mx-auto mt-3 max-w-2xl text-sm text-gray-400">
-              All participants pay the $69 book + admin fee. Then complete registration below.
+              Buying REJU without locking is not Event enrollment. All Event participants pay the $69
+              book + admin fee, then register below after REJU confirms payment or lock.
             </p>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2">
             <PathCard
-              tag="Path A"
-              title="Crypto Lock"
+              tag="Event Path — Crypto"
+              title="Lock $600 REJU"
               steps={[
-                "Buy $600 worth of REJU",
+                "Buy about $600 worth of REJU",
                 "Lock with Streamflow (6 months, non-custodial)",
                 "Pay $69 book + admin (Square)",
               ]}
@@ -77,8 +78,8 @@ export default function Onboarding() {
             />
 
             <PathCard
-              tag="Path B"
-              title="Direct Entry"
+              tag="Event Path — Fiat"
+              title="Pay $600 Directly"
               steps={["Pay $600 program fee (Square)", "Pay $69 book + admin (Square)"]}
               actions={[
                 { label: "Pay $600 Program Fee", href: links.directProgramPayment, external: true },

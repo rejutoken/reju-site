@@ -1,6 +1,7 @@
 import { google } from "googleapis";
 import { NextResponse } from "next/server";
 import { verifyPassword, getRejuConfig } from "../../../lib/rejuConfig";
+import { clientIp, rateLimit } from "../../../lib/rateLimit";
 
 export const runtime = "nodejs";
 
@@ -22,6 +23,11 @@ function createParticipantId() {
 
 export async function POST(req: Request) {
   try {
+    const ip = clientIp(req);
+    if (!rateLimit(`register:${ip}`, 8, 15 * 60 * 1000)) {
+      return NextResponse.json({ error: "Too many attempts. Please wait." }, { status: 429 });
+    }
+
     const formData = await req.formData();
 
     const firstName = value(formData, "firstName");
@@ -44,22 +50,31 @@ export async function POST(req: Request) {
       );
     }
 
-    // Enforce registration password gate (paid participants only)
     const config = await getRejuConfig();
-    if (config.active) {
-      if (!accessPassword) {
-        return NextResponse.json(
-          { error: "Registration access password is required. Please enter the event password provided to paid participants." },
-          { status: 403 }
-        );
-      }
-      const ok = await verifyPassword("registration", accessPassword);
-      if (!ok) {
-        return NextResponse.json(
-          { error: "Invalid registration access password. Access is restricted to verified paid participants." },
-          { status: 403 }
-        );
-      }
+    if (!config.active) {
+      return NextResponse.json(
+        { error: "Registration is currently closed." },
+        { status: 403 }
+      );
+    }
+    if (!accessPassword) {
+      return NextResponse.json(
+        {
+          error:
+            "Registration access password is required. Please enter the event password provided to paid participants.",
+        },
+        { status: 403 }
+      );
+    }
+    const ok = await verifyPassword("registration", accessPassword);
+    if (!ok) {
+      return NextResponse.json(
+        {
+          error:
+            "Invalid registration access password. Access is restricted to verified paid participants.",
+        },
+        { status: 403 }
+      );
     }
 
     const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
@@ -110,7 +125,7 @@ export async function POST(req: Request) {
     await sheets.spreadsheets.values.append({
       spreadsheetId,
       range: "'Participants'!A:N",
-      valueInputOption: "USER_ENTERED",
+      valueInputOption: "RAW",
       requestBody: {
         values: [row],
       },
@@ -123,14 +138,6 @@ export async function POST(req: Request) {
   } catch (error: any) {
     console.error("PARTICIPANT REGISTRATION ERROR:", error);
 
-    const message =
-      error?.response?.data?.error?.message ||
-      error?.message ||
-      "Registration failed.";
-
-    return NextResponse.json(
-      { error: message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Registration failed." }, { status: 500 });
   }
 }

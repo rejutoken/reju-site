@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title:
-    "2026 Crypto Industry Analysis | Why Most Crypto Projects Fail",
+  title: "Crypto Industry Analysis | Why Most Crypto Projects Fail",
   description:
     "Industry analysis of crypto project failure rates, token utility, transparency, ecosystem continuity, and long-term participation models.",
 };
@@ -28,7 +27,7 @@ export default function IndustryAnalysisPage() {
 
       <section className="px-6 py-16 text-center">
         <p className="text-lg font-bold uppercase tracking-[0.35em] text-[#f5c26b]">
-          2026 Industry Analysis
+          Industry Analysis
         </p>
 
         <h1 className="mx-auto mt-10 max-w-6xl text-4xl sm:text-5xl font-bold tracking-tight text-[#f5c26b] md:text-7xl">

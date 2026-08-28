@@ -42,8 +42,7 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : "Research failed";
     console.error("X-POST RESEARCH ERROR:", error);
-    return NextResponse.json({ success: false, error: message, live: false }, { status: 502 });
+    return NextResponse.json({ success: false, error: "Research failed", live: false }, { status: 502 });
   }
 }

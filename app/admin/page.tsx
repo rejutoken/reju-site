@@ -5,10 +5,10 @@ import { useState } from "react";
 interface AdminConfig {
   registrationPassword: string;
   bookPassword: string;
-  adminPassword: string;
   xPostPassword: string;
   currentCohort: string;
   active: boolean;
+  adminPasswordSet: boolean;
 }
 
 export default function AdminDashboard() {
@@ -62,20 +62,27 @@ export default function AdminDashboard() {
   async function loadConfig(pw?: string) {
     setLoadingConfig(true);
     try {
-      const res = await fetch("/api/admin/config", { method: "GET" });
+      const secret = (pw || adminPw).trim();
+      const res = await fetch("/api/admin/config", {
+        method: "GET",
+        headers: { "x-reju-admin": secret },
+      });
       const data = await res.json();
       if (data.success && data.config) {
         const c = data.config;
         setConfig({
           registrationPassword: c.registrationPassword,
           bookPassword: c.bookPassword,
-          adminPassword: c.adminPassword,
           xPostPassword: c.xPostPassword || "",
           currentCohort: c.currentCohort,
           active: c.active,
+          adminPasswordSet: Boolean(c.adminPasswordSet),
         });
         setNewCohort(c.currentCohort || "");
         setNewActive(c.active);
+      } else if (res.status === 401) {
+        setStatus("Admin session expired. Unlock again.");
+        setAdminUnlocked(false);
       }
     } catch (e) {
       setStatus("Failed to load current settings.");
@@ -89,12 +96,18 @@ export default function AdminDashboard() {
     setActionLoading(true);
     setStatus("");
 
+    const currentAdmin = adminPw.trim();
+    const nextAdmin =
+      typeof updates.newAdminPassword === "string" && updates.newAdminPassword.trim()
+        ? updates.newAdminPassword.trim()
+        : currentAdmin;
+
     try {
       const res = await fetch("/api/admin/config", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          adminPassword: adminPw.trim(),
+          adminPassword: currentAdmin,
           ...updates,
         }),
       });
@@ -102,17 +115,17 @@ export default function AdminDashboard() {
 
       if (data.success) {
         setStatus(successMessage || "Settings updated successfully.");
-        await loadConfig();
-        // clear change fields (only relevant for password updates)
+        if (nextAdmin !== currentAdmin) setAdminPw(nextAdmin);
+        await loadConfig(nextAdmin);
         setNewRegPass("");
         setNewBookPass("");
       } else {
         setStatus(data.error || "Update failed.");
-        await loadConfig(); // refresh to correct state
+        await loadConfig(currentAdmin);
       }
     } catch (e) {
       setStatus("Update request failed.");
-      await loadConfig(); // refresh to correct state
+      await loadConfig(currentAdmin);
     } finally {
       setActionLoading(false);
     }
@@ -139,7 +152,15 @@ export default function AdminDashboard() {
       setStatus("Enter a new admin password.");
       return;
     }
-    await performUpdate({ adminPassword: newAdminPass.trim() }, "Admin password updated successfully.");
+    if (newAdminPass.trim().length < 10) {
+      setStatus("New admin password must be at least 10 characters.");
+      return;
+    }
+    await performUpdate(
+      { newAdminPassword: newAdminPass.trim() },
+      "Admin password updated successfully. Use the new password next time you unlock."
+    );
+    setNewAdminPass("");
   }
 
   async function updateXPostPassword() {
@@ -208,14 +229,14 @@ export default function AdminDashboard() {
         <h1 className="text-4xl font-bold text-[#f5c26b] mb-2">REJU Admin — Access Control</h1>
         <p className="text-gray-400 mb-8">
           Change event passwords, manage current cohort, and enable/disable participant registration &amp; book authoring.
-          Passwords are stored in your Google Drive config file.
+          Passwords are stored in the REJU JSON Files Google Drive folder, not with client books.
         </p>
 
         {!adminUnlocked ? (
           <div className="max-w-md bg-[#120904] border border-[#f5c26b]/30 p-8 rounded-3xl">
             <h2 className="font-semibold mb-3 text-lg">Unlock Admin Controls</h2>
             <p className="text-sm text-gray-400 mb-4">Enter the admin management password.</p>
-            <p className="text-[11px] text-amber-400 mb-2">First time? Default admin password is <span className="font-mono">REJUAdmin2026</span>. Participant passwords are preset to REJU1stcohort2026.</p>
+            <p className="text-[11px] text-gray-500 mb-2">Personnel only. Use the current admin password from the operator — it is not printed here.</p>
 
             <input
               type="password"
@@ -362,8 +383,8 @@ export default function AdminDashboard() {
               <div className="uppercase tracking-widest text-xs text-[#f5c26b] mb-1">Security</div>
               <div className="text-2xl font-semibold mb-4">Admin Password (this dashboard)</div>
 
-              <div className="mb-4 text-sm">
-                Current: <span className="font-mono bg-black/60 px-3 py-1 rounded border border-white/10">{config?.adminPassword || "—"}</span>
+              <div className="mb-4 text-sm text-gray-400">
+                Current admin password is {config?.adminPasswordSet ? "set" : "missing"}. It is not displayed after unlock.
               </div>
 
               <div className="flex gap-3">
@@ -450,7 +471,7 @@ export default function AdminDashboard() {
 
             <div className="text-[10px] text-gray-500 pt-2">
               Tip: After changing the password, share the new password only with paid/approved participants for the active cohort.
-              The admin password itself is also stored in the same config file — keep it safe.
+              The admin password itself is also stored in reju-config.json in the JSON Files Drive folder — keep it safe.
             </div>
           </div>
         )}

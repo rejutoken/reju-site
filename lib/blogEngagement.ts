@@ -1,6 +1,6 @@
-import { google } from "googleapis";
 import { randomUUID } from "crypto";
 import { Readable } from "stream";
+import { getDriveClient, getJsonFilesFolderId } from "./driveJsonFolder";
 
 export type BlogReply = {
   id: string;
@@ -33,30 +33,13 @@ function emptyArticleEngagement(): ArticleEngagement {
   return { likeCount: 0, likes: [], comments: [] };
 }
 
-function getEnv() {
-  const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
-  const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n");
-  const folderId = process.env.GOOGLE_DRIVE_UPLOADBOOKADMIN;
-
-  if (!clientEmail || !privateKey || !folderId) {
-    throw new Error("Missing Google credentials for blog engagement storage.");
-  }
-
-  return { clientEmail, privateKey, folderId };
-}
-
 async function getDriveAndFolder() {
-  const { clientEmail, privateKey, folderId } = getEnv();
-  const auth = new google.auth.JWT({
-    email: clientEmail,
-    key: privateKey,
-    scopes: ["https://www.googleapis.com/auth/drive"],
-  });
-  const drive = google.drive({ version: "v3", auth });
+  const drive = getDriveClient();
+  const folderId = getJsonFilesFolderId();
   return { drive, folderId };
 }
 
-async function findEngagementFileId(drive: ReturnType<typeof google.drive>, folderId: string) {
+async function findEngagementFileId(drive: ReturnType<typeof getDriveClient>, folderId: string) {
   const list = await drive.files.list({
     q: `'${folderId}' in parents and name = '${ENGAGEMENT_FILE_NAME}' and trashed = false`,
     fields: "files(id)",

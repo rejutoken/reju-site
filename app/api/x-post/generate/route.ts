@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error("X-POST GENERATE ERROR:", error);
     return NextResponse.json(
-      { success: false, error: error.message || "Failed to generate post" },
+      { success: false, error: "Failed to generate post" },
       { status: 500 }
     );
   }

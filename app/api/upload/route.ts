@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { Readable } from "stream";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { verifyPassword, getRejuConfig } from "../../../lib/rejuConfig";
+import { clientIp, rateLimit } from "../../../lib/rateLimit";
+import { publicErrorMessage } from "../../../lib/safeError";
 
 export const runtime = "nodejs";
 
@@ -21,36 +23,57 @@ function cleanFilePart(value: string) {
     .trim();
 }
 
+const PROOF_TYPES = new Set(["rejulock", "bookadmin", "crp", "fiatpay"]);
+const ALLOWED_PROOF_MIME = new Set([
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+  "image/heic",
+  "image/heif",
+  "image/gif",
+  "application/pdf",
+]);
+const MAX_UPLOAD_BYTES = 8 * 1024 * 1024;
+
 export async function POST(req: Request) {
   try {
+    const ip = clientIp(req);
+    if (!rateLimit(`upload:${ip}`, 20, 60 * 60 * 1000)) {
+      return NextResponse.json({ error: "Too many uploads. Please wait." }, { status: 429 });
+    }
+
     const formData = await req.formData();
     const type = String(formData.get("type") || "").trim();
     const name = String(formData.get("name") || "unknown").trim();
-    const notes = String(formData.get("notes") || "").trim();
+    const notes = String(formData.get("notes") || "").trim().slice(0, 2000);
     const file = formData.get("file") as File | null;
 
     const folderId = folderMap[type];
     if (!folderId) return NextResponse.json({ error: "Invalid upload type." }, { status: 400 });
 
-    // For daily journal (book authoring), require the current book password
     if (type === "dailyjournal") {
-      const accessPassword = String(formData.get("accessPassword") || "").trim();
       const cfg = await getRejuConfig();
-      if (cfg.active) {
-        if (!accessPassword) {
-          return NextResponse.json(
-            { error: "Book authoring password required. Enter the event password to submit your daily chapter." },
-            { status: 403 }
-          );
-        }
-        const ok = await verifyPassword("book", accessPassword);
-        if (!ok) {
-          return NextResponse.json(
-            { error: "Invalid book authoring password." },
-            { status: 403 }
-          );
-        }
+      if (!cfg.active) {
+        return NextResponse.json({ error: "Book authoring is currently closed." }, { status: 403 });
       }
+      const accessPassword = String(formData.get("accessPassword") || "").trim();
+      if (!accessPassword) {
+        return NextResponse.json(
+          { error: "Book authoring password required. Enter the event password to submit your daily chapter." },
+          { status: 403 }
+        );
+      }
+      const ok = await verifyPassword("book", accessPassword);
+      if (!ok) {
+        return NextResponse.json({ error: "Invalid book authoring password." }, { status: 403 });
+      }
+    } else if (!PROOF_TYPES.has(type)) {
+      return NextResponse.json({ error: "Invalid upload type." }, { status: 400 });
+    }
+
+    if (file && file.size > MAX_UPLOAD_BYTES) {
+      return NextResponse.json({ error: "File is too large. Maximum size is 8 MB." }, { status: 400 });
     }
 
     const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
@@ -295,24 +318,35 @@ export async function POST(req: Request) {
       if (!file) {
         return NextResponse.json({ error: "File is required." }, { status: 400 });
       }
+      const mime = (file.type || "").toLowerCase();
+      if (!ALLOWED_PROOF_MIME.has(mime)) {
+        return NextResponse.json(
+          { error: "Please upload a photo or PDF receipt (JPG, PNG, WEBP, HEIC, or PDF)." },
+          { status: 400 }
+        );
+      }
       const buffer = Buffer.from(await file.arrayBuffer());
       const safeName = `${cleanFilePart(name)}_${cleanFilePart(file.name || "file")}`;
       const uploaded = await drive.files.create({
         requestBody: {
           name: safeName,
           parents: [folderId],
-          description: notes || ""
+          description: notes || "",
         },
         media: {
-          mimeType: file.type || "application/octet-stream",
-          body: Readable.from(buffer)
+          mimeType: mime,
+          body: Readable.from(buffer),
         },
-        fields: "id,name"
+        fields: "id,name",
+        supportsAllDrives: true,
       });
       return NextResponse.json({ success: true, file: uploaded.data });
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("UPLOAD ERROR:", error);
-    return NextResponse.json({ error: error?.message || "Upload failed." }, { status: 500 });
+    return NextResponse.json(
+      { error: publicErrorMessage(error, "Upload failed.") },
+      { status: 500 }
+    );
   }
 }

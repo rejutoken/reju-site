@@ -87,10 +87,17 @@ export default function SimpleUploadPage({
             type="file"
             name="file"
             required
+            accept="image/jpeg,image/png,image/webp,image/heic,image/heif,image/gif,application/pdf,.jpg,.jpeg,.png,.webp,.heic,.pdf"
             style={{ display: "none" }}
             onChange={(e) => {
-              const fileName = e.target.files?.[0]?.name || "";
-              setSelectedFile(fileName);
+              const chosen = e.target.files?.[0];
+              if (chosen && chosen.size > 8 * 1024 * 1024) {
+                setStatus("File is too large. Maximum size is 8 MB.");
+                e.target.value = "";
+                setSelectedFile("");
+                return;
+              }
+              setSelectedFile(chosen?.name || "");
             }}
           />
 

@@ -7,6 +7,8 @@ import {
   toggleArticleLike,
 } from "@/lib/blogEngagement";
 import { NextResponse } from "next/server";
+import { clientIp, rateLimit } from "@/lib/rateLimit";
+import { isSafeSlug } from "@/lib/safeError";
 
 export const runtime = "nodejs";
 
@@ -16,6 +18,9 @@ export async function GET(
 ) {
   try {
     const { slug } = await params;
+    if (!isSafeSlug(slug)) {
+      return NextResponse.json({ likeCount: 0, likedByViewer: false, comments: [] }, { status: 200 });
+    }
     const voterId = new URL(request.url).searchParams.get("voterId") || undefined;
 
     const engagement = await getArticleEngagement(slug, voterId);
@@ -35,6 +40,13 @@ export async function POST(
 ) {
   try {
     const { slug } = await params;
+    if (!isSafeSlug(slug)) {
+      return NextResponse.json({ error: "Invalid article." }, { status: 400 });
+    }
+    const ip = clientIp(request);
+    if (!rateLimit(`blog:${ip}`, 20, 15 * 60 * 1000)) {
+      return NextResponse.json({ error: "Too many attempts. Please wait." }, { status: 429 });
+    }
     const payload = await request.json();
     const action = String(payload.action || "");
 

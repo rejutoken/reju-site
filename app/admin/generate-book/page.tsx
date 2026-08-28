@@ -1,13 +1,18 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 
 export default function GenerateBookAdmin() {
   const [participantId, setParticipantId] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
   const [status, setStatus] = useState("");
   const [bookUrl, setBookUrl] = useState("");
 
   const handleGenerate = async () => {
+    if (!adminPassword.trim()) {
+      setStatus("Enter the admin password.");
+      return;
+    }
     if (!participantId.trim()) {
       setStatus("Please enter a Participant ID.");
       return;
@@ -18,8 +23,14 @@ export default function GenerateBookAdmin() {
     try {
       const res = await fetch("/api/generate-book", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ participantId: participantId.trim() }),
+        headers: {
+          "Content-Type": "application/json",
+          "x-reju-admin": adminPassword.trim(),
+        },
+        body: JSON.stringify({
+          participantId: participantId.trim(),
+          adminPassword: adminPassword.trim(),
+        }),
       });
 
       const data = await res.json();
@@ -48,9 +59,16 @@ export default function GenerateBookAdmin() {
         </div>
 
         <h1 className="text-4xl font-bold text-[#f5c26b] mb-2">Generate Client Book (REJU Personnel)</h1>
-        <p className="text-gray-300 mb-8">Enter the Participant ID (used in all daily filenames) to compile the complete Personalized REJU Transformation Book.</p>
+        <p className="text-gray-300 mb-8">Enter the admin password and Participant ID to compile the complete Personalized REJU Transformation Book.</p>
 
         <div className="space-y-4">
+          <input
+            type="password"
+            value={adminPassword}
+            onChange={(e) => setAdminPassword(e.target.value)}
+            placeholder="Admin password"
+            className="w-full p-4 bg-black/60 border border-[#f5c26b]/30 rounded text-white font-mono"
+          />
           <input
             type="text"
             value={participantId}
@@ -61,7 +79,7 @@ export default function GenerateBookAdmin() {
 
           <button
             onClick={handleGenerate}
-            disabled={!participantId.trim()}
+            disabled={!participantId.trim() || !adminPassword.trim()}
             className="w-full py-4 border border-[#f5c26b] text-[#f5c26b] font-semibold text-lg rounded hover:bg-[#f5c26b] hover:text-black transition disabled:opacity-50"
           >
             Generate Full Book
@@ -72,9 +90,9 @@ export default function GenerateBookAdmin() {
           <div className="mt-6 p-4 bg-[#120904] border border-[#f5c26b]/20 rounded">
             <p className="text-lg">{status}</p>
             {bookUrl && (
-              <a 
-                href={bookUrl} 
-                target="_blank" 
+              <a
+                href={bookUrl}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 inline-block text-[#f5c26b] underline"
               >
