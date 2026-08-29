@@ -1,5 +1,7 @@
 import Nav from "../components/Nav";
 import { ClientFunnel, FunnelPrimaryCta } from "../components/ClientFunnel";
+import SiteNewsBanner from "../components/SiteNewsBanner";
+import { SITE_NEWS } from "../../lib/siteNews";
 
 const links = {
   program: "/program",
@@ -43,6 +45,8 @@ export default function Onboarding() {
           ID, then begin Authoring Your Book.
         </p>
 
+        <SiteNewsBanner />
+
         <div className="mx-auto mt-10 max-w-5xl">
           <ClientFunnel currentStep={2} />
         </div>
@@ -72,8 +76,18 @@ export default function Onboarding() {
               ]}
               actions={[
                 { label: "Buy REJU", href: links.buy },
-                { label: "Lock on Streamflow", href: links.streamflowLock, external: true },
-                { label: "Pay $69 Book + Admin", href: links.bookAdminPayment, external: true },
+                {
+                  label: "Lock on Streamflow",
+                  href: links.streamflowLock,
+                  external: true,
+                  disabled: !SITE_NEWS.enrollmentOpen,
+                },
+                {
+                  label: "Pay $69 Book + Admin",
+                  href: links.bookAdminPayment,
+                  external: true,
+                  disabled: !SITE_NEWS.enrollmentOpen,
+                },
               ]}
             />
 
@@ -82,8 +96,18 @@ export default function Onboarding() {
               title="Pay $600 Directly"
               steps={["Pay $600 program fee (Square)", "Pay $69 book + admin (Square)"]}
               actions={[
-                { label: "Pay $600 Program Fee", href: links.directProgramPayment, external: true },
-                { label: "Pay $69 Book + Admin", href: links.bookAdminPayment, external: true },
+                {
+                  label: "Pay $600 Program Fee",
+                  href: links.directProgramPayment,
+                  external: true,
+                  disabled: !SITE_NEWS.enrollmentOpen,
+                },
+                {
+                  label: "Pay $69 Book + Admin",
+                  href: links.bookAdminPayment,
+                  external: true,
+                  disabled: !SITE_NEWS.enrollmentOpen,
+                },
               ]}
             />
           </div>
@@ -101,10 +125,14 @@ export default function Onboarding() {
             cohort password to paid participants only.
           </p>
           <div className="mt-8">
-            <FunnelPrimaryCta
-              href={links.participantRegistration}
-              label="Continue to Registration →"
-            />
+            {SITE_NEWS.enrollmentOpen ? (
+              <FunnelPrimaryCta
+                href={links.participantRegistration}
+                label="Continue to Registration →"
+              />
+            ) : (
+              <p className="text-[#f5c26b]">Registration opens when enrollment is announced on the home page.</p>
+            )}
           </div>
           <p className="mt-6 text-sm text-gray-500">
             After registration you receive event materials and begin daily book authoring.
@@ -176,7 +204,7 @@ function PathCard({
   tag: string;
   title: string;
   steps: string[];
-  actions: { label: string; href: string; external?: boolean }[];
+  actions: { label: string; href: string; external?: boolean; disabled?: boolean }[];
 }) {
   return (
     <div className="rounded-3xl border border-[#f5c26b]/25 bg-[#160b05]/85 p-8 shadow-[0_0_30px_rgba(245,194,107,0.10)]">
@@ -191,18 +219,28 @@ function PathCard({
         ))}
       </ol>
       <div className="mt-6 flex flex-col gap-3">
-        {actions.map((action) => (
-          <a
-            key={action.label}
-            href={action.href}
-            className={buttonClass}
-            {...(action.external
-              ? { target: "_blank", rel: "noopener noreferrer" }
-              : {})}
-          >
-            {action.label}
-          </a>
-        ))}
+        {actions.map((action) =>
+          action.disabled ? (
+            <span
+              key={action.label}
+              className={`${buttonClass} cursor-not-allowed opacity-40 hover:bg-transparent hover:text-[#f5c26b]`}
+              title="Enrollment is not open yet"
+            >
+              {action.label} (not open yet)
+            </span>
+          ) : (
+            <a
+              key={action.label}
+              href={action.href}
+              className={buttonClass}
+              {...(action.external
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+            >
+              {action.label}
+            </a>
+          )
+        )}
       </div>
     </div>
   );

@@ -35,3 +35,7 @@ After each Event: rotate registration and book passwords in `/admin` and share t
 ## Deploy
 
 Push to `main` (GitHub → Vercel) or run `vercel --prod` when logged in.
+
+Enrollment payments are gated by `enrollmentOpen` in `lib/siteNews.ts`. Set that to `true` when Wilson is ready to accept Square / Streamflow payments.
+
+`www.rejutkn.com` must use a valid Vercel certificate. In Vercel: Project → Settings → Domains → `www.rejutkn.com` → Refresh. The apex `rejutkn.com` certificate is separate.

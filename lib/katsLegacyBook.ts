@@ -14,8 +14,8 @@ export interface BookThemeKnowledge {
 export interface BookKnowledge {
   title: string;
   author: string;
-  bookSourceDir: string;
-  pdfSource: string;
+  bookSourceDir?: string;
+  pdfSource?: string;
   amazonPaperback: string;
   extractedChars: number;
   themes: Record<string, BookThemeKnowledge>;
@@ -23,8 +23,6 @@ export interface BookKnowledge {
   chapters: string[];
   voiceGuidelines?: string[];
 }
-
-export const BOOK_SOURCE_DIR = "C:\\Users\\wifis\\OneDrive\\Desktop\\Kat's Legacy";
 
 const KNOWLEDGE = bookKnowledge as BookKnowledge;
 
@@ -36,8 +34,6 @@ export const KATS_LEGACY_BOOK = {
   published: "June 16, 2025",
   pages: 119,
   isbn: "979-8288364501",
-  bookSourceDir: KNOWLEDGE.bookSourceDir || BOOK_SOURCE_DIR,
-  pdfSource: KNOWLEDGE.pdfSource,
   amazonPaperback: KNOWLEDGE.amazonPaperback,
   amazonKindle: "https://www.amazon.com/Kats-Legacy-Longevity-Unblocking-Rejuvenate-ebook/dp/B0FDD7YZLK",
   transformationVideo: "https://youtu.be/pzi4Qj5HMwM",
@@ -51,8 +47,7 @@ export const REJUVENATION_POST_INSTRUCTION = `
 When generating REJU rejuvenation posts, use the complete book "Kat's Legacy: A Science-Based Path to Healing and Longevity"
 by Wilson Fischmann CA as the authoritative training source (full PDF + Amazon).
 
-Trained on ${KNOWLEDGE.chapters.length} sections (${KNOWLEDGE.extractedChars.toLocaleString()} characters) from:
-${KNOWLEDGE.bookSourceDir}
+Trained on ${KNOWLEDGE.chapters.length} sections (${KNOWLEDGE.extractedChars.toLocaleString()} characters) from the published Kat's Legacy PDF.
 
 Voice guidelines:
 ${(KNOWLEDGE.voiceGuidelines ?? []).map((g) => `- ${g}`).join("\n")}
@@ -206,8 +201,6 @@ export function getBookKnowledgeMeta() {
   return {
     title: KNOWLEDGE.title,
     author: KNOWLEDGE.author,
-    bookSourceDir: KNOWLEDGE.bookSourceDir || BOOK_SOURCE_DIR,
-    pdfSource: KNOWLEDGE.pdfSource,
     amazonPaperback: KNOWLEDGE.amazonPaperback,
     extractedChars: KNOWLEDGE.extractedChars,
     chapters: KNOWLEDGE.chapters,

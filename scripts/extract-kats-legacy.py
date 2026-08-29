@@ -43,8 +43,6 @@ def main() -> int:
     OUT_JSON.write_text(
         json.dumps(
             {
-                "bookSourceDir": str(BOOK_SOURCE_DIR),
-                "source": str(path),
                 "pageCount": len(pypdf.PdfReader(str(path)).pages),
                 "chunks": chunks,
             },

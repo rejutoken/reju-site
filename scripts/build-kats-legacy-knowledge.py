@@ -208,8 +208,6 @@ def main() -> None:
     payload = {
         "title": "Kat's Legacy: A Science-Based Path to Healing and Longevity",
         "author": "Wilson Fischmann CA",
-        "bookSourceDir": str(BOOK_SOURCE_DIR),
-        "pdfSource": str(pdf_path),
         "amazonPaperback": "https://www.amazon.com/Kats-Legacy-Longevity-Unblocking-Rejuvenate/dp/B0FF2D7WVL",
         "extractedChars": len(text),
         "sectionCount": len(sections),

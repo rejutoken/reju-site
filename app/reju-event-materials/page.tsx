@@ -25,6 +25,9 @@ function EventMaterialsContent() {
 
   const [participantId, setParticipantId] = useState("");
   const [expandedDay, setExpandedDay] = useState<number | null>(1);
+  const [accessUnlocked, setAccessUnlocked] = useState(false);
+  const [password, setPassword] = useState("");
+  const [unlockStatus, setUnlockStatus] = useState("");
 
   useEffect(() => {
     const fromUrl = searchParams.get("pid")?.trim() || "";
@@ -35,6 +38,40 @@ function EventMaterialsContent() {
       sessionStorage.setItem(PARTICIPANT_ID_STORAGE_KEY, resolved);
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    fetch("/api/materials-auth")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.authenticated) setAccessUnlocked(true);
+      })
+      .catch(() => {});
+  }, []);
+
+  async function handleUnlock(e?: React.FormEvent) {
+    if (e) e.preventDefault();
+    if (!password.trim()) {
+      setUnlockStatus("Enter the current cohort participant password.");
+      return;
+    }
+    setUnlockStatus("Verifying...");
+    try {
+      const res = await fetch("/api/materials-auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: password.trim() }),
+      });
+      const data = await res.json();
+      if (data?.ok) {
+        setAccessUnlocked(true);
+        setUnlockStatus("");
+      } else {
+        setUnlockStatus("Incorrect password or access is closed.");
+      }
+    } catch {
+      setUnlockStatus("Verification failed. Please try again.");
+    }
+  }
 
   const authoringHref = participantId
     ? `/daily-transformation-log?pid=${encodeURIComponent(participantId)}&day=1`
@@ -60,6 +97,33 @@ function EventMaterialsContent() {
         </p>
       </section>
 
+      {!accessUnlocked ? (
+        <section className="mx-auto max-w-md px-6 pb-20">
+          <div className="rounded-3xl border border-[#f5c26b]/30 bg-[#120904]/90 p-8">
+            <h2 className="text-xl font-bold text-[#f5c26b]">Participant Access</h2>
+            <p className="mt-3 text-sm text-gray-400">
+              Event materials, daily session notes, and downloads are for paid cohort members.
+              Enter the registration password REJU gave you after payment was confirmed.
+            </p>
+            <form onSubmit={handleUnlock}>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Cohort participant password"
+                className="mt-5 w-full rounded-2xl border border-[#f5c26b]/35 bg-[#120700] px-5 py-4 text-gray-200 outline-none"
+              />
+              <button
+                type="submit"
+                className="mt-4 w-full rounded-2xl bg-[#f5c26b] py-4 font-bold text-black"
+              >
+                Unlock Event Materials
+              </button>
+            </form>
+            {unlockStatus && <p className="mt-4 text-center text-sm text-[#f5d27a]">{unlockStatus}</p>}
+          </div>
+        </section>
+      ) : (
       <section className="mx-auto max-w-6xl space-y-8 px-6 pb-20">
         <div className="rounded-3xl border border-[#f5c26b]/40 bg-[#120904]/90 p-8 text-center shadow-[0_0_40px_rgba(245,194,107,0.14)]">
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#f5c26b]">
@@ -352,6 +416,7 @@ function EventMaterialsContent() {
           </div>
         </div>
       </section>
+      )}
     </main>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import {
   COURSE_EVENT_LIBRARY,
@@ -20,6 +20,15 @@ export default function CourseEventInfoPage() {
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
 
+  useEffect(() => {
+    fetch("/api/materials-auth")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.authenticated) setAccessUnlocked(true);
+      })
+      .catch(() => {});
+  }, []);
+
   async function handleUnlock(e?: React.FormEvent) {
     if (e) e.preventDefault();
     if (!password.trim()) {
@@ -28,10 +37,10 @@ export default function CourseEventInfoPage() {
     }
     setStatus("Verifying...");
     try {
-      const res = await fetch("/api/verify-password", {
+      const res = await fetch("/api/materials-auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "registration", password: password.trim() }),
+        body: JSON.stringify({ password: password.trim() }),
       });
       const data = await res.json();
       if (data?.ok) {

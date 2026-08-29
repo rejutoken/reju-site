@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { BOOK_SOURCE_DIR, getBookKnowledgeMeta, KATS_LEGACY_BOOK } from "../../lib/katsLegacyBook";
+import { getBookKnowledgeMeta, KATS_LEGACY_BOOK } from "../../lib/katsLegacyBook";
 import { EVENT_MATERIALS_DRIVE_FOLDER } from "../../lib/rejuMaterials";
 
 type XPostEntry = "admin" | "collaborator";
@@ -652,8 +652,8 @@ export default function XPostStudio({ entry = "admin" }: { entry?: XPostEntry })
               <div className="bg-[#120904] border border-[#f5c26b]/25 rounded-3xl p-6 text-sm text-gray-300">
                 <p className="text-[#f5c26b] font-semibold uppercase tracking-widest text-xs mb-2">Primary book source</p>
                 <p>
-                  Rejuvenation posts are trained on the <strong>complete PDF</strong> from{" "}
-                  <code className="text-[#f5c26b]/80">{BOOK_SOURCE_DIR}</code> — <em>{KATS_LEGACY_BOOK.title}</em>{" "}
+                  Rejuvenation posts are trained on the published book{" "}
+                  <em>{KATS_LEGACY_BOOK.title}</em>{" "}
                   ({getBookKnowledgeMeta().extractedChars.toLocaleString()} chars, {getBookKnowledgeMeta().chapters.length} sections).
                   Topics: {getBookKnowledgeMeta().coreConcepts.slice(0, 6).join(", ")}, and more.
                 </p>
