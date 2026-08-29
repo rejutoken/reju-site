@@ -44,5 +44,6 @@ next-env.d.ts
 terminals/
 scripts/__pycache__/
 *.pyc
+docs/~$*
 
 .vercel
