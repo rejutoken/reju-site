@@ -39,3 +39,12 @@ Push to `main` (GitHub → Vercel) or run `vercel --prod` when logged in.
 Enrollment payments are gated by `enrollmentOpen` in `lib/siteNews.ts`. Set that to `true` when Wilson is ready to accept Square / Streamflow payments.
 
 `www.rejutkn.com` must use a valid Vercel certificate. In Vercel: Project → Settings → Domains → `www.rejutkn.com` → Refresh. The apex `rejutkn.com` certificate is separate.
+
+## Automatic X posts
+
+`vercel.json` runs `GET /api/x-post/auto` daily at 14:00 UTC (Sunday rest). Vercel sends `Authorization: Bearer $CRON_SECRET`. Set these on Vercel (Production):
+
+- `CRON_SECRET` — same value as local `.env.local`
+- `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET` — X Developer App keys for @rejutoken with Read and Write
+
+Without the X keys, the cron still generates a draft but does not publish. Opening the URL in a browser returns 401; that is expected.

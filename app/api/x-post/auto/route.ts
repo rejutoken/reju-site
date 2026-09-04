@@ -13,6 +13,9 @@ import {
 import { getBookKnowledgeMeta } from "../../../../lib/katsLegacyBook";
 import { alignResearchWithLibrary } from "../../../../lib/conceptLibrary";
 import { fetchWebResearch } from "../../../../lib/postResearch";
+import { publishTweet } from "../../../../lib/xPublish";
+
+export const maxDuration = 60;
 
 // Automated endpoint for Vercel Cron
 // Schedule: Mon/Wed/Fri → crypto | Tue/Thu/Sat → rejuvenation | Sun → rest day
@@ -95,8 +98,17 @@ async function handleAuto(req: NextRequest) {
     variantSeed: now.getDay() * 10000 + now.getDate() * 100 + now.getHours(),
   });
 
+  let publish: Awaited<ReturnType<typeof publishTweet>>;
+  try {
+    publish = await publishTweet(post.text);
+  } catch (error) {
+    console.error("X PUBLISH ERROR:", error);
+    publish = { posted: false, reason: "X API rejected the post." };
+  }
+
   return NextResponse.json({
     success: true,
+    published: publish,
     post: {
       text: post.text,
       thread: post.thread,
@@ -104,7 +116,7 @@ async function handleAuto(req: NextRequest) {
       hashtags: post.hashtags,
       theme: post.theme,
       category: post.category,
-      suggestedSchedule: "Post in the next 24-48h for best engagement",
+      suggestedSchedule: "Posted automatically at 14:00 UTC when X keys are configured.",
     },
     meta: {
       generatedAt: new Date().toISOString(),
