@@ -45,6 +45,7 @@ Enrollment payments are gated by `enrollmentOpen` in `lib/siteNews.ts`. Set that
 `vercel.json` runs `GET /api/x-post/auto` daily at 14:00 UTC (Sunday rest). Vercel sends `Authorization: Bearer $CRON_SECRET`. Set these on Vercel (Production):
 
 - `CRON_SECRET` — same value as local `.env.local`
-- `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET` — X Developer App keys for @rejutoken with Read and Write
+- Prefer: `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET` (OAuth 1.0a)
+- Or, if the X console only shows one Consumer Key plus Client ID/Secret: `X_ACCESS_TOKEN` (Read and Write @rejutoken). Optionally also `X_CLIENT_ID` and `X_CLIENT_SECRET` for your records; posting uses the Access Token.
 
 Without the X keys, the cron still generates a draft but does not publish. Opening the URL in a browser returns 401; that is expected.

@@ -14,16 +14,21 @@ export function getXClient(): TwitterApi | null {
   const accessToken = env("X_ACCESS_TOKEN");
   const accessSecret = env("X_ACCESS_TOKEN_SECRET");
 
-  if (!appKey || !appSecret || !accessToken || !accessSecret) {
-    return null;
+  if (appKey && appSecret && accessToken && accessSecret) {
+    return new TwitterApi({
+      appKey,
+      appSecret,
+      accessToken,
+      accessSecret,
+    });
   }
 
-  return new TwitterApi({
-    appKey,
-    appSecret,
-    accessToken,
-    accessSecret,
-  });
+  // Newer X console: Client ID + Client Secret + user Access Token (OAuth 2.0).
+  if (accessToken && !accessSecret) {
+    return new TwitterApi(accessToken);
+  }
+
+  return null;
 }
 
 export async function publishTweet(text: string): Promise<XPublishResult> {
@@ -38,7 +43,7 @@ export async function publishTweet(text: string): Promise<XPublishResult> {
     return {
       posted: false,
       reason:
-        "X API keys are not set. Add X_API_KEY, X_API_SECRET, X_ACCESS_TOKEN, and X_ACCESS_TOKEN_SECRET on Vercel.",
+        "X keys are not set. Add either the four OAuth 1.0a keys, or X_ACCESS_TOKEN from Keys & tokens (Read and Write @rejutoken).",
     };
   }
 
