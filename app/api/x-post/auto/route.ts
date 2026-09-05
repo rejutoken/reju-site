@@ -76,14 +76,19 @@ async function handleAuto(req: NextRequest) {
 
   const now = new Date();
   const category = schedule.category === "crypto" ? "crypto" : "rejuvenation";
-  const live = await fetchWebResearch({
-    query: schedule.customFocus,
-    category,
-    themes: schedule.themes,
-  });
+  let live: Awaited<ReturnType<typeof fetchWebResearch>> | null = null;
+  try {
+    live = await fetchWebResearch({
+      query: schedule.customFocus,
+      category,
+      themes: schedule.themes,
+    });
+  } catch (error) {
+    console.error("X-POST AUTO RESEARCH SKIPPED:", error);
+  }
 
   const alignment = await alignResearchWithLibrary({
-    notes: live.notes,
+    notes: live?.notes ?? [],
     themes: schedule.themes,
     category,
   });
@@ -95,7 +100,7 @@ async function handleAuto(req: NextRequest) {
     postType: "single",
     tone: "Educational",
     includeVisual: true,
-    researchContext: live.notes,
+    researchContext: live?.notes,
     conceptMatches: alignment.matches,
     variantSeed: now.getDay() * 10000 + now.getDate() * 100 + now.getHours(),
   });
@@ -126,9 +131,9 @@ async function handleAuto(req: NextRequest) {
       category: post.category,
       themesUsed: schedule.themes,
       schedule: "Mon=rejunomics, Wed=industry, Fri=token utility | Tue=autophagy, Thu=ketosis, Sat=cellular/immunity/lymphatic | Sun=rest",
-      researchSources: live.sourcesUsed,
-      researchQuery: live.queryUsed,
-      researchFetchedAt: live.fetchedAt,
+      researchSources: live?.sourcesUsed ?? [],
+      researchQuery: live?.queryUsed ?? schedule.customFocus,
+      researchFetchedAt: live?.fetchedAt ?? null,
       conceptMatches: alignment.matches,
       libraryStats: {
         bookConceptCount: alignment.bookConceptCount,
