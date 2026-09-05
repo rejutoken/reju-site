@@ -42,7 +42,7 @@ Enrollment payments are gated by `enrollmentOpen` in `lib/siteNews.ts`. Set that
 
 ## Automatic X posts
 
-`vercel.json` runs `GET /api/x-post/auto` daily at 14:00 UTC (Sunday rest). Vercel sends `Authorization: Bearer $CRON_SECRET`. Set these on Vercel (Production):
+`vercel.json` runs `GET /api/x-post/auto` twice daily: 16:00 UTC (morning pair) and 22:00 UTC (afternoon pair). Each run publishes two related posts (one rejuvenation, one crypto). Vercel sends `Authorization: Bearer $CRON_SECRET`. Set these on Vercel (Production):
 
 - `CRON_SECRET` — same value as local `.env.local`
 - Prefer: `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET` (OAuth 1.0a)

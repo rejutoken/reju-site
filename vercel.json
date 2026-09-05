@@ -2,7 +2,11 @@
   "crons": [
     {
       "path": "/api/x-post/auto",
-      "schedule": "0 14 * * *"
+      "schedule": "0 16 * * *"
+    },
+    {
+      "path": "/api/x-post/auto",
+      "schedule": "0 22 * * *"
     }
   ],
   "functions": {

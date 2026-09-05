@@ -467,9 +467,9 @@ export default function XPostStudio({ entry = "admin" }: { entry?: XPostEntry })
           {!isCollaborator && (
             <>
               <br />
-              <strong>Automated schedule:</strong> Mon=rejunomics, Wed=industry, Fri=token utility | Tue=autophagy, Thu=ketosis, Sat=cellular/immunity/lymphatic (rotates) | Sun=rest.
+              <strong>Automated schedule:</strong> Four posts daily. Morning 16:00 UTC (9am PT / 12pm ET): health then related crypto. Afternoon 22:00 UTC (3pm PT / 6pm ET): crypto then related health.
               <br />
-              <strong>For automation:</strong> Vercel Cron hits <code>GET /api/x-post/auto</code> daily at 14:00 UTC.
+              <strong>For automation:</strong> Vercel Cron hits <code>GET /api/x-post/auto</code> twice a day. The Grok bot should not duplicate these posts.
             </>
           )}
           <br />

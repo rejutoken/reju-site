@@ -329,6 +329,111 @@ export function getRejuvenationFocusForDay(day: number): string {
   }
 }
 
+export type PostSlot = "morning" | "afternoon";
+
+export type SlotPostSpec = {
+  category: "crypto" | "rejuvenation";
+  themes: string[];
+  customFocus: string;
+};
+
+export type DualSlotPlan = {
+  slot: PostSlot;
+  dayName: string;
+  relation: string;
+  posts: SlotPostSpec[];
+};
+
+/** Related crypto + rejuvenation pair for each weekday. Same pair morning and afternoon; variants differ by hour. */
+const RELATED_DAILY_PAIRS: Record<
+  number,
+  {
+    crypto: CryptoThemeId;
+    rejuvenation: RejuvenationThemeId;
+    relation: string;
+    cryptoFocus: string;
+    healthFocus: string;
+  }
+> = {
+  0: {
+    crypto: "rejunomics",
+    rejuvenation: "cellular_repair",
+    relation: "Systems that keep working after the rush: disclosed token behavior and cellular repair.",
+    cryptoFocus: "Rejunomics, release disclosures, and continuity after hype",
+    healthFocus: "cellular repair after autophagy in the REJU Protocol",
+  },
+  1: {
+    crypto: "token_utility",
+    rejuvenation: "event",
+    relation: "Commitment with a body: 6-month lock and the Rejuvenation Event.",
+    cryptoFocus: "REJU token utility, the 6-month lock, and long-term participation",
+    healthFocus: "the REJU Rejuvenation Event and authoring your Transformation Book",
+  },
+  2: {
+    crypto: "industry",
+    rejuvenation: "health",
+    relation: "Most projects fail; structured fasting and autophagy are a real protocol.",
+    cryptoFocus: "crypto project failure rates and why continuity disclosures matter",
+    healthFocus: "autophagy, fasting, and cellular housekeeping",
+  },
+  3: {
+    crypto: "rejunomics",
+    rejuvenation: "ketosis",
+    relation: "Fuel and flow: metabolic flexibility and transparent token economics.",
+    cryptoFocus: "Rejunomics, release behavior, and finite incentives",
+    healthFocus: "ketosis and metabolic flexibility through the REJU Protocol",
+  },
+  4: {
+    crypto: "crypto",
+    rejuvenation: "immunity",
+    relation: "Resilience: ecosystems that last and an immune system that stays calibrated.",
+    cryptoFocus: "sustained crypto participation vs short-cycle hype",
+    healthFocus: "immune resilience, inflammation, and Kat's JOL",
+  },
+  5: {
+    crypto: "token_utility",
+    rejuvenation: "event",
+    relation: "Utility you can feel: lock REJU and enter the Event.",
+    cryptoFocus: "token utility, lock period, and documented transformation",
+    healthFocus: "REJU Rejuvenation Event, Health Benchmark, and daily authoring",
+  },
+  6: {
+    crypto: "crypto_trends",
+    rejuvenation: "lymphatic",
+    relation: "Flow: market trends fade; lymphatic flow and participation continue.",
+    cryptoFocus: "crypto trends versus ecosystems built for continuity",
+    healthFocus: "lymphatic system, drainage, hydration, and movement",
+  },
+};
+
+export function resolvePostSlot(now: Date = new Date(), query?: string | null): PostSlot {
+  if (query === "morning" || query === "afternoon") return query;
+  return now.getUTCHours() < 19 ? "morning" : "afternoon";
+}
+
+export function getDualSlotPlan(now: Date = new Date(), slot?: PostSlot): DualSlotPlan {
+  const resolved = slot ?? resolvePostSlot(now);
+  const day = now.getDay();
+  const pair = RELATED_DAILY_PAIRS[day];
+  const cryptoPost: SlotPostSpec = {
+    category: "crypto",
+    themes: [pair.crypto],
+    customFocus: pair.cryptoFocus,
+  };
+  const healthPost: SlotPostSpec = {
+    category: "rejuvenation",
+    themes: [pair.rejuvenation],
+    customFocus: pair.healthFocus,
+  };
+
+  return {
+    slot: resolved,
+    dayName: DAY_NAMES[day],
+    relation: pair.relation,
+    posts: resolved === "morning" ? [healthPost, cryptoPost] : [cryptoPost, healthPost],
+  };
+}
+
 export function getScheduledPostConfig(date: Date = new Date()): ScheduledPostConfig {
   const day = date.getDay();
   const dayName = DAY_NAMES[day];
