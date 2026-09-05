@@ -15,6 +15,7 @@ import { alignResearchWithLibrary } from "../../../../lib/conceptLibrary";
 import { fetchWebResearch } from "../../../../lib/postResearch";
 import { publishTweet } from "../../../../lib/xPublish";
 
+export const runtime = "nodejs";
 export const maxDuration = 60;
 
 // Automated endpoint for Vercel Cron
@@ -53,6 +54,7 @@ function resolveSchedule(req: NextRequest) {
 }
 
 async function handleAuto(req: NextRequest) {
+  try {
   if (!verifyCronAuth(req)) {
     return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
   }
@@ -143,6 +145,11 @@ async function handleAuto(req: NextRequest) {
       }),
     },
   });
+  } catch (error: unknown) {
+    console.error("X-POST AUTO ERROR:", error);
+    const message = error instanceof Error ? error.message : "Auto post failed.";
+    return NextResponse.json({ success: false, error: message }, { status: 500 });
+  }
 }
 
 export async function GET(req: NextRequest) {

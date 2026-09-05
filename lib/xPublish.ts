@@ -47,11 +47,27 @@ export async function publishTweet(text: string): Promise<XPublishResult> {
     };
   }
 
-  const tweet = await client.v2.tweet(body);
-  const id = tweet.data.id;
-  return {
-    posted: true,
-    tweetId: id,
-    url: `https://x.com/rejutoken/status/${id}`,
-  };
+  try {
+    const tweet = await client.v2.tweet(body);
+    const id = tweet.data.id;
+    return {
+      posted: true,
+      tweetId: id,
+      url: `https://x.com/rejutoken/status/${id}`,
+    };
+  } catch (error: unknown) {
+    const err = error as {
+      message?: string;
+      code?: number;
+      data?: { detail?: string; title?: string; errors?: Array<{ message?: string }> };
+    };
+    const detail =
+      err.data?.detail ||
+      err.data?.title ||
+      err.data?.errors?.[0]?.message ||
+      err.message ||
+      "X API rejected the post.";
+    console.error("X PUBLISH ERROR:", detail);
+    return { posted: false, reason: detail };
+  }
 }
