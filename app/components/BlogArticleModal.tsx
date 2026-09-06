@@ -10,9 +10,9 @@ import { commentFormId } from "./blogModalComposer";
 
 
 const articleProseClass = `
-  max-w-none text-gray-300 leading-relaxed
-  [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-[#f5c26b] [&_h2]:mt-10 [&_h2]:mb-4
-  [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-[#f5c26b] [&_h3]:mt-8 [&_h3]:mb-3
+  blog-article-content max-w-none text-gray-300 leading-relaxed
+  [&_h2]:mt-10 [&_h2]:mb-4
+  [&_h3]:mt-8 [&_h3]:mb-3
   [&_p]:text-base [&_p]:leading-7 [&_p]:mb-5
   [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-6 [&_ul]:space-y-2
   [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-6 [&_ol]:space-y-2
@@ -407,7 +407,7 @@ export default function BlogArticleModal({ slug, onClose }: BlogArticleModalProp
               </p>
               <h1
                 id="blog-article-title"
-                className="mt-2 text-xl font-bold leading-snug text-[#f5c26b] sm:mt-3 sm:text-3xl"
+                className="mt-2 text-xl font-semibold leading-snug text-[#f5c26b]"
               >
                 {post.title}
               </h1>

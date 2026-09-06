@@ -1,8 +1,7 @@
-"use client";
-
-import { useState } from "react";
+import Link from "next/link";
+import type { ArticlePublicStats } from "@/lib/blogEngagement";
 import type { PostMeta } from "@/lib/posts";
-import BlogArticleModal from "./BlogArticleModal";
+import { BLOG_THEME_COPY } from "@/lib/blogTheme";
 
 function formatDate(date: string) {
   return new Date(date).toLocaleDateString("en-US", {
@@ -12,68 +11,100 @@ function formatDate(date: string) {
   });
 }
 
+function formatCount(value: number) {
+  return new Intl.NumberFormat("en-US").format(value);
+}
+
+function emptyStats(): ArticlePublicStats {
+  return { viewCount: 0, likeCount: 0, commentCount: 0 };
+}
+
 function PostCard({
   post,
-  onOpen,
+  stats,
+  featured = false,
 }: {
   post: PostMeta;
-  onOpen: (slug: string) => void;
+  stats: ArticlePublicStats;
+  featured?: boolean;
 }) {
+  const theme = BLOG_THEME_COPY[post.theme];
+
   return (
-    <button
-      type="button"
-      onClick={() => onOpen(post.slug)}
-      className="group w-full text-left"
+    <article
+      className={`group rounded-3xl border border-[#f5c26b]/20 bg-[#120904]/80 transition hover:border-[#f5c26b] ${
+        featured ? "p-8 md:p-10" : "p-7"
+      }`}
     >
-      <div className="h-full rounded-3xl border border-[#f5c26b]/20 bg-[#120904]/80 p-8 transition-all hover:border-[#f5c26b]">
-        <p className="mb-4 text-md text-gray-500">{formatDate(post.date)}</p>
-        <h3 className="mb-4 text-xl font-semibold group-hover:text-[#f5c26b]">
-          {post.title}
-        </h3>
-        <p className="line-clamp-3 text-md text-gray-400">{post.description}</p>
-        <p className="mt-4 text-sm font-semibold text-[#f5c26b] opacity-0 transition group-hover:opacity-100">
-          Read article →
-        </p>
+      <div className="mb-4 flex flex-wrap items-center gap-3 text-sm text-gray-500">
+        <Link
+          href={theme.href}
+          className="rounded-full border border-[#f5c26b]/30 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#f5c26b] hover:bg-[#f5c26b] hover:text-black"
+        >
+          {theme.label}
+        </Link>
+        <time dateTime={post.date}>{formatDate(post.date)}</time>
       </div>
-    </button>
+
+      <h3 className="text-xl font-semibold leading-snug text-white group-hover:text-[#f5c26b]">
+        <Link href={`/blog/${post.slug}`} className="focus:outline-none">
+          {post.title}
+        </Link>
+      </h3>
+
+      <p className={`mt-4 text-gray-400 ${featured ? "text-lg leading-8" : "line-clamp-3 text-base"}`}>
+        {post.description}
+      </p>
+
+      <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-500">
+        <span>{formatCount(stats.viewCount)} view{stats.viewCount === 1 ? "" : "s"}</span>
+        <span>{formatCount(stats.likeCount)} like{stats.likeCount === 1 ? "" : "s"}</span>
+        <span>
+          {formatCount(stats.commentCount)} comment{stats.commentCount === 1 ? "" : "s"}
+        </span>
+        <Link
+          href={`/blog/${post.slug}`}
+          className="ml-auto font-semibold text-[#f5c26b] hover:underline"
+        >
+          Read article →
+        </Link>
+      </div>
+    </article>
   );
 }
 
-export default function BlogPostList({ posts }: { posts: PostMeta[] }) {
-  const [activeSlug, setActiveSlug] = useState<string | null>(null);
+export default function BlogPostList({
+  posts,
+  stats,
+  emptyMessage = "Articles coming soon.",
+  featuredFirst = true,
+}: {
+  posts: PostMeta[];
+  stats: Record<string, ArticlePublicStats>;
+  emptyMessage?: string;
+  featuredFirst?: boolean;
+}) {
+  if (posts.length === 0) {
+    return <p className="text-gray-400">{emptyMessage}</p>;
+  }
 
-  const cryptoPosts = posts.filter((p) => p.category === "crypto");
-  const healthPosts = posts.filter((p) => p.category === "health");
+  const featured = featuredFirst ? posts[0] : null;
+  const list = featured ? posts.slice(1) : posts;
 
   return (
-    <>
-      <section className="mb-10">
-        <h2 className="mb-8 border-b border-[#f5c26b]/20 pb-4 text-3xl font-bold text-[#f5c26b]">
-          Crypto &amp; Token
-        </h2>
-        <div className="grid gap-6 md:grid-cols-1">
-          {cryptoPosts.map((post) => (
-            <PostCard key={post.slug} post={post} onOpen={setActiveSlug} />
-          ))}
-        </div>
-      </section>
-
-      <section>
-        <h2 className="mb-8 border-b border-[#f5c26b]/20 pb-4 text-3xl font-bold text-[#f5c26b]">
-          Health &amp; Rejuvenation
-        </h2>
-        <div className="grid gap-8 md:grid-cols-1">
-          {healthPosts.length > 0 ? (
-            healthPosts.map((post) => (
-              <PostCard key={post.slug} post={post} onOpen={setActiveSlug} />
-            ))
-          ) : (
-            <p className="text-gray-400">Health &amp; Rejuvenation articles coming soon.</p>
-          )}
-        </div>
-      </section>
-
-      <BlogArticleModal slug={activeSlug} onClose={() => setActiveSlug(null)} />
-    </>
+    <div className="space-y-6">
+      {featured && (
+        <PostCard
+          post={featured}
+          stats={stats[featured.slug] || emptyStats()}
+          featured
+        />
+      )}
+      <div className="grid gap-6 md:grid-cols-1">
+        {list.map((post) => (
+          <PostCard key={post.slug} post={post} stats={stats[post.slug] || emptyStats()} />
+        ))}
+      </div>
+    </div>
   );
 }

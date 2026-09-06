@@ -3,6 +3,7 @@ import {
   addCommentReply,
   getArticleEngagement,
   isValidVoterId,
+  recordArticleView,
   sanitizeText,
   toggleArticleLike,
 } from "@/lib/blogEngagement";
@@ -12,6 +13,13 @@ import { isSafeSlug } from "@/lib/safeError";
 
 export const runtime = "nodejs";
 
+const emptyEngagement = {
+  viewCount: 0,
+  likeCount: 0,
+  likedByViewer: false,
+  comments: [],
+};
+
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ slug: string }> }
@@ -19,7 +27,7 @@ export async function GET(
   try {
     const { slug } = await params;
     if (!isSafeSlug(slug)) {
-      return NextResponse.json({ likeCount: 0, likedByViewer: false, comments: [] }, { status: 200 });
+      return NextResponse.json(emptyEngagement, { status: 200 });
     }
     const voterId = new URL(request.url).searchParams.get("voterId") || undefined;
 
@@ -27,10 +35,7 @@ export async function GET(
     return NextResponse.json(engagement);
   } catch (error) {
     console.error("Blog engagement GET error:", error);
-    return NextResponse.json(
-      { likeCount: 0, likedByViewer: false, comments: [] },
-      { status: 200 }
-    );
+    return NextResponse.json(emptyEngagement, { status: 200 });
   }
 }
 
@@ -44,11 +49,20 @@ export async function POST(
       return NextResponse.json({ error: "Invalid article." }, { status: 400 });
     }
     const ip = clientIp(request);
+    const payload = await request.json();
+    const action = String(payload.action || "");
+
+    if (action === "view") {
+      if (!rateLimit(`blog-view:${ip}`, 60, 15 * 60 * 1000)) {
+        return NextResponse.json({ error: "Too many attempts. Please wait." }, { status: 429 });
+      }
+      const result = await recordArticleView(slug);
+      return NextResponse.json(result);
+    }
+
     if (!rateLimit(`blog:${ip}`, 20, 15 * 60 * 1000)) {
       return NextResponse.json({ error: "Too many attempts. Please wait." }, { status: 429 });
     }
-    const payload = await request.json();
-    const action = String(payload.action || "");
 
     if (action === "like") {
       const voterId = String(payload.voterId || "");

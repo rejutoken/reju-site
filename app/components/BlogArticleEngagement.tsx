@@ -6,6 +6,7 @@ import { getOrCreateVoterId } from "@/lib/blogVoter";
 import { commentFormId, replyFormId } from "./blogModalComposer";
 
 type EngagementState = {
+  viewCount: number;
   likeCount: number;
   likedByViewer: boolean;
   comments: BlogComment[];
@@ -88,14 +89,21 @@ export type MobileCommentForm = {
 
 type BlogArticleEngagementProps = {
   slug: string;
+  recordView?: boolean;
   onMobileFormChange?: (form: MobileCommentForm) => void;
 };
 
+function viewedStorageKey(slug: string) {
+  return `rejuBlogViewed:${slug}`;
+}
+
 export default function BlogArticleEngagement({
   slug,
+  recordView = false,
   onMobileFormChange,
 }: BlogArticleEngagementProps) {
   const [engagement, setEngagement] = useState<EngagementState>({
+    viewCount: 0,
     likeCount: 0,
     likedByViewer: false,
     comments: [],
@@ -169,6 +177,7 @@ export default function BlogArticleEngagement({
       );
       const data = await res.json();
       setEngagement({
+        viewCount: Number(data.viewCount || 0),
         likeCount: Number(data.likeCount || 0),
         likedByViewer: Boolean(data.likedByViewer),
         comments: Array.isArray(data.comments) ? data.comments : [],
@@ -183,6 +192,35 @@ export default function BlogArticleEngagement({
   useEffect(() => {
     loadEngagement();
   }, [loadEngagement]);
+
+  useEffect(() => {
+    if (!recordView || typeof window === "undefined") return;
+    if (sessionStorage.getItem(viewedStorageKey(slug))) return;
+
+    let cancelled = false;
+    sessionStorage.setItem(viewedStorageKey(slug), "1");
+
+    fetch(`/api/blog/${encodeURIComponent(slug)}/engagement`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "view" }),
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (!res.ok || cancelled) return;
+        setEngagement((current) => ({
+          ...current,
+          viewCount: Number(data.viewCount || current.viewCount),
+        }));
+      })
+      .catch(() => {
+        sessionStorage.removeItem(viewedStorageKey(slug));
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [slug, recordView]);
 
   async function handleLike() {
     setLikeBusy(true);
@@ -288,6 +326,11 @@ export default function BlogArticleEngagement({
       className="mt-10 border-t border-[#f5c26b]/20 pt-8 max-sm:pb-4"
     >
       <div className="flex flex-wrap items-center gap-4">
+        <p className="rounded-full border border-[#f5c26b]/20 px-4 py-2 text-sm text-gray-400">
+          <span className="font-semibold text-[#f5c26b]">{engagement.viewCount}</span>
+          {" "}
+          {engagement.viewCount === 1 ? "view" : "views"}
+        </p>
         <button
           type="button"
           onClick={handleLike}
@@ -298,8 +341,9 @@ export default function BlogArticleEngagement({
               : "border-[#f5c26b]/40 text-[#f5c26b] hover:bg-[#f5c26b] hover:text-black"
           }`}
           aria-pressed={engagement.likedByViewer}
+          aria-label={engagement.likedByViewer ? "Unlike this article" : "Like this article"}
         >
-          <span aria-hidden="true">👍</span>
+          <span aria-hidden="true">{engagement.likedByViewer ? "♥" : "♡"}</span>
           <span>{engagement.likedByViewer ? "Liked" : "Like"}</span>
           <span className="rounded-full bg-black/20 px-2 py-0.5 text-xs">
             {engagement.likeCount}
@@ -311,7 +355,7 @@ export default function BlogArticleEngagement({
       </div>
 
       <div className="mt-8">
-        <h2 className="text-xl font-bold text-[#f5c26b]">Comments</h2>
+        <h2 className="text-xl font-semibold text-[#f5c26b]">Comments</h2>
 
         {status && <p className="mt-4 text-sm text-gray-400">{status}</p>}
 
@@ -419,7 +463,11 @@ export default function BlogArticleEngagement({
             maxLength={2000}
             required
           />
-          <button type="submit" disabled={commentBusy} className={`${buttonClass} hidden sm:inline-flex`}>
+          <button
+            type="submit"
+            disabled={commentBusy}
+            className={`${buttonClass} ${onMobileFormChange ? "hidden sm:inline-flex" : "inline-flex"}`}
+          >
             {commentBusy ? "Posting..." : "Post Comment"}
           </button>
         </form>

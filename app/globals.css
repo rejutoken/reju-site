@@ -102,6 +102,19 @@ body.blog-modal-open .blog-article-modal-body {
   scroll-margin-bottom: 5rem;
 }
 
+/* Keep every article heading at the same size as list titles */
+.blog-article-content h1,
+.blog-article-content h2,
+.blog-article-content h3,
+.blog-article-content h4,
+.blog-article-content h5,
+.blog-article-content h6 {
+  font-size: 1.25rem;
+  line-height: 1.375;
+  font-weight: 600;
+  color: #f5c26b;
+}
+
 @media (min-width: 640px) {
   .blog-article-modal-panel {
     top: 50%;

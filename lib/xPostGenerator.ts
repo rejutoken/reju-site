@@ -16,6 +16,7 @@ import { buildConceptBridge, getTopAlignedConcept } from "./conceptLibrary";
 import type { ResearchNote } from "./postResearch";
 
 const X_SINGLE_MAX = 280;
+const HOME_LINK = "rejutkn.com";
 
 export { KATS_LEGACY_BOOK, REJUVENATION_POST_INSTRUCTION };
 export type { ResearchNote };
@@ -197,39 +198,39 @@ const REJUVENATION_EVENT_ADDENDUM =
 
 const CRYPTO_SINGLE_POSTS: Record<CryptoThemeId, string[]> = {
   rejunomics: [
-    "Most tokenomics show the map. Rejunomics shows the terrain — release behavior, finite incentives, and ecosystem continuity after hype fades. → rejutkn.com/rejunomics",
-    "Allocations tell you who got what. Rejunomics tells you what happens next — release disclosures, incentive lifecycles, post-launch activity. → rejutkn.com/rejunomics",
-    "Speculation needs a story. Continuity needs disclosures. Rejunomics maps release behavior and ecosystem activity beyond the launch window. → rejutkn.com/rejunomics",
+    "Most tokenomics show the map. Rejunomics shows the terrain — release behavior, finite incentives, and ecosystem continuity after hype fades. → rejutkn.com",
+    "Allocations tell you who got what. Rejunomics tells you what happens next — release disclosures, incentive lifecycles, post-launch activity. → rejutkn.com",
+    "Speculation needs a story. Continuity needs disclosures. Rejunomics maps release behavior and ecosystem activity beyond the launch window. → rejutkn.com",
   ],
   industry: [
-    "53% of crypto projects fail. Survivors plan for what happens when incentives fade — transparency and continuity disclosures matter. REJU is built for that gap. → rejutkn.com/rejunomics",
-    "Most projects answer 'How do we launch?' Few answer 'How do we continue?' REJU is designed around that survival gap. → rejutkn.com/rejunomics",
-    "11.6M tokens failed in 2025 alone. The pattern: thin disclosures, fading incentives, no post-hype plan. Rejunomics addresses that structural gap. → rejutkn.com/rejunomics",
+    "53% of crypto projects fail. Survivors plan for what happens when incentives fade — transparency and continuity disclosures matter. REJU is built for that gap. → rejutkn.com",
+    "Most projects answer 'How do we launch?' Few answer 'How do we continue?' REJU is designed around that survival gap. → rejutkn.com",
+    "11.6M tokens failed in 2025 alone. The pattern: thin disclosures, fading incentives, no post-hype plan. Rejunomics addresses that structural gap. → rejutkn.com",
   ],
   crypto: [
-    "Speculation fills the room fast. Continuity keeps the lights on. REJU is a long-horizon ecosystem — transparent economics and sustained participation. → rejutkn.com/rejunomics",
-    "Crypto ecosystems decay when participation has no structure after the rush. REJU aligns incentives for ongoing engagement — not one-time extraction. → rejutkn.com/rejunomics",
-    "Hype cycles end. Ecosystems that disclose economics and reward long-term participation don't. REJU is built for the post-rush window. → rejutkn.com/rejunomics",
+    "Speculation fills the room fast. Continuity keeps the lights on. REJU is a long-horizon ecosystem — transparent economics and sustained participation. → rejutkn.com",
+    "Crypto ecosystems decay when participation has no structure after the rush. REJU aligns incentives for ongoing engagement — not one-time extraction. → rejutkn.com",
+    "Hype cycles end. Ecosystems that disclose economics and reward long-term participation don't. REJU is built for the post-rush window. → rejutkn.com",
   ],
   token_utility: [
-    "REJU utility ties to real commitment: 6-month lock, Rejuvenation Event access, education, and documented transformation — not launch-window narrative. → rejutkn.com/rejunomics",
-    "Utility that outlasts hype: lock REJU, join the Rejuvenation Event, earn certification, author your Transformation Book. → rejutkn.com/rejunomics",
-    "A token earns utility when behavior follows — 6-month lock, structured rejuvenation, documented results. That's REJU. → rejutkn.com/rejunomics",
+    "REJU utility ties to real commitment: 6-month lock, Rejuvenation Event access, education, and documented transformation — not launch-window narrative. → rejutkn.com",
+    "Utility that outlasts hype: lock REJU, join the Rejuvenation Event, earn certification, author your Transformation Book. → rejutkn.com",
+    "A token earns utility when behavior follows — 6-month lock, structured rejuvenation, documented results. That's REJU. → rejutkn.com",
   ],
   crypto_news: [
-    "Crypto headlines rotate daily. The structural question stays: what happens when incentives end? Rejunomics discloses release behavior and post-launch continuity. → rejutkn.com/rejunomics",
-    "Today's token news is loud. Survivors publish what happens after the headline — release disclosures and ecosystem activity. That's Rejunomics. → rejutkn.com/rejunomics",
-    "News cycles reward speed. Durable projects reward transparency. REJU connects today's narrative to disclosed economics. → rejutkn.com/rejunomics",
+    "Crypto headlines rotate daily. The structural question stays: what happens when incentives end? Rejunomics discloses release behavior and post-launch continuity. → rejutkn.com",
+    "Today's token news is loud. Survivors publish what happens after the headline — release disclosures and ecosystem activity. That's Rejunomics. → rejutkn.com",
+    "News cycles reward speed. Durable projects reward transparency. REJU connects today's narrative to disclosed economics. → rejutkn.com",
   ],
   crypto_news_today: [
-    "Whatever dominates today's crypto feed — the continuity question remains. Rejunomics maps release behavior and post-hype ecosystem activity. → rejutkn.com/rejunomics",
-    "Today's headlines fade. Transparent token economics don't. REJU is built for the window after the news cycle moves on. → rejutkn.com/rejunomics",
-    "Breaking crypto news moves markets. Rejunomics moves participants from speculation to sustained engagement. → rejutkn.com/rejunomics",
+    "Whatever dominates today's crypto feed — the continuity question remains. Rejunomics maps release behavior and post-hype ecosystem activity. → rejutkn.com",
+    "Today's headlines fade. Transparent token economics don't. REJU is built for the window after the news cycle moves on. → rejutkn.com",
+    "Breaking crypto news moves markets. Rejunomics moves participants from speculation to sustained engagement. → rejutkn.com",
   ],
   crypto_trends: [
-    "Trending assets change weekly. Trending transparency doesn't. Rejunomics discloses release behavior and incentive lifecycles beyond the hype cycle. → rejutkn.com/rejunomics",
-    "What's hot today may be gone tomorrow. Ecosystems with disclosed economics and real utility endure. REJU maps that terrain. → rejutkn.com/rejunomics",
-    "Crypto trends spotlight momentum. Rejunomics spotlights continuity — what keeps an ecosystem alive after the trend passes. → rejutkn.com/rejunomics",
+    "Trending assets change weekly. Trending transparency doesn't. Rejunomics discloses release behavior and incentive lifecycles beyond the hype cycle. → rejutkn.com",
+    "What's hot today may be gone tomorrow. Ecosystems with disclosed economics and real utility endure. REJU maps that terrain. → rejutkn.com",
+    "Crypto trends spotlight momentum. Rejunomics spotlights continuity — what keeps an ecosystem alive after the trend passes. → rejutkn.com",
   ],
 };
 
@@ -242,11 +243,11 @@ const CRYPTO_REJU_BRIDGES = [
 ];
 
 const REJUVENATION_REJU_BRIDGES = [
-  "Kat's Legacy and the REJU Protocol™ structure this science into daily practice.",
-  "The REJU Rejuvenation Event™ turns research into documented transformation.",
-  "That's the foundation of the REJU Health Benchmark™ — track what compounds over weeks.",
-  "Wilson Fischmann mapped this in Kat's Legacy — now structured in the REJU ecosystem.",
-  "Science-informed rejuvenation with real skin in the game — that's REJU.",
+  "The REJU token turns this science into utility: 6-month lock, Event access, and your Transformation Book.",
+  "Lock REJU for Rejuvenation Event access, education, and documented transformation.",
+  "That's REJU token utility — lock, Event access, education, and a book you author.",
+  "Wilson Fischmann mapped this in Kat's Legacy — now a token with real participation benefits.",
+  "Science-informed rejuvenation with skin in the game: lock REJU, join the Event, author your book.",
 ];
 
 export function getThemeCategory(themeId: string): PostCategory | null {
@@ -529,6 +530,34 @@ function pickCryptoSinglePost(themeId: CryptoThemeId, variantSeed: number): stri
   return variants[variantSeed % variants.length];
 }
 
+function withTokenHomeCta(text: string): string {
+  let next = text
+    .replace(/https?:\/\/(?:www\.)?rejutkn\.com\/rejunomics/gi, HOME_LINK)
+    .replace(/rejutkn\.com\/rejunomics/gi, HOME_LINK);
+
+  const tokenBit = "Lock REJU for Event access.";
+  const hasToken = /lock reju|reju token|6-month lock/i.test(next);
+  const hasLink = /rejutkn\.com/i.test(next);
+
+  if (!hasToken) {
+    if (next.includes(`→ ${HOME_LINK}`)) {
+      const candidate = next.replace(`→ ${HOME_LINK}`, `${tokenBit} → ${HOME_LINK}`);
+      if (candidate.length <= X_SINGLE_MAX) return candidate;
+    }
+    const candidate = hasLink ? next : `${next} ${tokenBit} → ${HOME_LINK}`;
+    if (!hasLink && candidate.length <= X_SINGLE_MAX) return candidate;
+  }
+
+  if (!hasLink) {
+    const withLink = `${next} → ${HOME_LINK}`;
+    return withLink.length <= X_SINGLE_MAX
+      ? withLink
+      : smartComplete(withLink, X_SINGLE_MAX - 1);
+  }
+
+  return next;
+}
+
 function buildResearchBridgedSinglePost(
   notes: ResearchNote[],
   category: PostCategory,
@@ -544,9 +573,8 @@ function buildResearchBridgedSinglePost(
   const bridges = category === "crypto" ? CRYPTO_REJU_BRIDGES : REJUVENATION_REJU_BRIDGES;
   const fallbackBridge = bridges[(variantSeed + 1) % bridges.length];
   const bridge = alignedConcept && (noteMatch?.alignmentScore ?? 0) >= 4 ? conceptBridge : fallbackBridge;
-  const link = category === "crypto" ? "rejutkn.com/rejunomics" : "rejutkn.com";
 
-  return joinInsightAndBridge(note.text, bridge, link);
+  return joinInsightAndBridge(note.text, bridge, HOME_LINK);
 }
 
 function buildCryptoPost(
@@ -598,10 +626,10 @@ function buildCryptoPost(
   const showRejunomicsLink =
     primaryId === "rejunomics" || primaryId === "token_utility" || activeThemes.includes("rejunomics");
   if (showRejunomicsLink) {
-    mainText += `\n\nLearn more about Rejunomics → rejutkn.com/rejunomics`;
+    mainText += `\n\nLearn more about Rejunomics → ${HOME_LINK}`;
   }
 
-  const cta = "\n\nExplore REJU token utility and ecosystem continuity.\n\n→ rejutkn.com/rejunomics\n\nJoin the conversation on Telegram.";
+  const cta = `\n\nExplore REJU token utility and ecosystem continuity.\n\n→ ${HOME_LINK}\n\nJoin the conversation on Telegram.`;
 
   return {
     mainText: mainText + cta,
@@ -632,10 +660,10 @@ function buildRejuvenationPost(
       ? buildResearchBridgedSinglePost(researchContext, "rejuvenation", variantSeed, conceptMatches)
       : getBookSinglePostForTheme(primaryId, new Date(), variantSeed) ||
         getBookSinglePostForTheme("health", new Date(), variantSeed) ||
-        `${REJUVENATION_CONTENT.health.hook} → rejutkn.com`;
+        `${REJUVENATION_CONTENT.health.hook} Lock REJU for Event access, education, and your Transformation Book. → ${HOME_LINK}`;
 
     return {
-      mainText: single,
+      mainText: withTokenHomeCta(single),
       imagePrompt: includeVisual ? visual.imagePrompt : "",
       hashtags: visual.hashtags,
       theme: rejuvenationThemes.map((t) => THEMES_MAP[t] || t).join(" + "),
@@ -684,7 +712,7 @@ function buildRejuvenationPost(
     mainText += `\n\n${REJUVENATION_EVENT_ADDENDUM}`;
   }
 
-  mainText += "\n\nParticipate in the REJU Rejuvenation Event™. Author your Transformation Book.\n\n→ rejutkn.com";
+  mainText += `\n\nThe REJU token funds that path: 6-month lock, Event access, education, and your Transformation Book.\n\n→ ${HOME_LINK}`;
 
   return {
     mainText,

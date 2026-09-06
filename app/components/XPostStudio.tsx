@@ -153,7 +153,7 @@ export default function XPostStudio({ entry = "admin" }: { entry?: XPostEntry })
       const starterDrafts: GeneratedPost[] = [
         {
           id: "seed1",
-          text: "Most tokenomics show you the map.\n\nRejunomics shows you the terrain ahead.\n\nTraditional models list allocations. Rejunomics discloses:\n• When & how tokens may enter circulation\n• Which incentives are finite\n• What ecosystem activity continues after hype fades\n\nThis is how projects move from speculation to sustained participation.\n\nLearn more about Rejunomics → rejutkn.com/rejunomics\n\nLock REJU. Participate. Author real transformation.\n\nrejutkn.com",
+          text: "Most tokenomics show you the map.\n\nRejunomics shows you the terrain ahead.\n\nTraditional models list allocations. Rejunomics discloses:\n• When & how tokens may enter circulation\n• Which incentives are finite\n• What ecosystem activity continues after hype fades\n\nThis is how projects move from speculation to sustained participation.\n\nLock REJU. Participate. Author real transformation.\n\n→ rejutkn.com",
           imagePrompt: "Minimalist infographic: side-by-side comparison of 'Traditional Tokenomics' (simple pie) vs 'Rejunomics' (flow with arrows showing release, incentives, continuity). Elegant dark background with gold accents.",
           hashtags: "#Rejunomics #TokenTransparency #Crypto",
           theme: "rejunomics + industry",
@@ -161,7 +161,7 @@ export default function XPostStudio({ entry = "admin" }: { entry?: XPostEntry })
         },
         {
           id: "seed2",
-          text: "Your cells have a built-in cleanup crew called autophagy.\n\nIt ramps up during fasting, recycling damaged components and supporting longevity.\n\nIn the REJU Rejuvenation Event, daily practices + the 6-month lock turn personal renewal into a structured system.\n\nYour journal becomes chapters you author.\n\nThis is participation with real skin in the game.\n\n→ rejutkn.com",
+          text: "Your cells have a built-in cleanup crew called autophagy.\n\nIt ramps up during fasting, recycling damaged components and supporting longevity.\n\nIn the REJU Rejuvenation Event, daily practices + the 6-month lock turn personal renewal into a structured system.\n\nYour journal becomes chapters you author.\n\nThe REJU token funds that path: Event access, education, and your Transformation Book.\n\n→ rejutkn.com",
           imagePrompt: "Serene visual of a person quietly journaling at dawn. Subtle glowing cellular patterns and soft gold light symbolizing renewal and autophagy. Clean, inspiring wellness-crypto aesthetic.",
           hashtags: "#Autophagy #Fasting #REJU #Rejuvenation",
           theme: "health + event",

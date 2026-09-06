@@ -1,4 +1,6 @@
 import { randomUUID } from "crypto";
+import fs from "fs";
+import path from "path";
 import { Readable } from "stream";
 import { getDriveClient, getJsonFilesFolderId } from "./driveJsonFolder";
 
@@ -21,16 +23,55 @@ export type ArticleEngagement = {
   likeCount: number;
   likes: string[];
   comments: BlogComment[];
+  viewCount: number;
 };
 
 export type BlogEngagementStore = {
   articles: Record<string, ArticleEngagement>;
 };
 
+export type ArticlePublicStats = {
+  viewCount: number;
+  likeCount: number;
+  commentCount: number;
+};
+
 const ENGAGEMENT_FILE_NAME = "blog-engagement.json";
+const LOCAL_STORE_PATH = path.join(process.cwd(), ".data", "blog-engagement.json");
 
 function emptyArticleEngagement(): ArticleEngagement {
-  return { likeCount: 0, likes: [], comments: [] };
+  return { likeCount: 0, likes: [], comments: [], viewCount: 0 };
+}
+
+function normalizeArticle(raw: Partial<ArticleEngagement> | undefined): ArticleEngagement {
+  const comments = Array.isArray(raw?.comments) ? raw.comments : [];
+  return {
+    likeCount: Math.max(0, Number(raw?.likeCount || 0)),
+    likes: Array.isArray(raw?.likes) ? raw.likes.filter((id) => typeof id === "string") : [],
+    comments,
+    viewCount: Math.max(0, Number(raw?.viewCount || 0)),
+  };
+}
+
+function normalizeStore(raw: unknown): BlogEngagementStore {
+  const articles =
+    raw && typeof raw === "object" && "articles" in raw && raw.articles && typeof raw.articles === "object"
+      ? (raw.articles as Record<string, Partial<ArticleEngagement>>)
+      : {};
+
+  return {
+    articles: Object.fromEntries(
+      Object.entries(articles).map(([slug, article]) => [slug, normalizeArticle(article)])
+    ),
+  };
+}
+
+function driveConfigured() {
+  return Boolean(
+    process.env.GOOGLE_DRIVE_JSONFILES?.trim() &&
+      process.env.GOOGLE_CLIENT_EMAIL &&
+      process.env.GOOGLE_PRIVATE_KEY
+  );
 }
 
 async function getDriveAndFolder() {
@@ -51,7 +92,21 @@ async function findEngagementFileId(drive: ReturnType<typeof getDriveClient>, fo
   return list.data.files?.[0]?.id || null;
 }
 
-async function readStore(): Promise<BlogEngagementStore> {
+function readLocalStore(): BlogEngagementStore {
+  try {
+    if (!fs.existsSync(LOCAL_STORE_PATH)) return { articles: {} };
+    return normalizeStore(JSON.parse(fs.readFileSync(LOCAL_STORE_PATH, "utf8")));
+  } catch {
+    return { articles: {} };
+  }
+}
+
+function writeLocalStore(store: BlogEngagementStore): void {
+  fs.mkdirSync(path.dirname(LOCAL_STORE_PATH), { recursive: true });
+  fs.writeFileSync(LOCAL_STORE_PATH, JSON.stringify(store, null, 2), "utf8");
+}
+
+async function readDriveStore(): Promise<BlogEngagementStore> {
   const { drive, folderId } = await getDriveAndFolder();
   const fileId = await findEngagementFileId(drive, folderId);
 
@@ -64,13 +119,10 @@ async function readStore(): Promise<BlogEngagementStore> {
     { responseType: "text" }
   );
 
-  const raw = JSON.parse((res.data as string) || "{}");
-  return {
-    articles: raw.articles && typeof raw.articles === "object" ? raw.articles : {},
-  };
+  return normalizeStore(JSON.parse((res.data as string) || "{}"));
 }
 
-async function writeStore(store: BlogEngagementStore): Promise<void> {
+async function writeDriveStore(store: BlogEngagementStore): Promise<void> {
   const { drive, folderId } = await getDriveAndFolder();
   const body = JSON.stringify(store, null, 2);
   let fileId = await findEngagementFileId(drive, folderId);
@@ -101,6 +153,29 @@ async function writeStore(store: BlogEngagementStore): Promise<void> {
   });
 }
 
+async function readStore(): Promise<BlogEngagementStore> {
+  if (driveConfigured()) {
+    try {
+      return await readDriveStore();
+    } catch (error) {
+      console.error("Drive engagement read failed, using local store:", error);
+    }
+  }
+  return readLocalStore();
+}
+
+async function writeStore(store: BlogEngagementStore): Promise<void> {
+  if (driveConfigured()) {
+    try {
+      await writeDriveStore(store);
+      return;
+    } catch (error) {
+      console.error("Drive engagement write failed, using local store:", error);
+    }
+  }
+  writeLocalStore(store);
+}
+
 function getArticle(store: BlogEngagementStore, slug: string): ArticleEngagement {
   return store.articles[slug] || emptyArticleEngagement();
 }
@@ -117,15 +192,47 @@ export function isValidVoterId(voterId: string): boolean {
   return /^[a-zA-Z0-9-]{8,64}$/.test(voterId);
 }
 
+function toPublicStats(article: ArticleEngagement): ArticlePublicStats {
+  return {
+    viewCount: article.viewCount,
+    likeCount: article.likeCount,
+    commentCount: article.comments.length,
+  };
+}
+
 export async function getArticleEngagement(slug: string, voterId?: string) {
   const store = await readStore();
   const article = getArticle(store, slug);
 
   return {
+    viewCount: article.viewCount,
     likeCount: article.likeCount,
     likedByViewer: voterId ? article.likes.includes(voterId) : false,
     comments: article.comments,
   };
+}
+
+export async function getArticlesPublicStats(
+  slugs: string[]
+): Promise<Record<string, ArticlePublicStats>> {
+  const empty: ArticlePublicStats = { viewCount: 0, likeCount: 0, commentCount: 0 };
+  try {
+    const store = await readStore();
+    return Object.fromEntries(
+      slugs.map((slug) => [slug, toPublicStats(getArticle(store, slug))])
+    );
+  } catch {
+    return Object.fromEntries(slugs.map((slug) => [slug, empty]));
+  }
+}
+
+export async function recordArticleView(slug: string) {
+  const store = await readStore();
+  const article = getArticle(store, slug);
+  article.viewCount += 1;
+  store.articles[slug] = article;
+  await writeStore(store);
+  return { viewCount: article.viewCount };
 }
 
 export async function toggleArticleLike(slug: string, voterId: string) {
@@ -147,6 +254,7 @@ export async function toggleArticleLike(slug: string, voterId: string) {
   return {
     likeCount: article.likeCount,
     likedByViewer: !alreadyLiked,
+    viewCount: article.viewCount,
   };
 }
 

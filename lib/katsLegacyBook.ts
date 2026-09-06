@@ -145,7 +145,7 @@ export function getBookThreadForTheme(themeId: string): string[] | null {
     knowledge.hook,
     science,
     `From Kat's Legacy by Wilson Fischmann — ${knowledge.chapters[0] ?? "REJU Protocol™"}. Join the REJU Rejuvenation Event™ and author your Transformation Book.`,
-    "→ rejutkn.com",
+    "The REJU token funds that path: 6-month lock, Event access, education, and your Transformation Book. → rejutkn.com",
   ];
 }
 

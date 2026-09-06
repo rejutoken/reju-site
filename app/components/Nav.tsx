@@ -6,7 +6,13 @@ interface NavLink {
   href: string;
   label: string;
   external?: boolean;
+  children?: NavLink[];
 }
+
+const blogSubmenu: NavLink[] = [
+  { href: "/blog/rejuvenation", label: "Rejuvenation" },
+  { href: "/blog/crypto", label: "Crypto" },
+];
 
 const navLinks: NavLink[] = [
   { href: "/buy", label: "Buy REJU" },
@@ -15,8 +21,86 @@ const navLinks: NavLink[] = [
   { href: "/daily-transformation-log", label: "Author Your Book" },
   { href: "/onboarding", label: "Onboarding" },
   { href: "/rejunomics", label: "Rejunomics" },
-  { href: "/blog", label: "Blog" },
+  { href: "/blog", label: "Blog", children: blogSubmenu },
 ];
+
+function BlogMenu({
+  desktopClass,
+  mobileClass,
+  onNavigate,
+}: {
+  desktopClass: string;
+  mobileClass: string;
+  onNavigate: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <div
+        className="relative hidden md:block"
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
+      >
+        <a
+          href="/blog"
+          className={`${desktopClass} inline-flex items-center gap-1`}
+          aria-haspopup="true"
+          aria-expanded={open}
+          onFocus={() => setOpen(true)}
+        >
+          Blog
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className={`h-4 w-4 transition ${open ? "rotate-180" : ""}`}
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </a>
+        {open && (
+          <div className="absolute right-0 top-full z-50 min-w-[12.5rem] pt-2">
+            <div className="rounded-xl border border-[#f5c26b]/30 bg-[#120904] py-2 shadow-xl">
+              {blogSubmenu.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className="block px-4 py-2.5 text-sm text-gray-300 hover:bg-[#f5c26b]/10 hover:text-[#f5c26b]"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="md:hidden border-b border-[#f5c26b]/20">
+        <a href="/blog" className={mobileClass} onClick={onNavigate}>
+          Blog
+        </a>
+        <div className="mb-3 ml-4 flex flex-col">
+          {blogSubmenu.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="py-2 text-base text-gray-300 hover:text-[#f5c26b]"
+              onClick={onNavigate}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
@@ -96,18 +180,27 @@ export default function Nav() {
 
       {/* Desktop Navigation */}
       <div className="hidden md:flex items-center gap-6">
-        {navLinks.map((link) => (
-          <a
-            key={link.href}
-            href={link.href}
-            className={desktopLinkClass}
-            {...(link.external
-              ? { target: "_blank", rel: "noopener noreferrer" }
-              : {})}
-          >
-            {link.label}
-          </a>
-        ))}
+        {navLinks.map((link) =>
+          link.children ? (
+            <BlogMenu
+              key={link.href}
+              desktopClass={desktopLinkClass}
+              mobileClass={mobileLinkClass}
+              onNavigate={handleLinkClick}
+            />
+          ) : (
+            <a
+              key={link.href}
+              href={link.href}
+              className={desktopLinkClass}
+              {...(link.external
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+            >
+              {link.label}
+            </a>
+          )
+        )}
       </div>
 
       {/* Mobile Hamburger */}
@@ -241,19 +334,28 @@ export default function Nav() {
 
             {/* Links */}
             <div className="flex flex-col px-6 py-6">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className={mobileLinkClass}
-                  onClick={handleLinkClick}
-                  {...(link.external
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                >
-                  {link.label}
-                </a>
-              ))}
+              {navLinks.map((link) =>
+                link.children ? (
+                  <BlogMenu
+                    key={link.href}
+                    desktopClass={desktopLinkClass}
+                    mobileClass={mobileLinkClass}
+                    onNavigate={handleLinkClick}
+                  />
+                ) : (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className={mobileLinkClass}
+                    onClick={handleLinkClick}
+                    {...(link.external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
+                  >
+                    {link.label}
+                  </a>
+                )
+              )}
             </div>
 
             <div className="mt-auto px-6 py-6 text-xs text-gray-500 border-t border-[#f5c26b]/10">

@@ -41,9 +41,11 @@ yarn-error.log*
 next-env.d.ts
 
 # local leftovers
+.data/
 terminals/
 scripts/__pycache__/
 *.pyc
 docs/~$*
+docs/REJU-Site-Map-and-Passwords.docx
 
 .vercel

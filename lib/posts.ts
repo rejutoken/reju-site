@@ -9,12 +9,16 @@ import rehypeRaw from 'rehype-raw';
 import rehypeStringify from 'rehype-stringify';
 
 const postsDirectory = path.join(process.cwd(), 'app/content/blog');
+const RESERVED_BLOG_SLUGS = new Set(['crypto', 'rejuvenation']);
+
+export type BlogTheme = 'crypto' | 'rejuvenation';
 
 export type PostMeta = {
   slug: string;
   title: string;
   date: string;
   category: 'crypto' | 'health';
+  theme: BlogTheme;
   description: string;
 };
 
@@ -34,8 +38,16 @@ function normalizeBlogImages(markdown: string): string {
   );
 }
 
-async function markdownToHtml(markdown: string): Promise<string> {
-  const normalized = normalizeBlogImages(markdown);
+function stripDuplicateTitleHeading(markdown: string, title: string): string {
+  const escaped = title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return markdown.replace(new RegExp(`^\\s*#\\s+${escaped}\\s*\\n+`, "i"), "");
+}
+
+async function markdownToHtml(markdown: string, title?: string): Promise<string> {
+  const withoutDuplicateTitle = title
+    ? stripDuplicateTitleHeading(markdown, title)
+    : markdown;
+  const normalized = normalizeBlogImages(withoutDuplicateTitle);
   const processedContent = await unified()
     .use(remarkParse)
     .use(remarkRehype, { allowDangerousHtml: true })
@@ -46,17 +58,27 @@ async function markdownToHtml(markdown: string): Promise<string> {
   return processedContent.toString();
 }
 
+export function categoryToTheme(category: PostMeta['category']): BlogTheme {
+  return category === 'health' ? 'rejuvenation' : 'crypto';
+}
+
+export function themeToCategory(theme: BlogTheme): PostMeta['category'] {
+  return theme === 'rejuvenation' ? 'health' : 'crypto';
+}
+
 function readPostMeta(fileName: string): PostMeta {
   const slug = fileName.replace(/\.mdx$/, '');
   const fullPath = path.join(postsDirectory, fileName);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const { data } = matter(fileContents);
+  const category = (data.category as 'crypto' | 'health') || 'crypto';
 
   return {
     slug,
     title: data.title || 'Untitled',
     date: data.date || new Date().toISOString().split('T')[0],
-    category: (data.category as 'crypto' | 'health') || 'crypto',
+    category,
+    theme: categoryToTheme(category),
     description: data.description || '',
   };
 }
@@ -90,7 +112,7 @@ export async function getAllPosts(): Promise<Post[]> {
 
           return {
             ...meta,
-            content: await markdownToHtml(content),
+            content: await markdownToHtml(content, meta.title),
           };
         })
     );
@@ -104,21 +126,29 @@ export async function getAllPosts(): Promise<Post[]> {
   }
 }
 
+export async function getPostsByTheme(theme: BlogTheme): Promise<PostMeta[]> {
+  const posts = await getAllPostsMeta();
+  return posts.filter((post) => post.theme === theme);
+}
+
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   try {
     if (!/^[a-zA-Z0-9_-]{1,180}$/.test(slug)) return null;
+    if (RESERVED_BLOG_SLUGS.has(slug)) return null;
     const fullPath = path.join(postsDirectory, `${slug}.mdx`);
     if (!fullPath.startsWith(postsDirectory)) return null;
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
+    const category = (data.category as 'crypto' | 'health') || 'crypto';
 
     return {
       slug,
       title: data.title || 'Untitled',
       date: data.date || new Date().toISOString().split('T')[0],
-      category: (data.category as 'crypto' | 'health') || 'crypto',
+      category,
+      theme: categoryToTheme(category),
       description: data.description || '',
-      content: await markdownToHtml(content),
+      content: await markdownToHtml(content, data.title || 'Untitled'),
     };
   } catch {
     return null;
