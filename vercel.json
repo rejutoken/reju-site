@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/x-post/auto",
-      "schedule": "0 16 * * *"
+      "schedule": "0 14 * * *"
     },
     {
       "path": "/api/x-post/auto",

@@ -17,6 +17,8 @@ import type { ResearchNote } from "./postResearch";
 
 const X_SINGLE_MAX = 280;
 const HOME_LINK = "rejutkn.com";
+/** Wednesday — midweek US market attention for crypto investors. */
+export const INVESTOR_LINK_WEEKDAY = 3;
 
 export { KATS_LEGACY_BOOK, REJUVENATION_POST_INSTRUCTION };
 export type { ResearchNote };
@@ -85,6 +87,7 @@ export interface GeneratePostInput {
   researchContext?: ResearchNote[];
   conceptMatches?: ConceptMatch[];
   variantSeed?: number;
+  includeHomeLink?: boolean;
 }
 
 export interface GeneratedPost {
@@ -336,6 +339,7 @@ export type SlotPostSpec = {
   category: "crypto" | "rejuvenation";
   themes: string[];
   customFocus: string;
+  includeHomeLink: boolean;
 };
 
 export type DualSlotPlan = {
@@ -412,6 +416,30 @@ export function resolvePostSlot(now: Date = new Date(), query?: string | null): 
   return now.getUTCHours() < 19 ? "morning" : "afternoon";
 }
 
+export function shouldAttachInvestorLink(
+  now: Date,
+  category: PostCategory
+): boolean {
+  return now.getDay() === INVESTOR_LINK_WEEKDAY && category === "crypto";
+}
+
+function stripHomeLink(text: string): string {
+  return text
+    .replace(/https?:\/\/(?:www\.)?rejutkn\.com(?:\/[^\s]*)?/gi, "")
+    .replace(/\brejutkn\.com(?:\/[^\s]*)?/gi, "")
+    .replace(/\s*→\s*$/gm, "")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function withOptionalHomeLink(text: string, include: boolean, maxLen: number = X_SINGLE_MAX): string {
+  const stripped = stripHomeLink(text);
+  if (!include) return stripped;
+  const tagged = `${stripped} → ${HOME_LINK}`;
+  return tagged.length <= maxLen ? tagged : smartComplete(tagged, maxLen - 1);
+}
+
 export function getDualSlotPlan(now: Date = new Date(), slot?: PostSlot): DualSlotPlan {
   const resolved = slot ?? resolvePostSlot(now);
   const day = now.getDay();
@@ -420,11 +448,13 @@ export function getDualSlotPlan(now: Date = new Date(), slot?: PostSlot): DualSl
     category: "crypto",
     themes: [pair.crypto],
     customFocus: pair.cryptoFocus,
+    includeHomeLink: shouldAttachInvestorLink(now, "crypto"),
   };
   const healthPost: SlotPostSpec = {
     category: "rejuvenation",
     themes: [pair.rejuvenation],
     customFocus: pair.healthFocus,
+    includeHomeLink: false,
   };
 
   return {
@@ -732,6 +762,7 @@ export function generateHighQualityPost(input: GeneratePostInput): GeneratedPost
     includeVisual,
     researchContext,
     conceptMatches,
+    includeHomeLink = true,
   } = input;
   const variantSeed = resolveVariantSeed(input);
 
@@ -764,12 +795,17 @@ export function generateHighQualityPost(input: GeneratePostInput): GeneratedPost
     thread = parts.map((part, i) => {
       let tweet = part.trim();
       if (i > 0 && !tweet.match(/^\d+\//)) tweet = `${i + 1}/ ${tweet}`;
+      const isLast = i === parts.length - 1;
+      tweet = withOptionalHomeLink(tweet, includeHomeLink && isLast, 270);
       if (tweet.length > 270) tweet = smartComplete(tweet, 267);
       return tweet;
     });
     mainText = thread[0];
-  } else if (mainText.length > X_SINGLE_MAX) {
-    mainText = smartComplete(mainText, X_SINGLE_MAX - 1);
+  } else {
+    mainText = withOptionalHomeLink(mainText, includeHomeLink);
+    if (mainText.length > X_SINGLE_MAX) {
+      mainText = smartComplete(mainText, X_SINGLE_MAX - 1);
+    }
   }
 
   if (tone === "Inspirational") {

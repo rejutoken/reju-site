@@ -48,6 +48,7 @@ async function generateAndPublish(spec: SlotPostSpec, variantSeed: number) {
     researchContext: live?.notes,
     conceptMatches: alignment.matches,
     variantSeed,
+    includeHomeLink: spec.includeHomeLink,
   });
 
   let publish: Awaited<ReturnType<typeof publishTweet>>;
@@ -94,7 +95,7 @@ async function handleAuto(req: NextRequest) {
       slot: plan.slot,
       relation: plan.relation,
       schedule:
-        "Four posts daily: 16:00 UTC morning (9am PT / 12pm ET) health then crypto; 22:00 UTC afternoon (3pm PT / 6pm ET) crypto then health. Related pair each slot.",
+        "Four posts daily: 14:00 UTC morning (7am PT / 10am ET) health then crypto; 22:00 UTC afternoon (3pm PT / 6pm ET) crypto then health. Home link only on Wednesday crypto posts.",
       meta: {
         generatedAt: now.toISOString(),
         day: plan.dayName,
