@@ -88,6 +88,7 @@ export interface GeneratePostInput {
   conceptMatches?: ConceptMatch[];
   variantSeed?: number;
   includeHomeLink?: boolean;
+  investorDayCopy?: boolean;
 }
 
 export interface GeneratedPost {
@@ -237,6 +238,22 @@ const CRYPTO_SINGLE_POSTS: Record<CryptoThemeId, string[]> = {
   ],
 };
 
+const WEDNESDAY_CLARITY_POSTS = [
+  "The CLARITY Act maps who regulates digital assets. Rejunomics adds Allocation Clarity and Token Intent — where supply sits, why it exists, and how it may move. An industry disclosure waiting to be adopted.",
+  "Market structure rules protect process. Allocation Clarity and Token Intent protect reading: holdings, release, and purpose after launch. CLARITY would be more complete with a concept like Rejunomics.",
+  "Tokenomics shows slices. Rejunomics names Allocation Clarity and Token Intent so the CLARITY Act’s investor-protection aim has a disclosure practice underneath it. The industry can adopt it.",
+  "CLARITY draws the jurisdictional lines. Rejunomics fills what those lines still leave unread — Allocation Clarity and Token Intent. See Rejunomics for the disclosure layer.",
+];
+
+const WEDNESDAY_BRIDGES = [
+  "CLARITY sets the jurisdictional map; Allocation Clarity and Token Intent complete the disclosure.",
+  "Rejunomics is the disclosure layer the CLARITY Act still needs — Allocation Clarity and Token Intent.",
+  "A market-structure bill is stronger when projects publish Allocation Clarity and Token Intent. That’s Rejunomics.",
+];
+
+const WEDNESDAY_IMAGE_PROMPT =
+  "Side-by-side professional infographic: CLARITY Act market-structure column next to Rejunomics Allocation Clarity and Token Intent disclosure column. Dark gold crypto aesthetic, no URL.";
+
 const CRYPTO_REJU_BRIDGES = [
   "Projects with Rejunomics-style disclosures plan past the hype window.",
   "REJU answers the continuity question — transparent economics and sustained participation.",
@@ -384,8 +401,9 @@ const RELATED_DAILY_PAIRS: Record<
   3: {
     crypto: "rejunomics",
     rejuvenation: "ketosis",
-    relation: "Fuel and flow: metabolic flexibility and transparent token economics.",
-    cryptoFocus: "Rejunomics, release behavior, and finite incentives",
+    relation: "CLARITY sets the market map; Rejunomics discloses Allocation Clarity and Token Intent.",
+    cryptoFocus:
+      "Rejunomics aligned with the CLARITY Act: Allocation Clarity and Token Intent as industry disclosure",
     healthFocus: "ketosis and metabolic flexibility through the REJU Protocol",
   },
   4: {
@@ -555,8 +573,14 @@ function resolveVariantSeed(input: GeneratePostInput): number {
   return Date.now();
 }
 
-function pickCryptoSinglePost(themeId: CryptoThemeId, variantSeed: number): string {
-  const variants = CRYPTO_SINGLE_POSTS[themeId] ?? CRYPTO_SINGLE_POSTS.rejunomics;
+function pickCryptoSinglePost(
+  themeId: CryptoThemeId,
+  variantSeed: number,
+  investorDayCopy = false
+): string {
+  const variants = investorDayCopy
+    ? WEDNESDAY_CLARITY_POSTS
+    : CRYPTO_SINGLE_POSTS[themeId] ?? CRYPTO_SINGLE_POSTS.rejunomics;
   return variants[variantSeed % variants.length];
 }
 
@@ -592,7 +616,8 @@ function buildResearchBridgedSinglePost(
   notes: ResearchNote[],
   category: PostCategory,
   variantSeed: number,
-  conceptMatches?: ConceptMatch[]
+  conceptMatches?: ConceptMatch[],
+  investorDayCopy = false
 ): string {
   const noteIndex = variantSeed % notes.length;
   const note = notes[noteIndex];
@@ -600,9 +625,15 @@ function buildResearchBridgedSinglePost(
   const alignedConcept = noteMatch?.matchedConcepts[0] ?? getTopAlignedConcept(conceptMatches ?? []);
   const bridgeCategory = category === "crypto" ? "crypto" : "rejuvenation";
   const conceptBridge = buildConceptBridge(alignedConcept, bridgeCategory);
-  const bridges = category === "crypto" ? CRYPTO_REJU_BRIDGES : REJUVENATION_REJU_BRIDGES;
+  const bridges = investorDayCopy
+    ? WEDNESDAY_BRIDGES
+    : category === "crypto"
+      ? CRYPTO_REJU_BRIDGES
+      : REJUVENATION_REJU_BRIDGES;
   const fallbackBridge = bridges[(variantSeed + 1) % bridges.length];
-  const bridge = alignedConcept && (noteMatch?.alignmentScore ?? 0) >= 4 ? conceptBridge : fallbackBridge;
+  const useConcept =
+    !investorDayCopy && alignedConcept && (noteMatch?.alignmentScore ?? 0) >= 4;
+  const bridge = useConcept ? conceptBridge : fallbackBridge;
 
   return joinInsightAndBridge(note.text, bridge, HOME_LINK);
 }
@@ -614,23 +645,36 @@ function buildCryptoPost(
   postType: "single" | "thread",
   researchContext: ResearchNote[] | undefined,
   conceptMatches: ConceptMatch[] | undefined,
-  variantSeed: number
+  variantSeed: number,
+  investorDayCopy = false
 ) {
   const cryptoThemes = filterThemesForCategory(activeThemes, "crypto") as CryptoThemeId[];
   const primaryId = cryptoThemes[0] || "rejunomics";
   const primary = CRYPTO_CONTENT[primaryId];
+  const imagePrompt = investorDayCopy ? WEDNESDAY_IMAGE_PROMPT : primary.imagePrompt;
+  const hashtags = investorDayCopy
+    ? "#Rejunomics #CLARITYAct #AllocationClarity #TokenIntent"
+    : primary.hashtags;
 
   if (postType === "single") {
     const hasResearch = researchContext && researchContext.length > 0;
     const text = hasResearch
-      ? buildResearchBridgedSinglePost(researchContext, "crypto", variantSeed, conceptMatches)
-      : pickCryptoSinglePost(primaryId, variantSeed);
+      ? buildResearchBridgedSinglePost(
+          researchContext,
+          "crypto",
+          variantSeed,
+          conceptMatches,
+          investorDayCopy
+        )
+      : pickCryptoSinglePost(primaryId, variantSeed, investorDayCopy);
 
     return {
       mainText: text,
-      imagePrompt: includeVisual ? primary.imagePrompt : "",
-      hashtags: primary.hashtags,
-      theme: cryptoThemes.map((t) => THEMES_MAP[t] || t).join(" + "),
+      imagePrompt: includeVisual ? imagePrompt : "",
+      hashtags,
+      theme: investorDayCopy
+        ? "Rejunomics + CLARITY Act"
+        : cryptoThemes.map((t) => THEMES_MAP[t] || t).join(" + "),
     };
   }
 
@@ -653,19 +697,25 @@ function buildCryptoPost(
     mainText += `\n\nFocused on: ${focus}.`;
   }
 
-  const showRejunomicsLink =
-    primaryId === "rejunomics" || primaryId === "token_utility" || activeThemes.includes("rejunomics");
-  if (showRejunomicsLink) {
-    mainText += `\n\nLearn more about Rejunomics → ${HOME_LINK}`;
+  if (investorDayCopy) {
+    mainText +=
+      "\n\nAllocation Clarity and Token Intent — the disclosure layer CLARITY still needs. See Rejunomics.";
+  } else {
+    const showRejunomicsInvite =
+      primaryId === "rejunomics" || primaryId === "token_utility" || activeThemes.includes("rejunomics");
+    if (showRejunomicsInvite) {
+      mainText += `\n\nLearn more about Rejunomics.`;
+    }
+    mainText += "\n\nExplore REJU token utility and ecosystem continuity.\n\nJoin the conversation on Telegram.";
   }
 
-  const cta = `\n\nExplore REJU token utility and ecosystem continuity.\n\n→ ${HOME_LINK}\n\nJoin the conversation on Telegram.`;
-
   return {
-    mainText: mainText + cta,
-    imagePrompt: includeVisual ? primary.imagePrompt : "",
-    hashtags: primary.hashtags,
-    theme: cryptoThemes.map((t) => THEMES_MAP[t] || t).join(" + "),
+    mainText,
+    imagePrompt: includeVisual ? imagePrompt : "",
+    hashtags,
+    theme: investorDayCopy
+      ? "Rejunomics + CLARITY Act"
+      : cryptoThemes.map((t) => THEMES_MAP[t] || t).join(" + "),
   };
 }
 
@@ -763,6 +813,7 @@ export function generateHighQualityPost(input: GeneratePostInput): GeneratedPost
     researchContext,
     conceptMatches,
     includeHomeLink = true,
+    investorDayCopy = false,
   } = input;
   const variantSeed = resolveVariantSeed(input);
 
@@ -784,7 +835,16 @@ export function generateHighQualityPost(input: GeneratePostInput): GeneratedPost
 
   const built =
     category === "crypto"
-      ? buildCryptoPost(activeThemes, focus, includeVisual, postType, researchContext, conceptMatches, variantSeed)
+      ? buildCryptoPost(
+          activeThemes,
+          focus,
+          includeVisual,
+          postType,
+          researchContext,
+          conceptMatches,
+          variantSeed,
+          investorDayCopy
+        )
       : buildRejuvenationPost(activeThemes, focus, includeVisual, postType, researchContext, conceptMatches, variantSeed);
 
   let mainText = built.mainText;

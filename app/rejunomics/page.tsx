@@ -33,7 +33,7 @@ export default function RejunomicsPage() {
           Tokenomics show allocation.
         </h2>
         <p className="mx-auto mt-4 max-w-5xl text-2xl font-semibold leading-tight text-[#f5c26b] md:text-3xl">
-          Rejunomics™: Transparency That Protects Investors.
+          Allocation Clarity and Token Intent — transparency that protects investors.
         </p>
 
         <p className="mx-auto mt-8 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
@@ -49,6 +49,9 @@ export default function RejunomicsPage() {
         </p>
 
         <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
+          <a href="#concepts" className={buttonClass}>
+            Allocation Clarity &amp; Token Intent
+          </a>
           <a href="#framework" className={buttonClass}>
             View Framework
           </a>
@@ -61,6 +64,75 @@ export default function RejunomicsPage() {
           <a href="/daily-transformation-log" className={buttonClass}>
             Start Authoring Your Personalized Book (with Participant ID)
           </a>
+        </div>
+      </section>
+
+      <section id="concepts" className="px-6 py-8">
+        <div className="mx-auto max-w-7xl rounded-3xl border border-[#f5c26b]/25 bg-[#120904]/90 p-8 shadow-[0_0_35px_rgba(245,194,107,0.14)]">
+          <div className="text-center">
+            <p className="text-lg font-bold uppercase tracking-[0.3em] text-[#f5c26b]">
+              The Two Disclosures
+            </p>
+            <h2 className="mt-4 text-4xl font-bold text-[#f5c26b]">
+              Allocation Clarity™ and Token Intent™
+            </h2>
+            <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
+              Rejunomics™ is built around two named concepts. Together they
+              turn a pie chart into a readable economic design: what exists,
+              where it sits, why it was created, and how it is meant to behave
+              after launch.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-6 lg:grid-cols-2">
+            <ProblemCard
+              title="Allocation Clarity™"
+              items={[
+                "Not only the percentage — where that allocation is held.",
+                "Who can move it, and under what lock or vesting condition.",
+                "When it may enter circulation, and at what pace.",
+                "Which buckets are public, team, treasury, rewards, or reserves.",
+                "A standardized reading of supply so investors are not guessing from a slide.",
+              ]}
+            />
+            <ProblemCard
+              title="Token Intent™"
+              items={[
+                "Why each allocation exists — purpose, not just a label.",
+                "Which incentives are finite, and what happens when they end.",
+                "What the project intends the token to do after the launch window.",
+                "The continuity mechanism: participation, business activity, token life.",
+                "A disclosure of design, so “utility” can be inspected instead of assumed.",
+              ]}
+            />
+          </div>
+
+          <div className="mt-8 rounded-3xl border border-[#f5c26b]/20 bg-black/30 p-6">
+            <h3 className="text-center text-2xl font-bold text-[#f5c26b]">
+              Aligned with the CLARITY Act — and what it still leaves open
+            </h3>
+            <div className="mx-auto mt-5 max-w-4xl space-y-4 text-left text-lg leading-relaxed text-gray-300">
+              <p>
+                The CLARITY Act is a market-structure bill. It aims to say who
+                regulates digital assets, how investors are protected, and what
+                a responsible launch looks like at the legal layer. That is
+                necessary. It is not, by itself, a readable token design.
+              </p>
+              <p>
+                Rejunomics™ was written before the Act, for the gap the Act
+                still leaves: a project can be in the right jurisdiction and
+                still publish opaque tokenomics. Allocation Clarity™ and Token
+                Intent™ are the disclosure practice underneath those rules —
+                so “investor protection” has something concrete to read.
+              </p>
+              <p>
+                The invitation to the industry is quiet and practical. Adopt
+                the two disclosures. The CLARITY Act would be more complete if
+                market-structure law sat on top of Allocation Clarity and
+                Token Intent, instead of on top of a pie chart.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -523,17 +595,24 @@ export default function RejunomicsPage() {
 
             <p className="mx-auto mt-5 max-w-4xl text-xl text-left leading-relaxed text-gray-300">
               The proposal is simple: tokenomics should not only show
-              allocation. It should also disclose where holdings are, when they
-              may enter circulation, which incentives are finite, and what
-              mechanisms are intended to support token life beyond launch.
+              allocation. It should also disclose Allocation Clarity™ and
+              Token Intent™ — where holdings are, when they may enter
+              circulation, which incentives are finite, and what mechanisms
+              are intended to support token life beyond launch. That is the
+              disclosure layer a market-structure law like the CLARITY Act
+              still needs underneath it.
             </p>
           </div>
 
-          <div className="mt-10 grid gap-5 lg:grid-cols-4">
-            <AdoptionCard title="Allocation" text="What exists." />
-            <AdoptionCard title="Holdings" text="Where it is allocated." />
-            <AdoptionCard title="Release" text="How it may enter circulation." />
-            <AdoptionCard title="Token Life" text="What is intended to continue." />
+          <div className="mt-10 grid gap-5 lg:grid-cols-2">
+            <AdoptionCard
+              title="Allocation Clarity™"
+              text="What exists, where it is held, and how it may enter circulation."
+            />
+            <AdoptionCard
+              title="Token Intent™"
+              text="Why it exists, which incentives end, and what is meant to continue."
+            />
           </div>
         </div>
       </section>

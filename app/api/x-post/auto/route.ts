@@ -49,6 +49,7 @@ async function generateAndPublish(spec: SlotPostSpec, variantSeed: number) {
     conceptMatches: alignment.matches,
     variantSeed,
     includeHomeLink: spec.includeHomeLink,
+    investorDayCopy: spec.includeHomeLink,
   });
 
   let publish: Awaited<ReturnType<typeof publishTweet>>;
@@ -95,7 +96,7 @@ async function handleAuto(req: NextRequest) {
       slot: plan.slot,
       relation: plan.relation,
       schedule:
-        "Four posts daily: 14:00 UTC morning (7am PT / 10am ET) health then crypto; 22:00 UTC afternoon (3pm PT / 6pm ET) crypto then health. Home link only on Wednesday crypto posts.",
+        "Four posts daily: 14:00 UTC morning (7am PT / 10am ET) health then crypto; 22:00 UTC afternoon (3pm PT / 6pm ET) crypto then health. Wednesday crypto promotes Rejunomics vs the CLARITY Act (Allocation Clarity and Token Intent), with a home link only on those posts.",
       meta: {
         generatedAt: now.toISOString(),
         day: plan.dayName,
