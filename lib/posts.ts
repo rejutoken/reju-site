@@ -38,6 +38,55 @@ function normalizeBlogImages(markdown: string): string {
   );
 }
 
+function listMdxFiles(): string[] {
+  return fs.readdirSync(postsDirectory).filter((file) => file.endsWith('.mdx'));
+}
+
+export function slugifyBlogName(fileName: string): string {
+  return fileName
+    .replace(/\.mdx$/i, '')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase()
+    .slice(0, 180);
+}
+
+function frontmatterValue(data: Record<string, unknown>, names: string[]): unknown {
+  const entries = Object.entries(data);
+  for (const name of names) {
+    const hit = entries.find(([key]) => key.toLowerCase() === name.toLowerCase());
+    if (hit && hit[1] !== undefined && hit[1] !== null && hit[1] !== '') {
+      return hit[1];
+    }
+  }
+  return undefined;
+}
+
+function frontmatterString(data: Record<string, unknown>, names: string[], fallback = ''): string {
+  const value = frontmatterValue(data, names);
+  if (typeof value === 'string') return value.trim();
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    return value.toISOString().split('T')[0];
+  }
+  if (typeof value === 'number') return String(value);
+  return fallback;
+}
+
+function normalizeCategory(raw: string): PostMeta['category'] {
+  const value = raw.toLowerCase();
+  if (value === 'health' || value === 'rejuvenation') return 'health';
+  return 'crypto';
+}
+
+function normalizeDate(raw: string): string {
+  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+  const parsed = new Date(raw);
+  if (!Number.isNaN(parsed.getTime())) return parsed.toISOString().split('T')[0];
+  return new Date().toISOString().split('T')[0];
+}
+
 function stripDuplicateTitleHeading(markdown: string, title: string): string {
   const escaped = title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   return markdown.replace(new RegExp(`^\\s*#\\s+${escaped}\\s*\\n+`, "i"), "");
@@ -67,28 +116,25 @@ export function themeToCategory(theme: BlogTheme): PostMeta['category'] {
 }
 
 function readPostMeta(fileName: string): PostMeta {
-  const slug = fileName.replace(/\.mdx$/, '');
+  const slug = slugifyBlogName(fileName);
   const fullPath = path.join(postsDirectory, fileName);
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const { data } = matter(fileContents);
-  const category = (data.category as 'crypto' | 'health') || 'crypto';
+  const category = normalizeCategory(frontmatterString(data, ['category', 'desk', 'theme'], 'crypto'));
 
   return {
     slug,
-    title: data.title || 'Untitled',
-    date: data.date || new Date().toISOString().split('T')[0],
+    title: frontmatterString(data, ['title'], 'Untitled'),
+    date: normalizeDate(frontmatterString(data, ['date'])),
     category,
     theme: categoryToTheme(category),
-    description: data.description || '',
+    description: frontmatterString(data, ['description', 'summary']),
   };
 }
 
 export async function getAllPostsMeta(): Promise<PostMeta[]> {
   try {
-    const files = fs.readdirSync(postsDirectory);
-
-    return files
-      .filter((file) => file.endsWith('.mdx'))
+    return listMdxFiles()
       .map(readPostMeta)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   } catch (error) {
@@ -99,11 +145,8 @@ export async function getAllPostsMeta(): Promise<PostMeta[]> {
 
 export async function getAllPosts(): Promise<Post[]> {
   try {
-    const files = fs.readdirSync(postsDirectory);
-
     const posts = await Promise.all(
-      files
-        .filter((file) => file.endsWith('.mdx'))
+      listMdxFiles()
         .map(async (fileName) => {
           const meta = readPostMeta(fileName);
           const fullPath = path.join(postsDirectory, fileName);
@@ -131,24 +174,28 @@ export async function getPostsByTheme(theme: BlogTheme): Promise<PostMeta[]> {
   return posts.filter((post) => post.theme === theme);
 }
 
+function findPostFileName(slug: string): string | null {
+  if (!/^[a-zA-Z0-9_-]{1,180}$/.test(slug)) return null;
+  if (RESERVED_BLOG_SLUGS.has(slug)) return null;
+  const exact = `${slug}.mdx`;
+  const exactPath = path.join(postsDirectory, exact);
+  if (exactPath.startsWith(postsDirectory) && fs.existsSync(exactPath)) return exact;
+  return listMdxFiles().find((fileName) => slugifyBlogName(fileName) === slug) || null;
+}
+
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   try {
-    if (!/^[a-zA-Z0-9_-]{1,180}$/.test(slug)) return null;
-    if (RESERVED_BLOG_SLUGS.has(slug)) return null;
-    const fullPath = path.join(postsDirectory, `${slug}.mdx`);
+    const fileName = findPostFileName(slug);
+    if (!fileName) return null;
+    const fullPath = path.join(postsDirectory, fileName);
     if (!fullPath.startsWith(postsDirectory)) return null;
     const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const { data, content } = matter(fileContents);
-    const category = (data.category as 'crypto' | 'health') || 'crypto';
+    const { content } = matter(fileContents);
+    const meta = readPostMeta(fileName);
 
     return {
-      slug,
-      title: data.title || 'Untitled',
-      date: data.date || new Date().toISOString().split('T')[0],
-      category,
-      theme: categoryToTheme(category),
-      description: data.description || '',
-      content: await markdownToHtml(content, data.title || 'Untitled'),
+      ...meta,
+      content: await markdownToHtml(content, meta.title),
     };
   } catch {
     return null;
