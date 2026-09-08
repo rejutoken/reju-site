@@ -239,16 +239,16 @@ const CRYPTO_SINGLE_POSTS: Record<CryptoThemeId, string[]> = {
 };
 
 const WEDNESDAY_CLARITY_POSTS = [
-  "The CLARITY Act maps who regulates digital assets. Rejunomics adds Allocation Clarity and Token Intent — where supply sits, why it exists, and how it may move. An industry disclosure waiting to be adopted.",
-  "Market structure rules protect process. Allocation Clarity and Token Intent protect reading: holdings, release, and purpose after launch. CLARITY would be more complete with a concept like Rejunomics.",
-  "Tokenomics shows slices. Rejunomics names Allocation Clarity and Token Intent so the CLARITY Act’s investor-protection aim has a disclosure practice underneath it. The industry can adopt it.",
-  "CLARITY draws the jurisdictional lines. Rejunomics fills what those lines still leave unread — Allocation Clarity and Token Intent. See Rejunomics for the disclosure layer.",
+  "The CLARITY Act asks originators to furnish supply, allocation, release, and purpose. Rejunomics answers with Allocation Clarity and Token Intent, a readable format the industry can adopt. See Rejunomics.",
+  "Committee text already names launch, supply, release schedule, and purpose. Allocation Clarity and Token Intent put those facts in a standard reading. That helps the Act’s investor protection aim in practice.",
+  "Tokenomics shows slices. Rejunomics names Allocation Clarity and Token Intent so the CLARITY Act’s disclosure aims have a comparable economic form. The industry can adopt it. See Rejunomics.",
+  "CLARITY assigns who regulates digital assets. Rejunomics gives Allocation Clarity and Token Intent, holdings, release, and purpose in one disclosure practice. See Rejunomics.",
 ];
 
 const WEDNESDAY_BRIDGES = [
-  "CLARITY sets the jurisdictional map; Allocation Clarity and Token Intent complete the disclosure.",
-  "Rejunomics is the disclosure layer the CLARITY Act still needs — Allocation Clarity and Token Intent.",
-  "A market-structure bill is stronger when projects publish Allocation Clarity and Token Intent. That’s Rejunomics.",
+  "CLARITY names supply, release, and purpose; Allocation Clarity and Token Intent give those facts a standard reading.",
+  "Rejunomics helps the Act’s investor protection aim with Allocation Clarity and Token Intent, a comparable disclosure format.",
+  "When projects publish Allocation Clarity and Token Intent, the economic picture the Act already contemplates becomes easier to compare. That is Rejunomics.",
 ];
 
 const WEDNESDAY_IMAGE_PROMPT =

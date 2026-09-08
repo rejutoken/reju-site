@@ -33,15 +33,41 @@ export default function RejunomicsPage() {
           Tokenomics show allocation.
         </h2>
         <p className="mx-auto mt-4 max-w-5xl text-2xl font-semibold leading-tight text-[#f5c26b] md:text-3xl">
-          Allocation Clarity and Token Intent — transparency that protects investors.
+          Allocation Clarity and Token Intent, transparency that protects investors.
         </p>
+
+        <article
+          id="clarity-article"
+          className="mx-auto mt-12 max-w-4xl rounded-3xl border border-[#f5c26b]/25 bg-black/40 p-8 text-left shadow-[0_0_35px_rgba(245,194,107,0.14)]"
+        >
+          <p className="text-sm font-bold uppercase tracking-[0.28em] text-[#f5c26b]">
+            Comparison
+          </p>
+          <h2 className="mt-3 text-2xl font-semibold text-[#f5c26b]">
+            How Rejunomics™ aligns with the CLARITY Act, and how it helps the Act work
+          </h2>
+          <div className="mt-5 space-y-4 text-lg leading-relaxed text-gray-300">
+            <p>
+              The Digital Asset Market Clarity Act, known as the CLARITY Act, is a United States market structure bill for digital assets. It assigns oversight between the Securities and Exchange Commission and the Commodity Futures Trading Commission. For originators of certain digital assets, committee text already names the economic facts investors need to read: the purpose of the system, the launch and supply process, the number of units in an initial allocation, the total units to be created, the release schedule, units outstanding, and the units an originator holds, uses, or sells.
+            </p>
+            <p>
+              Rejunomics™ is a disclosure practice built for those same subjects. Allocation Clarity™ presents where supply is held, how it is locked or vested, and how it may enter circulation, in one standard reading. Token Intent™ presents why each allocation exists, which incentives are time limited, and how the project intends the token to operate through participation and continuity after launch.
+            </p>
+            <p>
+              The alignment is direct. The Act asks originators to furnish supply, allocation, release, and purpose, in a form the Commission may prescribe. Rejunomics™ gives that economic picture a comparable format, so holdings, release, and intent can be reviewed side by side across projects.
+            </p>
+            <p>
+              That format helps the Act’s investor protection aim in practice. Readable Allocation Clarity™ and Token Intent™ make the economic information the Act already contemplates easier to compare, easier to supervise, and easier for the public to trust. Rejunomics™ therefore serves the Act as a practical disclosure layer for token economics, ready for industry adoption.
+            </p>
+          </div>
+        </article>
 
         <p className="mx-auto mt-8 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
           Rejunomics™ is a transparency disclosure system for tokenomics. It expands traditional tokenomics by clearly revealing where holdings are allocated, how they may enter circulation, what mechanisms support token life, and how the ecosystem is intended to operate beyond launch. With standardized notation, it gives investors easy understanding and confident review.
         </p>
 
         <p className="mx-auto mt-5 max-w-4xl text-left text-xl leading-relaxed text-gray-300">
-          When projects adopt Rejunomics™, investors no longer invest blindly. They gain full visibility into release behavior and aligned incentives. This builds trust, attracts serious long-term supporters, and sets a new standard for the industry.
+          When projects adopt Rejunomics™, investors gain full visibility into release behavior and aligned incentives. This builds trust, attracts serious long-term supporters, and sets a new standard for the industry.
         </p>
 
 		<p className="mx-auto mt-5 max-w-4xl text-left text-2xl leading-relaxed text-[#f5c26b]">
@@ -88,50 +114,32 @@ export default function RejunomicsPage() {
             <ProblemCard
               title="Allocation Clarity™"
               items={[
-                "Not only the percentage — where that allocation is held.",
+                "The percentage, and where that allocation is held.",
                 "Who can move it, and under what lock or vesting condition.",
                 "When it may enter circulation, and at what pace.",
                 "Which buckets are public, team, treasury, rewards, or reserves.",
-                "A standardized reading of supply so investors are not guessing from a slide.",
+                "A standardized reading of supply investors can compare from project to project.",
               ]}
             />
             <ProblemCard
               title="Token Intent™"
               items={[
-                "Why each allocation exists — purpose, not just a label.",
-                "Which incentives are finite, and what happens when they end.",
+                "Why each allocation exists, the purpose beside the label.",
+                "Which incentives are time limited, and what follows when they end.",
                 "What the project intends the token to do after the launch window.",
                 "The continuity mechanism: participation, business activity, token life.",
-                "A disclosure of design, so “utility” can be inspected instead of assumed.",
+                "A disclosure of design, so utility can be inspected in writing.",
               ]}
             />
           </div>
 
-          <div className="mt-8 rounded-3xl border border-[#f5c26b]/20 bg-black/30 p-6">
-            <h3 className="text-center text-2xl font-bold text-[#f5c26b]">
-              Aligned with the CLARITY Act — and what it still leaves open
-            </h3>
-            <div className="mx-auto mt-5 max-w-4xl space-y-4 text-left text-lg leading-relaxed text-gray-300">
-              <p>
-                The CLARITY Act is a market-structure bill. It aims to say who
-                regulates digital assets, how investors are protected, and what
-                a responsible launch looks like at the legal layer. That is
-                necessary. It is not, by itself, a readable token design.
-              </p>
-              <p>
-                Rejunomics™ was written before the Act, for the gap the Act
-                still leaves: a project can be in the right jurisdiction and
-                still publish opaque tokenomics. Allocation Clarity™ and Token
-                Intent™ are the disclosure practice underneath those rules —
-                so “investor protection” has something concrete to read.
-              </p>
-              <p>
-                The invitation to the industry is quiet and practical. Adopt
-                the two disclosures. The CLARITY Act would be more complete if
-                market-structure law sat on top of Allocation Clarity and
-                Token Intent, instead of on top of a pie chart.
-              </p>
-            </div>
+          <div className="mt-8 rounded-3xl border border-[#f5c26b]/20 bg-black/30 p-6 text-center">
+            <p className="text-lg leading-relaxed text-gray-300">
+              Read the comparison at the top of this page for how Allocation Clarity™ and Token Intent™ sit with the CLARITY Act’s disclosure aims, and how that format helps those aims in practice.
+            </p>
+            <a href="#clarity-article" className="mt-4 inline-flex font-bold text-[#f5c26b] hover:underline">
+              How Rejunomics™ helps the CLARITY Act →
+            </a>
           </div>
         </div>
       </section>
@@ -594,13 +602,13 @@ export default function RejunomicsPage() {
             </p>
 
             <p className="mx-auto mt-5 max-w-4xl text-xl text-left leading-relaxed text-gray-300">
-              The proposal is simple: tokenomics should not only show
-              allocation. It should also disclose Allocation Clarity™ and
-              Token Intent™ — where holdings are, when they may enter
-              circulation, which incentives are finite, and what mechanisms
-              are intended to support token life beyond launch. That is the
-              disclosure layer a market-structure law like the CLARITY Act
-              still needs underneath it.
+              The proposal is simple: tokenomics shows allocation, and it also
+              discloses Allocation Clarity™ and Token Intent™, where holdings
+              are, when they may enter circulation, which incentives are time
+              limited, and what mechanisms are intended to support token life
+              beyond launch. That is the disclosure layer that helps a market
+              structure law like the CLARITY Act put investor protection into
+              readable economic form.
             </p>
           </div>
 
