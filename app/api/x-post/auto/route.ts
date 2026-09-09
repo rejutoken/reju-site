@@ -48,16 +48,16 @@ async function generateAndPublish(spec: SlotPostSpec, variantSeed: number) {
     researchContext: live?.notes,
     conceptMatches: alignment.matches,
     variantSeed,
-    includeHomeLink: spec.includeHomeLink,
-    investorDayCopy: spec.includeHomeLink,
+    linkUrl: spec.linkUrl,
+    investorDayCopy: spec.investorDayCopy,
   });
 
   let publish: Awaited<ReturnType<typeof publishTweet>>;
   try {
-    publish = await publishTweet(post.text);
+    publish = await publishTweet(post.text, spec.account);
   } catch (error) {
     console.error("X PUBLISH ERROR:", error);
-    publish = { posted: false, reason: "X API rejected the post." };
+    publish = { posted: false, reason: "X API rejected the post.", account: spec.account };
   }
 
   return {
@@ -68,6 +68,8 @@ async function generateAndPublish(spec: SlotPostSpec, variantSeed: number) {
       hashtags: post.hashtags,
       theme: post.theme,
       category: post.category,
+      account: spec.account,
+      linkUrl: spec.linkUrl,
     },
     researchQuery: live?.queryUsed ?? spec.customFocus,
   };
@@ -96,7 +98,7 @@ async function handleAuto(req: NextRequest) {
       slot: plan.slot,
       relation: plan.relation,
       schedule:
-        "Four posts daily: 14:00 UTC morning (7am PT / 10am ET) health then crypto; 22:00 UTC afternoon (3pm PT / 6pm ET) crypto then health. Wednesday crypto promotes Rejunomics vs the CLARITY Act (Allocation Clarity and Token Intent), with a home link only on those posts.",
+        "Four posts daily: 14:00 UTC morning and 22:00 UTC afternoon. Crypto posts to @rejutoken. Rejuvenation posts to @REJUvenationTKN. Wednesday and Friday crypto: Rejunomics with rejutkn.com/rejunomics. Wednesday and Friday rejuvenation: program link rejutkn.com/program.",
       meta: {
         generatedAt: now.toISOString(),
         day: plan.dayName,

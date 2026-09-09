@@ -17,8 +17,10 @@ import type { ResearchNote } from "./postResearch";
 
 const X_SINGLE_MAX = 280;
 const HOME_LINK = "rejutkn.com";
-/** Wednesday — midweek US market attention for crypto investors. */
-export const INVESTOR_LINK_WEEKDAY = 3;
+const REJUNOMICS_PAGE_LINK = "rejutkn.com/rejunomics";
+const PROGRAM_PAGE_LINK = "rejutkn.com/program";
+/** Wednesday and Friday: Rejunomics on crypto, program link on rejuvenation. */
+export const REJUNOMICS_PROMO_WEEKDAYS = new Set([3, 5]);
 
 export { KATS_LEGACY_BOOK, REJUVENATION_POST_INSTRUCTION };
 export type { ResearchNote };
@@ -88,6 +90,7 @@ export interface GeneratePostInput {
   conceptMatches?: ConceptMatch[];
   variantSeed?: number;
   includeHomeLink?: boolean;
+  linkUrl?: string | null;
   investorDayCopy?: boolean;
 }
 
@@ -356,7 +359,9 @@ export type SlotPostSpec = {
   category: "crypto" | "rejuvenation";
   themes: string[];
   customFocus: string;
-  includeHomeLink: boolean;
+  account: "crypto" | "rejuvenation";
+  linkUrl: string | null;
+  investorDayCopy: boolean;
 };
 
 export type DualSlotPlan = {
@@ -414,10 +419,11 @@ const RELATED_DAILY_PAIRS: Record<
     healthFocus: "immune resilience, inflammation, and Kat's JOL",
   },
   5: {
-    crypto: "token_utility",
+    crypto: "rejunomics",
     rejuvenation: "event",
-    relation: "Utility you can feel: lock REJU and enter the Event.",
-    cryptoFocus: "token utility, lock period, and documented transformation",
+    relation: "CLARITY and the Event: Allocation Clarity, Token Intent, and a program you can enter.",
+    cryptoFocus:
+      "Rejunomics aligned with the CLARITY Act: Allocation Clarity and Token Intent as industry disclosure",
     healthFocus: "REJU Rejuvenation Event, Health Benchmark, and daily authoring",
   },
   6: {
@@ -434,11 +440,15 @@ export function resolvePostSlot(now: Date = new Date(), query?: string | null): 
   return now.getUTCHours() < 19 ? "morning" : "afternoon";
 }
 
-export function shouldAttachInvestorLink(
-  now: Date,
-  category: PostCategory
-): boolean {
-  return now.getDay() === INVESTOR_LINK_WEEKDAY && category === "crypto";
+export function isRejunomicsPromoDay(now: Date): boolean {
+  return REJUNOMICS_PROMO_WEEKDAYS.has(now.getDay());
+}
+
+export function linkForAutoPost(now: Date, category: PostCategory): string | null {
+  if (!isRejunomicsPromoDay(now)) return null;
+  if (category === "crypto") return REJUNOMICS_PAGE_LINK;
+  if (category === "rejuvenation") return PROGRAM_PAGE_LINK;
+  return null;
 }
 
 function stripHomeLink(text: string): string {
@@ -451,10 +461,14 @@ function stripHomeLink(text: string): string {
     .trim();
 }
 
-function withOptionalHomeLink(text: string, include: boolean, maxLen: number = X_SINGLE_MAX): string {
+function withOptionalLink(
+  text: string,
+  linkUrl: string | null,
+  maxLen: number = X_SINGLE_MAX
+): string {
   const stripped = stripHomeLink(text);
-  if (!include) return stripped;
-  const tagged = `${stripped} → ${HOME_LINK}`;
+  if (!linkUrl) return stripped;
+  const tagged = `${stripped} → ${linkUrl}`;
   return tagged.length <= maxLen ? tagged : smartComplete(tagged, maxLen - 1);
 }
 
@@ -462,17 +476,22 @@ export function getDualSlotPlan(now: Date = new Date(), slot?: PostSlot): DualSl
   const resolved = slot ?? resolvePostSlot(now);
   const day = now.getDay();
   const pair = RELATED_DAILY_PAIRS[day];
+  const promoDay = isRejunomicsPromoDay(now);
   const cryptoPost: SlotPostSpec = {
     category: "crypto",
     themes: [pair.crypto],
     customFocus: pair.cryptoFocus,
-    includeHomeLink: shouldAttachInvestorLink(now, "crypto"),
+    account: "crypto",
+    linkUrl: linkForAutoPost(now, "crypto"),
+    investorDayCopy: promoDay,
   };
   const healthPost: SlotPostSpec = {
     category: "rejuvenation",
     themes: [pair.rejuvenation],
     customFocus: pair.healthFocus,
-    includeHomeLink: false,
+    account: "rejuvenation",
+    linkUrl: linkForAutoPost(now, "rejuvenation"),
+    investorDayCopy: false,
   };
 
   return {
@@ -812,9 +831,12 @@ export function generateHighQualityPost(input: GeneratePostInput): GeneratedPost
     includeVisual,
     researchContext,
     conceptMatches,
-    includeHomeLink = true,
+    includeHomeLink,
+    linkUrl,
     investorDayCopy = false,
   } = input;
+  const resolvedLinkUrl =
+    linkUrl !== undefined ? linkUrl : includeHomeLink === false ? null : HOME_LINK;
   const variantSeed = resolveVariantSeed(input);
 
   const category = resolveCoreCategory(selectedThemes, coreCategory);
@@ -856,13 +878,13 @@ export function generateHighQualityPost(input: GeneratePostInput): GeneratedPost
       let tweet = part.trim();
       if (i > 0 && !tweet.match(/^\d+\//)) tweet = `${i + 1}/ ${tweet}`;
       const isLast = i === parts.length - 1;
-      tweet = withOptionalHomeLink(tweet, includeHomeLink && isLast, 270);
+      tweet = withOptionalLink(tweet, isLast ? resolvedLinkUrl : null, 270);
       if (tweet.length > 270) tweet = smartComplete(tweet, 267);
       return tweet;
     });
     mainText = thread[0];
   } else {
-    mainText = withOptionalHomeLink(mainText, includeHomeLink);
+    mainText = withOptionalLink(mainText, resolvedLinkUrl);
     if (mainText.length > X_SINGLE_MAX) {
       mainText = smartComplete(mainText, X_SINGLE_MAX - 1);
     }

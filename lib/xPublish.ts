@@ -1,18 +1,39 @@
 import { TwitterApi } from "twitter-api-v2";
 
+export type XAccount = "crypto" | "rejuvenation";
+
+export const X_ACCOUNT_HANDLES: Record<XAccount, string> = {
+  crypto: "rejutoken",
+  rejuvenation: "REJUvenationTKN",
+};
+
 export type XPublishResult =
-  | { posted: false; reason: string }
-  | { posted: true; tweetId: string; url: string };
+  | { posted: false; reason: string; account: XAccount }
+  | { posted: true; tweetId: string; url: string; account: XAccount };
 
 function env(name: string): string {
   return process.env[name]?.trim() || "";
 }
 
-export function getXClient(): TwitterApi | null {
-  const appKey = env("X_API_KEY");
-  const appSecret = env("X_API_SECRET");
-  const accessToken = env("X_ACCESS_TOKEN");
-  const accessSecret = env("X_ACCESS_TOKEN_SECRET");
+function keysFor(account: XAccount) {
+  if (account === "rejuvenation") {
+    return {
+      appKey: env("X_REJUV_API_KEY") || env("X_API_KEY"),
+      appSecret: env("X_REJUV_API_SECRET") || env("X_API_SECRET"),
+      accessToken: env("X_REJUV_ACCESS_TOKEN"),
+      accessSecret: env("X_REJUV_ACCESS_TOKEN_SECRET"),
+    };
+  }
+  return {
+    appKey: env("X_API_KEY"),
+    appSecret: env("X_API_SECRET"),
+    accessToken: env("X_ACCESS_TOKEN"),
+    accessSecret: env("X_ACCESS_TOKEN_SECRET"),
+  };
+}
+
+export function getXClient(account: XAccount = "crypto"): TwitterApi | null {
+  const { appKey, appSecret, accessToken, accessSecret } = keysFor(account);
 
   if (appKey && appSecret && accessToken && accessSecret) {
     return new TwitterApi({
@@ -31,19 +52,30 @@ export function getXClient(): TwitterApi | null {
   return null;
 }
 
-export async function publishTweet(text: string): Promise<XPublishResult> {
+export async function publishTweet(
+  text: string,
+  account: XAccount = "crypto"
+): Promise<XPublishResult> {
   const body = text.trim();
-  if (!body) return { posted: false, reason: "Empty post text." };
+  if (!body) return { posted: false, reason: "Empty post text.", account };
   if (body.length > 280) {
-    return { posted: false, reason: `Post is ${body.length} characters (max 280).` };
+    return {
+      posted: false,
+      reason: `Post is ${body.length} characters (max 280).`,
+      account,
+    };
   }
 
-  const client = getXClient();
+  const client = getXClient(account);
+  const handle = X_ACCOUNT_HANDLES[account];
   if (!client) {
     return {
       posted: false,
+      account,
       reason:
-        "X keys are not set. Add either the four OAuth 1.0a keys, or X_ACCESS_TOKEN from Keys & tokens (Read and Write @rejutoken).",
+        account === "rejuvenation"
+          ? "Rejuvenation X keys are not set. Add X_REJUV_ACCESS_TOKEN and X_REJUV_ACCESS_TOKEN_SECRET for @REJUvenationTKN. The crypto app key and secret are reused if X_REJUV_API_KEY is omitted."
+          : "X keys are not set. Add either the four OAuth 1.0a keys, or X_ACCESS_TOKEN from Keys and tokens (Read and Write @rejutoken).",
     };
   }
 
@@ -53,7 +85,8 @@ export async function publishTweet(text: string): Promise<XPublishResult> {
     return {
       posted: true,
       tweetId: id,
-      url: `https://x.com/rejutoken/status/${id}`,
+      account,
+      url: `https://x.com/${handle}/status/${id}`,
     };
   } catch (error: unknown) {
     const err = error as {
@@ -68,6 +101,6 @@ export async function publishTweet(text: string): Promise<XPublishResult> {
       err.message ||
       "X API rejected the post.";
     console.error("X PUBLISH ERROR:", detail);
-    return { posted: false, reason: detail };
+    return { posted: false, reason: detail, account };
   }
 }

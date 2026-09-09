@@ -42,10 +42,10 @@ Enrollment payments are gated by `enrollmentOpen` in `lib/siteNews.ts`. Set that
 
 ## Automatic X posts
 
-`vercel.json` runs `GET /api/x-post/auto` twice daily: 14:00 UTC (morning pair, 7am PT / 10am ET) and 22:00 UTC (afternoon pair, 3pm PT / 6pm ET). Each run publishes two related posts (one rejuvenation, one crypto). Wednesday crypto posts promote Rejunomics vs the CLARITY Act (Allocation Clarity and Token Intent) and attach a home-page link; other auto-posts have no URL. Vercel sends `Authorization: Bearer $CRON_SECRET`. Set these on Vercel (Production):
+`vercel.json` runs `GET /api/x-post/auto` twice daily: 14:00 UTC (morning pair, 7am PT / 10am ET) and 22:00 UTC (afternoon pair, 3pm PT / 6pm ET). Each run publishes two related posts: crypto to `@rejutoken`, rejuvenation to `@REJUvenationTKN`. Wednesday and Friday crypto posts are Rejunomics (Allocation Clarity and Token Intent) with `rejutkn.com/rejunomics`. Wednesday and Friday rejuvenation posts include `rejutkn.com/program`. Other days have no URL. Vercel sends `Authorization: Bearer $CRON_SECRET`. Set these on Vercel (Production):
 
 - `CRON_SECRET` — same value as local `.env.local`
-- Prefer: `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET` (OAuth 1.0a)
-- Or, if the X console only shows one Consumer Key plus Client ID/Secret: `X_ACCESS_TOKEN` (Read and Write @rejutoken). Optionally also `X_CLIENT_ID` and `X_CLIENT_SECRET` for your records; posting uses the Access Token.
+- Crypto `@rejutoken`: `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET` (OAuth 1.0a), or `X_ACCESS_TOKEN` alone for OAuth 2.0
+- Rejuvenation `@REJUvenationTKN`: `X_REJUV_ACCESS_TOKEN` and `X_REJUV_ACCESS_TOKEN_SECRET`. Optional `X_REJUV_API_KEY` / `X_REJUV_API_SECRET` if that account uses a different app; otherwise the crypto app key and secret are reused.
 
 Without the X keys, the cron still generates a draft but does not publish. Opening the URL in a browser returns 401; that is expected.
