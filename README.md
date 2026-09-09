@@ -42,7 +42,7 @@ Enrollment payments are gated by `enrollmentOpen` in `lib/siteNews.ts`. Set that
 
 ## Automatic X posts
 
-`vercel.json` runs `GET /api/x-post/auto` twice daily: 14:00 UTC (morning pair, 7am PT / 10am ET) and 22:00 UTC (afternoon pair, 3pm PT / 6pm ET). Each run publishes two related posts: crypto to `@rejutoken`, rejuvenation to `@REJUvenationTKN`. Wednesday and Friday crypto posts are Rejunomics (Allocation Clarity and Token Intent) with `rejutkn.com/rejunomics`. Wednesday and Friday rejuvenation posts include `rejutkn.com/program`. Other days have no URL. Vercel sends `Authorization: Bearer $CRON_SECRET`. Set these on Vercel (Production):
+`vercel.json` runs `GET /api/x-post/auto` twice daily: 14:00 UTC (morning pair, 7am PT / 10am ET) and 22:00 UTC (afternoon pair, 3pm PT / 6pm ET). Each run publishes two related posts: crypto to `@rejutoken`, rejuvenation to `@REJUvenationTKN`. Wednesday crypto posts are Rejunomics with `rejutkn.com/rejunomics`; Wednesday rejuvenation posts include `rejutkn.com/program`. Friday morning posts explain how to get on board (crypto → `rejutkn.com/onboarding`, rejuvenation → `rejutkn.com/program`). Friday afternoon keeps the Rejunomics and program links. Other days have no URL. Vercel sends `Authorization: Bearer $CRON_SECRET`. Set these on Vercel (Production):
 
 - `CRON_SECRET` — same value as local `.env.local`
 - Crypto `@rejutoken`: `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET` (OAuth 1.0a), or `X_ACCESS_TOKEN` alone for OAuth 2.0

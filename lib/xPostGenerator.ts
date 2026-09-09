@@ -19,6 +19,7 @@ const X_SINGLE_MAX = 280;
 const HOME_LINK = "rejutkn.com";
 const REJUNOMICS_PAGE_LINK = "rejutkn.com/rejunomics";
 const PROGRAM_PAGE_LINK = "rejutkn.com/program";
+const ONBOARDING_PAGE_LINK = "rejutkn.com/onboarding";
 /** Wednesday and Friday: Rejunomics on crypto, program link on rejuvenation. */
 export const REJUNOMICS_PROMO_WEEKDAYS = new Set([3, 5]);
 
@@ -92,6 +93,7 @@ export interface GeneratePostInput {
   includeHomeLink?: boolean;
   linkUrl?: string | null;
   investorDayCopy?: boolean;
+  onboardingCopy?: boolean;
 }
 
 export interface GeneratedPost {
@@ -257,6 +259,18 @@ const WEDNESDAY_BRIDGES = [
 const WEDNESDAY_IMAGE_PROMPT =
   "Side-by-side professional infographic: CLARITY Act market-structure column next to Rejunomics Allocation Clarity and Token Intent disclosure column. Dark gold crypto aesthetic, no URL.";
 
+const FRIDAY_ONBOARD_CRYPTO_POSTS = [
+  "Get on board: buy about $600 of REJU, lock it 6 months on Streamflow, pay the $69 book and admin fee, then register for your Participant ID.",
+  "Crypto enrollment: 1) Buy REJU 2) Lock $600 for 6 months 3) Pay $69 4) Register. The lock is how you enter the Event.",
+  "To join from the token side: buy REJU, lock $600 for six months, pay $69 book and admin, register, start authoring your Transformation Book.",
+];
+
+const FRIDAY_ONBOARD_REJUV_POSTS = [
+  "Get on board for the Rejuvenation Event: 6 weeks, Health Benchmark, and a book you write. Lock $600 REJU or pay $600, plus $69 book and admin, then register.",
+  "How to enroll: open the Program page, choose lock or pay, complete the $69 book fee, receive your Participant ID, begin daily authoring.",
+  "Join the Event: set your Health Benchmark, follow the REJU Protocol, document the change. Enroll, register, author your Transformation Book.",
+];
+
 const CRYPTO_REJU_BRIDGES = [
   "Projects with Rejunomics-style disclosures plan past the hype window.",
   "REJU answers the continuity question — transparent economics and sustained participation.",
@@ -362,6 +376,7 @@ export type SlotPostSpec = {
   account: "crypto" | "rejuvenation";
   linkUrl: string | null;
   investorDayCopy: boolean;
+  onboardingCopy: boolean;
 };
 
 export type DualSlotPlan = {
@@ -444,7 +459,15 @@ export function isRejunomicsPromoDay(now: Date): boolean {
   return REJUNOMICS_PROMO_WEEKDAYS.has(now.getDay());
 }
 
-export function linkForAutoPost(now: Date, category: PostCategory): string | null {
+export function linkForAutoPost(
+  now: Date,
+  category: PostCategory,
+  slot: PostSlot
+): string | null {
+  const fridayMorning = now.getDay() === 5 && slot === "morning";
+  if (fridayMorning) {
+    return category === "crypto" ? ONBOARDING_PAGE_LINK : PROGRAM_PAGE_LINK;
+  }
   if (!isRejunomicsPromoDay(now)) return null;
   if (category === "crypto") return REJUNOMICS_PAGE_LINK;
   if (category === "rejuvenation") return PROGRAM_PAGE_LINK;
@@ -476,22 +499,29 @@ export function getDualSlotPlan(now: Date = new Date(), slot?: PostSlot): DualSl
   const resolved = slot ?? resolvePostSlot(now);
   const day = now.getDay();
   const pair = RELATED_DAILY_PAIRS[day];
-  const promoDay = isRejunomicsPromoDay(now);
+  const fridayMorning = day === 5 && resolved === "morning";
+  const promoCopy = isRejunomicsPromoDay(now) && !fridayMorning;
   const cryptoPost: SlotPostSpec = {
     category: "crypto",
-    themes: [pair.crypto],
-    customFocus: pair.cryptoFocus,
+    themes: fridayMorning ? ["token_utility"] : [pair.crypto],
+    customFocus: fridayMorning
+      ? "how to get on board: buy REJU, 6-month lock, $69 book fee, register"
+      : pair.cryptoFocus,
     account: "crypto",
-    linkUrl: linkForAutoPost(now, "crypto"),
-    investorDayCopy: promoDay,
+    linkUrl: linkForAutoPost(now, "crypto", resolved),
+    investorDayCopy: promoCopy,
+    onboardingCopy: fridayMorning,
   };
   const healthPost: SlotPostSpec = {
     category: "rejuvenation",
-    themes: [pair.rejuvenation],
-    customFocus: pair.healthFocus,
+    themes: fridayMorning ? ["event"] : [pair.rejuvenation],
+    customFocus: fridayMorning
+      ? "how to enroll in the REJU Rejuvenation Event and start your Transformation Book"
+      : pair.healthFocus,
     account: "rejuvenation",
-    linkUrl: linkForAutoPost(now, "rejuvenation"),
+    linkUrl: linkForAutoPost(now, "rejuvenation", resolved),
     investorDayCopy: false,
+    onboardingCopy: fridayMorning,
   };
 
   return {
@@ -595,11 +625,14 @@ function resolveVariantSeed(input: GeneratePostInput): number {
 function pickCryptoSinglePost(
   themeId: CryptoThemeId,
   variantSeed: number,
-  investorDayCopy = false
+  investorDayCopy = false,
+  onboardingCopy = false
 ): string {
-  const variants = investorDayCopy
-    ? WEDNESDAY_CLARITY_POSTS
-    : CRYPTO_SINGLE_POSTS[themeId] ?? CRYPTO_SINGLE_POSTS.rejunomics;
+  const variants = onboardingCopy
+    ? FRIDAY_ONBOARD_CRYPTO_POSTS
+    : investorDayCopy
+      ? WEDNESDAY_CLARITY_POSTS
+      : CRYPTO_SINGLE_POSTS[themeId] ?? CRYPTO_SINGLE_POSTS.rejunomics;
   return variants[variantSeed % variants.length];
 }
 
@@ -665,7 +698,8 @@ function buildCryptoPost(
   researchContext: ResearchNote[] | undefined,
   conceptMatches: ConceptMatch[] | undefined,
   variantSeed: number,
-  investorDayCopy = false
+  investorDayCopy = false,
+  onboardingCopy = false
 ) {
   const cryptoThemes = filterThemesForCategory(activeThemes, "crypto") as CryptoThemeId[];
   const primaryId = cryptoThemes[0] || "rejunomics";
@@ -676,7 +710,7 @@ function buildCryptoPost(
     : primary.hashtags;
 
   if (postType === "single") {
-    const hasResearch = researchContext && researchContext.length > 0;
+    const hasResearch = !onboardingCopy && researchContext && researchContext.length > 0;
     const text = hasResearch
       ? buildResearchBridgedSinglePost(
           researchContext,
@@ -685,7 +719,7 @@ function buildCryptoPost(
           conceptMatches,
           investorDayCopy
         )
-      : pickCryptoSinglePost(primaryId, variantSeed, investorDayCopy);
+      : pickCryptoSinglePost(primaryId, variantSeed, investorDayCopy, onboardingCopy);
 
     return {
       mainText: text,
@@ -745,7 +779,8 @@ function buildRejuvenationPost(
   postType: "single" | "thread",
   researchContext: ResearchNote[] | undefined,
   conceptMatches: ConceptMatch[] | undefined,
-  variantSeed: number
+  variantSeed: number,
+  onboardingCopy = false
 ) {
   const rejuvenationThemes = filterThemesForCategory(activeThemes, "rejuvenation");
   const scienceThemes = rejuvenationThemes.filter((t) => t !== "event") as Exclude<RejuvenationThemeId, "event">[];
@@ -754,6 +789,14 @@ function buildRejuvenationPost(
   const visual = REJUVENATION_CONTENT[visualTheme] ?? REJUVENATION_CONTENT.health;
 
   if (postType === "single") {
+    if (onboardingCopy) {
+      return {
+        mainText: FRIDAY_ONBOARD_REJUV_POSTS[variantSeed % FRIDAY_ONBOARD_REJUV_POSTS.length],
+        imagePrompt: includeVisual ? visual.imagePrompt : "",
+        hashtags: visual.hashtags,
+        theme: "Event onboarding",
+      };
+    }
     const hasResearch = researchContext && researchContext.length > 0;
     const single = hasResearch
       ? buildResearchBridgedSinglePost(researchContext, "rejuvenation", variantSeed, conceptMatches)
@@ -834,6 +877,7 @@ export function generateHighQualityPost(input: GeneratePostInput): GeneratedPost
     includeHomeLink,
     linkUrl,
     investorDayCopy = false,
+    onboardingCopy = false,
   } = input;
   const resolvedLinkUrl =
     linkUrl !== undefined ? linkUrl : includeHomeLink === false ? null : HOME_LINK;
@@ -865,9 +909,19 @@ export function generateHighQualityPost(input: GeneratePostInput): GeneratedPost
           researchContext,
           conceptMatches,
           variantSeed,
-          investorDayCopy
+          investorDayCopy,
+          onboardingCopy
         )
-      : buildRejuvenationPost(activeThemes, focus, includeVisual, postType, researchContext, conceptMatches, variantSeed);
+      : buildRejuvenationPost(
+          activeThemes,
+          focus,
+          includeVisual,
+          postType,
+          researchContext,
+          conceptMatches,
+          variantSeed,
+          onboardingCopy
+        );
 
   let mainText = built.mainText;
   let thread: string[] = [];

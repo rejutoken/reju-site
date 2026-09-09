@@ -22,14 +22,16 @@ function verifyCronAuth(req: NextRequest): boolean {
 
 async function generateAndPublish(spec: SlotPostSpec, variantSeed: number) {
   let live: Awaited<ReturnType<typeof fetchWebResearch>> | null = null;
-  try {
-    live = await fetchWebResearch({
-      query: spec.customFocus,
-      category: spec.category,
-      themes: spec.themes,
-    });
-  } catch (error) {
-    console.error("X-POST AUTO RESEARCH SKIPPED:", error);
+  if (!spec.onboardingCopy) {
+    try {
+      live = await fetchWebResearch({
+        query: spec.customFocus,
+        category: spec.category,
+        themes: spec.themes,
+      });
+    } catch (error) {
+      console.error("X-POST AUTO RESEARCH SKIPPED:", error);
+    }
   }
 
   const alignment = await alignResearchWithLibrary({
@@ -50,6 +52,7 @@ async function generateAndPublish(spec: SlotPostSpec, variantSeed: number) {
     variantSeed,
     linkUrl: spec.linkUrl,
     investorDayCopy: spec.investorDayCopy,
+    onboardingCopy: spec.onboardingCopy,
   });
 
   let publish: Awaited<ReturnType<typeof publishTweet>>;
@@ -98,7 +101,7 @@ async function handleAuto(req: NextRequest) {
       slot: plan.slot,
       relation: plan.relation,
       schedule:
-        "Four posts daily: 14:00 UTC morning and 22:00 UTC afternoon. Crypto posts to @rejutoken. Rejuvenation posts to @REJUvenationTKN. Wednesday and Friday crypto: Rejunomics with rejutkn.com/rejunomics. Wednesday and Friday rejuvenation: program link rejutkn.com/program.",
+        "Four posts daily: 14:00 UTC morning and 22:00 UTC afternoon. Crypto to @rejutoken, rejuvenation to @REJUvenationTKN. Wednesday: Rejunomics + rejutkn.com/rejunomics, rejuvenation + rejutkn.com/program. Friday morning: how to get on board (crypto → onboarding, rejuvenation → program). Friday afternoon: Rejunomics and program links.",
       meta: {
         generatedAt: now.toISOString(),
         day: plan.dayName,
