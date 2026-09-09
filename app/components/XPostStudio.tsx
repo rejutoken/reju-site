@@ -438,7 +438,7 @@ export default function XPostStudio({ entry = "admin" }: { entry?: XPostEntry })
                 {isCollaborator ? "X POST COLLABORATOR" : "REJU PERSONNEL ONLY"}
               </p>
               <p className="text-xs text-gray-400 mt-0.5">
-                X Content Studio — research-backed posts for @rejutoken
+                X Content Studio, research-backed drafts for @rejutoken and @REJUvenationTKN
                 {isCollaborator ? " (draft & export only)" : ""}
               </p>
             </div>
