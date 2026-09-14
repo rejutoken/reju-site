@@ -9,6 +9,7 @@ import {
 import { alignResearchWithLibrary } from "../../../../lib/conceptLibrary";
 import { fetchWebResearch } from "../../../../lib/postResearch";
 import { publishTweet } from "../../../../lib/xPublish";
+import { hashPostText, recordPosted, wasRecentlyPosted } from "../../../../lib/xAutoLog";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -20,7 +21,7 @@ function verifyCronAuth(req: NextRequest): boolean {
   return auth === `Bearer ${secret}`;
 }
 
-async function generateAndPublish(spec: SlotPostSpec, variantSeed: number) {
+async function generateAndPublish(spec: SlotPostSpec, variantSeed: number, slot: string) {
   let live: Awaited<ReturnType<typeof fetchWebResearch>> | null = null;
   if (!spec.onboardingCopy) {
     try {
@@ -40,7 +41,7 @@ async function generateAndPublish(spec: SlotPostSpec, variantSeed: number) {
     category: spec.category,
   });
 
-  const post = generateHighQualityPost({
+  let post = generateHighQualityPost({
     selectedThemes: spec.themes,
     coreCategory: spec.category,
     customFocus: spec.customFocus,
@@ -55,12 +56,65 @@ async function generateAndPublish(spec: SlotPostSpec, variantSeed: number) {
     onboardingCopy: spec.onboardingCopy,
   });
 
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const duplicate = await wasRecentlyPosted(spec.account, post.text);
+    if (!duplicate) break;
+    post = generateHighQualityPost({
+      selectedThemes: spec.themes,
+      coreCategory: spec.category,
+      customFocus: spec.customFocus,
+      postType: "single",
+      tone: "Educational",
+      includeVisual: true,
+      researchContext: live?.notes,
+      conceptMatches: alignment.matches,
+      variantSeed: variantSeed + (attempt + 1) * 101,
+      linkUrl: spec.linkUrl,
+      investorDayCopy: spec.investorDayCopy,
+      onboardingCopy: spec.onboardingCopy,
+    });
+  }
+
+  if (await wasRecentlyPosted(spec.account, post.text)) {
+    console.error(`X AUTO SKIPPED DUPLICATE account=${spec.account} slot=${slot}`);
+    return {
+      published: {
+        posted: false as const,
+        reason: "Skipped duplicate text for this account.",
+        account: spec.account,
+      },
+      post: {
+        text: post.text,
+        imagePrompt: post.imagePrompt,
+        hashtags: post.hashtags,
+        theme: post.theme,
+        category: post.category,
+        account: spec.account,
+        linkUrl: spec.linkUrl,
+      },
+      researchQuery: live?.queryUsed ?? spec.customFocus,
+    };
+  }
+
   let publish: Awaited<ReturnType<typeof publishTweet>>;
   try {
     publish = await publishTweet(post.text, spec.account);
   } catch (error) {
     console.error("X PUBLISH ERROR:", error);
     publish = { posted: false, reason: "X API rejected the post.", account: spec.account };
+  }
+
+  if (!publish.posted) {
+    console.error(`X AUTO PUBLISH FAILED account=${spec.account} reason=${publish.reason}`);
+  } else if (publish.posted) {
+    await recordPosted({
+      account: spec.account,
+      textHash: hashPostText(post.text),
+      text: post.text,
+      tweetId: publish.tweetId,
+      slot,
+      at: new Date().toISOString(),
+    });
   }
 
   return {
@@ -88,16 +142,27 @@ async function handleAuto(req: NextRequest) {
     const slot = resolvePostSlot(now, req.nextUrl.searchParams.get("slot"));
     const plan = getDualSlotPlan(now, slot);
     const hourSeed = now.getUTCHours() * 1000 + now.getUTCDate() * 10;
+    const slotBias = plan.slot === "morning" ? 3 : 11;
 
     const results = [];
     for (let i = 0; i < plan.posts.length; i += 1) {
       const spec = plan.posts[i];
-      const variantSeed = hourSeed + i * 17 + spec.category.length;
-      results.push(await generateAndPublish(spec, variantSeed));
+      const variantSeed = hourSeed + i * 17 + spec.category.length + slotBias * 997;
+      results.push(await generateAndPublish(spec, variantSeed, plan.slot));
     }
 
+    const failed = results
+      .filter((item) => !item.published.posted)
+      .map((item) => ({
+        account: item.published.account,
+        reason: item.published.reason,
+      }));
+    const allPosted = failed.length === 0;
+
     return NextResponse.json({
-      success: true,
+      success: allPosted,
+      allPosted,
+      failed,
       slot: plan.slot,
       relation: plan.relation,
       schedule:
