@@ -49,6 +49,26 @@ export const BOOK_INSIGHT_POSTS: BookInsightPost[] = [
     themes: ["immunity", "health"],
     text: "Chapter 2 treats immunity as a defense army. Fasting and ketosis lower inflammatory noise so that army stays calibrated. Kat's Legacy: A Science-Based Path to Healing and Longevity, Chapter 2.",
   },
+  {
+    themes: ["event", "cellular_repair", "health", "immunity"],
+    text: "How to heal yourself: the body is a self-healing machine. It repairs bone, skin, and daily wear every day. About 6 in 10 adults live with a chronic illness. Chapter 9, page 51 of Kat's Legacy: A Science-Based Path to Healing and Longevity.",
+  },
+  {
+    themes: ["event", "health", "cellular_repair"],
+    text: "The Healing Section starts on page 74: Program to Restore Your Health. A Four-Week Reset. Prep 3 days, Week 1 detox, Week 2 cellular repair, Week 3 solids, Week 4 maintenance. Kat's Legacy: A Science-Based Path to Healing and Longevity.",
+  },
+  {
+    themes: ["event", "health", "lymphatic"],
+    text: "How to heal yourself in that section: super-hydrate first. Liters of water per day = your weight in kg divided by 30. Then fasting plus Kat's JOL. Pages 74-76 of Kat's Legacy: A Science-Based Path to Healing and Longevity.",
+  },
+  {
+    themes: ["event", "cellular_repair", "health"],
+    text: "Detoxification opens the path to healing. Toxins come from air, processed food, medicines, and metabolism. The liver leads the cleanup crew. Chapter 10, pages 59-61 of Kat's Legacy: A Science-Based Path to Healing and Longevity.",
+  },
+  {
+    themes: ["event", "ketosis", "health"],
+    text: "The Healing Section Reset is built to eliminate toxins, turn on autophagy, switch to fat fuel (ketosis), then reintroduce real food. Pages 74-75 of Kat's Legacy: A Science-Based Path to Healing and Longevity.",
+  },
 ];
 
 export function pickBookInsightPost(
