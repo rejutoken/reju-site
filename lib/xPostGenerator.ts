@@ -283,7 +283,7 @@ const REJUVENATION_REJU_BRIDGES = [
   "The REJU token turns this science into utility: 6-month lock, Event access, and your Transformation Book.",
   "Lock REJU for Rejuvenation Event access, education, and documented transformation.",
   "That's REJU token utility — lock, Event access, education, and a book you author.",
-  "Wilson Fischmann mapped this in Kat's Legacy — now a token with real participation benefits.",
+  "Kat's Legacy: A Science-Based Path to Healing and Longevity maps this science into daily practice.",
   "Science-informed rejuvenation with skin in the game: lock REJU, join the Event, author your book.",
 ];
 
@@ -797,15 +797,13 @@ function buildRejuvenationPost(
         theme: "Event onboarding",
       };
     }
-    const hasResearch = researchContext && researchContext.length > 0;
-    const single = hasResearch
-      ? buildResearchBridgedSinglePost(researchContext, "rejuvenation", variantSeed, conceptMatches)
-      : getBookSinglePostForTheme(primaryId, new Date(), variantSeed) ||
-        getBookSinglePostForTheme("health", new Date(), variantSeed) ||
-        `${REJUVENATION_CONTENT.health.hook} Lock REJU for Event access, education, and your Transformation Book. → ${HOME_LINK}`;
+    const single =
+      getBookSinglePostForTheme(primaryId, new Date(), variantSeed) ||
+      getBookSinglePostForTheme("health", new Date(), variantSeed) ||
+      "At about 16 hours of fasting, autophagy begins. Cells recycle damaged parts. Chapter 7 of Kat's Legacy: A Science-Based Path to Healing and Longevity.";
 
     return {
-      mainText: withTokenHomeCta(single),
+      mainText: single,
       imagePrompt: includeVisual ? visual.imagePrompt : "",
       hashtags: visual.hashtags,
       theme: rejuvenationThemes.map((t) => THEMES_MAP[t] || t).join(" + "),

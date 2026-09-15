@@ -2,6 +2,7 @@
 // Trained on the complete Kat's Legacy PDF (see katsLegacyBook.knowledge.json)
 
 import bookKnowledge from "./katsLegacyBook.knowledge.json";
+import { pickBookInsightPost } from "./bookInsightPosts";
 
 export interface BookThemeKnowledge {
   hook: string;
@@ -45,7 +46,7 @@ export const KATS_LEGACY_BOOK = {
 
 export const REJUVENATION_POST_INSTRUCTION = `
 When generating REJU rejuvenation posts, use the complete book "Kat's Legacy: A Science-Based Path to Healing and Longevity"
-by Wilson Fischmann CA as the authoritative training source (full PDF + Amazon).
+as the authoritative training source (full PDF). Always cite the full title plus chapter or page. Do not use the short name "Kat's Legacy" alone. Do not lead with the author's name.
 
 Trained on ${KNOWLEDGE.chapters.length} sections (${KNOWLEDGE.extractedChars.toLocaleString()} characters) from the published Kat's Legacy PDF.
 
@@ -73,7 +74,7 @@ export interface BookResearchNote {
 const BOOK_CORE_NOTES: BookResearchNote[] = [
   {
     id: "book-1",
-    text: "Kat's JOL (Juice of Life) sustained Kat for over a decade — tested on Wilson first, then used in her care after a traumatic brain injury.",
+    text: "Kat's JOL (Juice of Life) is the cellular nutrition formula in the 4-Week Reset, prepared with alkaline water in three 500 ml servings.",
     source: "Kat's Legacy PDF — Introduction",
   },
   {
@@ -93,8 +94,8 @@ const BOOK_CORE_NOTES: BookResearchNote[] = [
   },
   {
     id: "book-5",
-    text: "Wilson's documented rejuvenation: https://youtu.be/pzi4Qj5HMwM — lab results included in the book.",
-    source: "Kat's Legacy PDF — Author results",
+    text: "Document a Health Benchmark before the Reset: photos, journals, energy, sleep, and digestion notes.",
+    source: "Kat's Legacy: A Science-Based Path to Healing and Longevity — Introduction",
   },
 ];
 
@@ -121,6 +122,9 @@ export function getBookSinglePostForTheme(
   const variants = knowledge?.singlePosts;
   if (!variants || variants.length === 0) return null;
 
+  const insight = pickBookInsightPost(themeId, variantSeed ?? date.getDate());
+  if (insight) return insight;
+
   if (variantSeed !== undefined) {
     return variants[variantSeed % variants.length];
   }
@@ -144,7 +148,7 @@ export function getBookThreadForTheme(themeId: string): string[] | null {
   return [
     knowledge.hook,
     science,
-    `From Kat's Legacy by Wilson Fischmann — ${knowledge.chapters[0] ?? "REJU Protocol™"}. Join the REJU Rejuvenation Event™ and author your Transformation Book.`,
+    `From Kat's Legacy: A Science-Based Path to Healing and Longevity (${knowledge.chapters[0] ?? "REJU Protocol™"}). Join the REJU Rejuvenation Event™ and author your Transformation Book.`,
     "The REJU token funds that path: 6-month lock, Event access, education, and your Transformation Book. → rejutkn.com",
   ];
 }
@@ -190,7 +194,7 @@ export function getBookAmazonLink(): string {
 }
 
 export function getBookCitation(): string {
-  return `From Kat's Legacy by Wilson Fischmann → ${KATS_LEGACY_BOOK.amazonPaperback}`;
+  return `From Kat's Legacy: A Science-Based Path to Healing and Longevity`;
 }
 
 export function getBookCta(): string {
