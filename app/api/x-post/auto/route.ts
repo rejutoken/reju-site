@@ -151,12 +151,11 @@ async function handleAuto(req: NextRequest) {
       results.push(await generateAndPublish(spec, variantSeed, plan.slot));
     }
 
-    const failed = results
-      .filter((item) => !item.published.posted)
-      .map((item) => ({
-        account: item.published.account,
-        reason: item.published.reason,
-      }));
+    const failed = results.flatMap((item) =>
+      item.published.posted
+        ? []
+        : [{ account: item.published.account, reason: item.published.reason }]
+    );
     const allPosted = failed.length === 0;
 
     return NextResponse.json({
