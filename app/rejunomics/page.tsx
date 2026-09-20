@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import Nav from "../components/Nav";
+
+export const metadata: Metadata = {
+  title: "Archive",
+  robots: { index: false, follow: false },
+};
 
 const links = {
   home: "/",
@@ -19,7 +25,7 @@ export default function RejunomicsPage() {
 
       <section className="px-6 py-16 text-center">
         <p className="text-lg font-bold uppercase tracking-[0.35em] text-[#f5c26b]">
-          Developed by REJU
+          Archive — not linked from the site
         </p>
 
         <h1 className="mt-10 text-5xl font-bold tracking-tight text-[#f5c26b] md:text-7xl">
@@ -37,27 +43,27 @@ export default function RejunomicsPage() {
         </p>
 
         <article
-          id="clarity-article"
+          id="investor-protection"
           className="mx-auto mt-12 max-w-4xl rounded-3xl border border-[#f5c26b]/25 bg-black/40 p-8 text-left shadow-[0_0_35px_rgba(245,194,107,0.14)]"
         >
           <p className="text-sm font-bold uppercase tracking-[0.28em] text-[#f5c26b]">
-            Comparison
+            Investor Protection
           </p>
           <h2 className="mt-3 text-2xl font-semibold text-[#f5c26b]">
-            How Rejunomics™ aligns with the CLARITY Act, and how it helps the Act work
+            How Rejunomics™ protects investors with Allocation Clarity™ and Token Intent™
           </h2>
           <div className="mt-5 space-y-4 text-lg leading-relaxed text-gray-300">
             <p>
-              The Digital Asset Market Clarity Act, known as the CLARITY Act, is a United States market structure bill for digital assets. It assigns oversight between the Securities and Exchange Commission and the Commodity Futures Trading Commission. For originators of certain digital assets, committee text already names the economic facts investors need to read: the purpose of the system, the launch and supply process, the number of units in an initial allocation, the total units to be created, the release schedule, units outstanding, and the units an originator holds, uses, or sells.
+              Investors need a readable economic picture before they commit capital: the purpose of the system, the launch and supply process, the number of units in an initial allocation, the total units to be created, the release schedule, units outstanding, and the units an originator holds, uses, or sells. Most token pages still hide those facts behind a pie chart and a headline supply number.
             </p>
             <p>
-              Rejunomics™ is a disclosure practice built for those same subjects. Allocation Clarity™ presents where supply is held, how it is locked or vested, and how it may enter circulation, in one standard reading. Token Intent™ presents why each allocation exists, which incentives are time limited, and how the project intends the token to operate through participation and continuity after launch.
+              Rejunomics™ is a disclosure practice built for those subjects. Allocation Clarity™ presents where supply is held, how it is locked or vested, and how it may enter circulation, in one standard reading. Token Intent™ presents why each allocation exists, which incentives are time limited, and how the project intends the token to operate through participation and continuity after launch.
             </p>
             <p>
-              The alignment is direct. The Act asks originators to furnish supply, allocation, release, and purpose, in a form the Commission may prescribe. Rejunomics™ gives that economic picture a comparable format, so holdings, release, and intent can be reviewed side by side across projects.
+              The protection is practical. When holdings, release, and intent sit in a comparable format, investors can review projects side by side instead of decoding each whitepaper from scratch. That is the economic picture markets need, and the format Rejunomics™ supplies.
             </p>
             <p>
-              That format helps the Act’s investor protection aim in practice. Readable Allocation Clarity™ and Token Intent™ make the economic information the Act already contemplates easier to compare, easier to supervise, and easier for the public to trust. Rejunomics™ therefore serves the Act as a practical disclosure layer for token economics, ready for industry adoption.
+              Readable Allocation Clarity™ and Token Intent™ make that information easier to compare, easier to review, and easier for the public to trust. Rejunomics™ is the disclosure layer for token economics, ready for industry adoption on its own merits.
             </p>
           </div>
         </article>
@@ -135,10 +141,10 @@ export default function RejunomicsPage() {
 
           <div className="mt-8 rounded-3xl border border-[#f5c26b]/20 bg-black/30 p-6 text-center">
             <p className="text-lg leading-relaxed text-gray-300">
-              Read the comparison at the top of this page for how Allocation Clarity™ and Token Intent™ sit with the CLARITY Act’s disclosure aims, and how that format helps those aims in practice.
+              Read the section at the top of this page for how Allocation Clarity™ and Token Intent™ give investors a standard reading of holdings, release, and purpose.
             </p>
-            <a href="#clarity-article" className="mt-4 inline-flex font-bold text-[#f5c26b] hover:underline">
-              How Rejunomics™ helps the CLARITY Act →
+            <a href="#investor-protection" className="mt-4 inline-flex font-bold text-[#f5c26b] hover:underline">
+              How Rejunomics™ protects investors →
             </a>
           </div>
         </div>
@@ -606,9 +612,8 @@ export default function RejunomicsPage() {
               discloses Allocation Clarity™ and Token Intent™, where holdings
               are, when they may enter circulation, which incentives are time
               limited, and what mechanisms are intended to support token life
-              beyond launch. That is the disclosure layer that helps a market
-              structure law like the CLARITY Act put investor protection into
-              readable economic form.
+              beyond launch. That is the disclosure layer that puts investor
+              protection into readable economic form.
             </p>
           </div>
 

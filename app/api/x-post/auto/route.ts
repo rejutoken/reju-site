@@ -6,8 +6,7 @@ import {
   KATS_LEGACY_BOOK,
   type SlotPostSpec,
 } from "../../../../lib/xPostGenerator";
-import { alignResearchWithLibrary } from "../../../../lib/conceptLibrary";
-import { fetchWebResearch } from "../../../../lib/postResearch";
+import { SITE_NEWS } from "../../../../lib/siteNews";
 import { publishTweet } from "../../../../lib/xPublish";
 import { hashPostText, recordPosted, wasRecentlyPosted } from "../../../../lib/xAutoLog";
 
@@ -22,25 +21,6 @@ function verifyCronAuth(req: NextRequest): boolean {
 }
 
 async function generateAndPublish(spec: SlotPostSpec, variantSeed: number, slot: string) {
-  let live: Awaited<ReturnType<typeof fetchWebResearch>> | null = null;
-  if (!spec.onboardingCopy) {
-    try {
-      live = await fetchWebResearch({
-        query: spec.customFocus,
-        category: spec.category,
-        themes: spec.themes,
-      });
-    } catch (error) {
-      console.error("X-POST AUTO RESEARCH SKIPPED:", error);
-    }
-  }
-
-  const alignment = await alignResearchWithLibrary({
-    notes: live?.notes ?? [],
-    themes: spec.themes,
-    category: spec.category,
-  });
-
   let post = generateHighQualityPost({
     selectedThemes: spec.themes,
     coreCategory: spec.category,
@@ -48,12 +28,9 @@ async function generateAndPublish(spec: SlotPostSpec, variantSeed: number, slot:
     postType: "single",
     tone: "Educational",
     includeVisual: true,
-    researchContext: live?.notes,
-    conceptMatches: alignment.matches,
     variantSeed,
     linkUrl: spec.linkUrl,
-    investorDayCopy: spec.investorDayCopy,
-    onboardingCopy: spec.onboardingCopy,
+    enrollmentOpen: SITE_NEWS.enrollmentOpen,
   });
 
   for (let attempt = 0; attempt < 3; attempt += 1) {
@@ -66,12 +43,9 @@ async function generateAndPublish(spec: SlotPostSpec, variantSeed: number, slot:
       postType: "single",
       tone: "Educational",
       includeVisual: true,
-      researchContext: live?.notes,
-      conceptMatches: alignment.matches,
       variantSeed: variantSeed + (attempt + 1) * 101,
       linkUrl: spec.linkUrl,
-      investorDayCopy: spec.investorDayCopy,
-      onboardingCopy: spec.onboardingCopy,
+      enrollmentOpen: SITE_NEWS.enrollmentOpen,
     });
   }
 
@@ -92,7 +66,7 @@ async function generateAndPublish(spec: SlotPostSpec, variantSeed: number, slot:
         account: spec.account,
         linkUrl: spec.linkUrl,
       },
-      researchQuery: live?.queryUsed ?? spec.customFocus,
+      researchQuery: spec.customFocus,
     };
   }
 
@@ -106,7 +80,7 @@ async function generateAndPublish(spec: SlotPostSpec, variantSeed: number, slot:
 
   if (!publish.posted) {
     console.error(`X AUTO PUBLISH FAILED account=${spec.account} reason=${publish.reason}`);
-  } else if (publish.posted) {
+  } else {
     await recordPosted({
       account: spec.account,
       textHash: hashPostText(post.text),
@@ -128,7 +102,7 @@ async function generateAndPublish(spec: SlotPostSpec, variantSeed: number, slot:
       account: spec.account,
       linkUrl: spec.linkUrl,
     },
-    researchQuery: live?.queryUsed ?? spec.customFocus,
+    researchQuery: spec.customFocus,
   };
 }
 
@@ -156,20 +130,20 @@ async function handleAuto(req: NextRequest) {
         ? []
         : [{ account: item.published.account, reason: item.published.reason }]
     );
-    const allPosted = failed.length === 0;
 
     return NextResponse.json({
-      success: allPosted,
-      allPosted,
+      success: failed.length === 0,
+      allPosted: failed.length === 0,
       failed,
       slot: plan.slot,
       relation: plan.relation,
       schedule:
-        "Four posts daily: 14:00 UTC morning and 22:00 UTC afternoon. Crypto to @rejutoken, rejuvenation to @REJUvenationTKN. Wednesday: Rejunomics + rejutkn.com/rejunomics, rejuvenation + rejutkn.com/program. Friday morning: how to get on board (crypto → onboarding, rejuvenation → program). Friday afternoon: Rejunomics and program links.",
+        "One post per slot. Morning 14:00 UTC: @REJUvenationTKN Event voice. Afternoon 22:00 UTC: @rejutoken token-door into the same Event. No news. No Rejunomics. 7 posts/week per account.",
       meta: {
         generatedAt: now.toISOString(),
         day: plan.dayName,
         bookSource: KATS_LEGACY_BOOK.title,
+        enrollmentOpen: SITE_NEWS.enrollmentOpen,
       },
       posts: results,
     });

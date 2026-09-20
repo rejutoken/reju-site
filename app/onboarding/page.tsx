@@ -33,16 +33,17 @@ export default function Onboarding() {
         </a>
 
         <p className="mb-4 mt-6 text-lg font-bold uppercase tracking-[0.35em] text-[#f5c26b]">
-          REJU Onboarding
+          Event entry
         </p>
 
         <h1 className="mx-auto max-w-4xl text-3xl font-bold leading-tight text-[#f5c26b] md:text-4xl">
-          Enroll in the REJU Rejuvenation Event™
+          How you enter the Rejuvenation Event™
         </h1>
 
         <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-gray-300">
-          Choose your entry path, complete payment or your REJU lock, register for your Participant
-          ID, then begin Authoring Your Book.
+          The token is a door, not the product. Choose a path, complete payment or your REJU lock,
+          register for your Participant ID, then begin authoring your book. Enrollment is not open
+          until this page says it is.
         </p>
 
         <SiteNewsBanner />

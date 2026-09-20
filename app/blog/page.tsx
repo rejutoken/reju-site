@@ -4,7 +4,7 @@ import BlogThemeButtons from "../components/BlogThemeButtons";
 export const metadata = {
   title: "REJU Blog | Rejuvenation and Crypto",
   description:
-    "Two REJU research desks: science-informed rejuvenation, and transparent crypto through Rejunomics™.",
+    "REJU research on rejuvenation, recovery, and the Event — fasting, ketosis, autophagy, and the book you author.",
 };
 
 export default function BlogPage() {
@@ -59,12 +59,9 @@ export default function BlogPage() {
           <h2 className="text-xl font-semibold text-[#f5c26b]">Crypto</h2>
           <div className="mt-4 space-y-4 text-base leading-7 text-gray-300">
             <p>
-              The Crypto blog is the public record of Rejunomics™ — REJU’s
-              model for disclosing how tokens are allocated, released, and
-              kept useful after the launch window. That framework was written
-              before the CLARITY Act. The Act now moves the industry toward
-              the same demand: clear rules, visible economics, and projects
-              that can explain what happens after hype fades.
+              The Event is the product. This desk is not the front of the
+              brand. If you read here, read it as background — not as what
+              we sell. We sell a Rejuvenation Event and a book you author.
             </p>
             <p>
               We are waiting for the right time to launch. In the meantime

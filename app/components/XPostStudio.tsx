@@ -50,22 +50,17 @@ interface LibraryStats {
 type CoreCategory = "rejuvenation" | "crypto";
 
 const REJUVENATION_THEMES = [
-  { id: "health", label: "Autophagy & Fasting" },
-  { id: "ketosis", label: "Ketosis & Metabolic Flexibility" },
-  { id: "cellular_repair", label: "Cellular Repair & Renewal" },
-  { id: "immunity", label: "Immunity & Inflammation" },
-  { id: "lymphatic", label: "Lymphatic System & Detox" },
-  { id: "event", label: "REJU Rejuvenation Event" },
+  { id: "renew", label: "Renew / recover" },
+  { id: "practice", label: "Practice from Kat's Legacy" },
+  { id: "event_book", label: "Event + book" },
+  { id: "enter", label: "How you enter" },
 ];
 
 const CRYPTO_THEMES = [
-  { id: "rejunomics", label: "Rejunomics & Token Transparency" },
-  { id: "crypto_news", label: "Token & Crypto News" },
-  { id: "crypto", label: "Crypto Ecosystem & Participation" },
-  { id: "crypto_news_today", label: "Today's Crypto News" },
-  { id: "crypto_trends", label: "Crypto Trends" },
-  { id: "industry", label: "2026 Crypto Industry Analysis" },
-  { id: "token_utility", label: "Token Utility & 6-Month Lock" },
+  { id: "vision", label: "Month seven is the Event" },
+  { id: "trust_lock", label: "Lock / you keep the keys" },
+  { id: "bridge", label: "Path B opens the Event" },
+  { id: "question", label: "What a token should still be doing" },
 ];
 
 const TONES = ["Educational", "Inspirational", "Analytical", "Conversational"];
@@ -78,7 +73,7 @@ export default function XPostStudio({ entry = "admin" }: { entry?: XPostEntry })
   const [loginLoading, setLoginLoading] = useState(false);
 
   const [coreCategory, setCoreCategory] = useState<CoreCategory>("rejuvenation");
-  const [selectedThemes, setSelectedThemes] = useState<string[]>(["health"]);
+  const [selectedThemes, setSelectedThemes] = useState<string[]>(["renew"]);
   const [customFocus, setCustomFocus] = useState("");
   const [researchQuery, setResearchQuery] = useState("");
   const [postType, setPostType] = useState<"single" | "thread">("single");
@@ -153,18 +148,18 @@ export default function XPostStudio({ entry = "admin" }: { entry?: XPostEntry })
       const starterDrafts: GeneratedPost[] = [
         {
           id: "seed1",
-          text: "Most tokenomics show you the map.\n\nRejunomics shows you the terrain ahead.\n\nTraditional models list allocations. Rejunomics discloses:\n• When & how tokens may enter circulation\n• Which incentives are finite\n• What ecosystem activity continues after hype fades\n\nThis is how projects move from speculation to sustained participation.\n\nLock REJU. Participate. Author real transformation.\n\n→ rejutkn.com",
-          imagePrompt: "Minimalist infographic: side-by-side comparison of 'Traditional Tokenomics' (simple pie) vs 'Rejunomics' (flow with arrows showing release, incentives, continuity). Elegant dark background with gold accents.",
-          hashtags: "#Rejunomics #TokenTransparency #Crypto",
-          theme: "rejunomics + industry",
+          text: "Most tokens end at launch week. REJU was built so month seven is a person in a Rejuvenation Event authoring their Transformation Book. Built to trust. You keep the keys. The Event → @REJUvenationTKN rejutkn.com",
+          imagePrompt: "Month-seven calendar meeting a person with a hardcover book. Dark gold editorial. No URL.",
+          hashtags: "#REJU #RejuvenationEvent",
+          theme: "vision",
           createdAt: new Date().toISOString(),
         },
         {
           id: "seed2",
-          text: "Your cells have a built-in cleanup crew called autophagy.\n\nIt ramps up during fasting, recycling damaged components and supporting longevity.\n\nIn the REJU Rejuvenation Event, daily practices + the 6-month lock turn personal renewal into a structured system.\n\nYour journal becomes chapters you author.\n\nThe REJU token funds that path: Event access, education, and your Transformation Book.\n\n→ rejutkn.com",
-          imagePrompt: "Serene visual of a person quietly journaling at dawn. Subtle glowing cellular patterns and soft gold light symbolizing renewal and autophagy. Clean, inspiring wellness-crypto aesthetic.",
-          hashtags: "#Autophagy #Fasting #REJU #Rejuvenation",
-          theme: "health + event",
+          text: "Rejuvenation is not eleven protocols in a cart. It is one path: recover the baseline, renew the days, write them down. The Rejuvenation Event is that path. You leave with a Transformation Book that is yours. rejutkn.com/program",
+          imagePrompt: "Calm figure at sunrise, journal open, gold light on dark ground. REJU recovery aesthetic. No URL.",
+          hashtags: "#Rejuvenation #HealthReset #REJU",
+          theme: "renew",
           createdAt: new Date().toISOString(),
         },
       ];
@@ -194,7 +189,7 @@ export default function XPostStudio({ entry = "admin" }: { entry?: XPostEntry })
 
   const switchCoreCategory = (category: CoreCategory) => {
     setCoreCategory(category);
-    setSelectedThemes(category === "crypto" ? ["rejunomics"] : ["health"]);
+    setSelectedThemes(category === "crypto" ? ["vision"] : ["renew"]);
     setResearchNotes([]);
     setResearchSources([]);
     setConceptMatches([]);
@@ -367,19 +362,14 @@ export default function XPostStudio({ entry = "admin" }: { entry?: XPostEntry })
   };
 
   const quickResearchButtons = [
-    { label: "Autophagy & Fasting", category: "rejuvenation" as CoreCategory, themes: ["health"] },
-    { label: "Ketosis", category: "rejuvenation" as CoreCategory, themes: ["ketosis"] },
-    { label: "Cellular Repair", category: "rejuvenation" as CoreCategory, themes: ["cellular_repair"] },
-    { label: "Immunity", category: "rejuvenation" as CoreCategory, themes: ["immunity"] },
-    { label: "Lymphatic System", category: "rejuvenation" as CoreCategory, themes: ["lymphatic"] },
-    { label: "REJU Event", category: "rejuvenation" as CoreCategory, themes: ["event"] },
-    { label: "Rejunomics", category: "crypto" as CoreCategory, themes: ["rejunomics"] },
-    { label: "Crypto News", category: "crypto" as CoreCategory, themes: ["crypto_news"] },
-    { label: "Today's News", category: "crypto" as CoreCategory, themes: ["crypto_news_today"] },
-    { label: "Crypto Trends", category: "crypto" as CoreCategory, themes: ["crypto_trends"] },
-    { label: "Industry Analysis", category: "crypto" as CoreCategory, themes: ["industry"] },
-    { label: "Token Utility", category: "crypto" as CoreCategory, themes: ["token_utility"] },
-    { label: "Crypto Ecosystem", category: "crypto" as CoreCategory, themes: ["crypto"] },
+    { label: "Renew / recover", category: "rejuvenation" as CoreCategory, themes: ["renew"] },
+    { label: "Practice", category: "rejuvenation" as CoreCategory, themes: ["practice"] },
+    { label: "Event + book", category: "rejuvenation" as CoreCategory, themes: ["event_book"] },
+    { label: "How you enter", category: "rejuvenation" as CoreCategory, themes: ["enter"] },
+    { label: "Token vision", category: "crypto" as CoreCategory, themes: ["vision"] },
+    { label: "Lock / keys", category: "crypto" as CoreCategory, themes: ["trust_lock"] },
+    { label: "Path B bridge", category: "crypto" as CoreCategory, themes: ["bridge"] },
+    { label: "After incentives", category: "crypto" as CoreCategory, themes: ["question"] },
   ];
 
   if (authChecking) {
@@ -461,13 +451,13 @@ export default function XPostStudio({ entry = "admin" }: { entry?: XPostEntry })
         <h1 className="text-4xl font-bold text-[#f5c26b] mb-2">X Post Generator &amp; Manager</h1>
         <p className="text-gray-400 mb-8 max-w-3xl">
           Research relevant crypto transparency and health rejuvenation topics. Refine into high-quality, on-brand X posts and threads. 
-          Proprietary concepts (like Rejunomics) automatically include backing links to rejutkn.com. Generate visuals. Export ready-to-post content.
+          Generate visuals. Export ready-to-post content.
           <br /><br />
-          <strong>Two core themes — never mixed:</strong> Rejuvenation (health sciences + Event) and Crypto (Rejunomics, news, trends, utility). Use Research Online for custom topics.
+          <strong>Same product, two doors:</strong> @REJUvenationTKN sells the Event, recovery, and the book. @rejutoken is the crypto door into that Event. No news. No Rejunomics.
           {!isCollaborator && (
             <>
               <br />
-              <strong>Automated schedule:</strong> Four posts daily. Morning 14:00 UTC (7am PT / 10am ET): health to @REJUvenationTKN, then crypto to @rejutoken. Afternoon 22:00 UTC (3pm PT / 6pm ET): crypto then health.
+              <strong>Automated schedule:</strong> One post per slot. Morning 14:00 UTC: Event voice to @REJUvenationTKN. Afternoon 22:00 UTC: token-door copy to @rejutoken. 7 posts/week per account.
               <br />
               <strong>For automation:</strong> Vercel Cron hits <code>GET /api/x-post/auto</code> twice a day. The Grok bot should not duplicate these posts.
             </>
@@ -541,7 +531,7 @@ export default function XPostStudio({ entry = "admin" }: { entry?: XPostEntry })
               <div>
                 <h3 className="text-xl font-semibold text-[#f5c26b] mb-2">2. Research &amp; Focus</h3>
                 <p className="text-xs text-gray-500 mb-3">
-                  Searches the live internet (Google News, crypto RSS, PubMed), then aligns findings to Kat&apos;s Legacy and the Drive concept library — reloaded on every generate so new uploads stay current.
+                  Optional. Event posts can draw from Kat&apos;s Legacy. Token posts must stay on the Event door — no news, no Rejunomics.
                 </p>
                 <input
                   type="text"

@@ -11,16 +11,13 @@ interface NavLink {
 
 const blogSubmenu: NavLink[] = [
   { href: "/blog/rejuvenation", label: "Rejuvenation" },
-  { href: "/blog/crypto", label: "Crypto" },
 ];
 
 const navLinks: NavLink[] = [
-  { href: "/buy", label: "Buy REJU" },
-  { href: "/crypto-industry-analysis-2026", label: "Industry Analysis" },
-  { href: "/program", label: "Program" },
-  { href: "/daily-transformation-log", label: "Author Your Book" },
-  { href: "/onboarding", label: "Onboarding" },
-  { href: "/rejunomics", label: "Rejunomics" },
+  { href: "/program", label: "Event" },
+  { href: "/onboarding", label: "Enter" },
+  { href: "/daily-transformation-log", label: "Book" },
+  { href: "/buy", label: "Token" },
   { href: "/blog", label: "Blog", children: blogSubmenu },
 ];
 
@@ -144,11 +141,11 @@ export default function Nav() {
         <div className="absolute left-0 top-[48px] flex flex-col gap-1">
           {/* X */}
           <a
-            href="https://x.com/rejutoken"
+            href="https://x.com/REJUvenationTKN"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[#f5c26b] hover:text-white transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-[#f5c26b] rounded"
-            aria-label="REJU on X"
+            aria-label="REJU rejuvenation on X"
             onClick={handleLinkClick}
           >
             <svg
@@ -277,11 +274,11 @@ export default function Nav() {
                 <div className="absolute left-0 top-[42px] flex flex-col gap-1">
                   {/* X */}
                   <a
-                    href="https://x.com/rejutoken"
+                    href="https://x.com/REJUvenationTKN"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-[#f5c26b] hover:text-white transition-colors"
-                    aria-label="REJU on X"
+                    aria-label="REJU rejuvenation on X"
                     onClick={handleLinkClick}
                   >
                     <svg
@@ -359,7 +356,7 @@ export default function Nav() {
             </div>
 
             <div className="mt-auto px-6 py-6 text-xs text-gray-500 border-t border-[#f5c26b]/10">
-              Participation-Driven Ecosystem™
+              Science by Nature. Engineered for Life.
             </div>
           </div>
         </div>

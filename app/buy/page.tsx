@@ -8,7 +8,6 @@ const links = {
   onboarding: "/onboarding",
   buy: "/buy",
   program: "/program",
-  rejunomics: "/rejunomics",
   blog: "/blog",
   participantRegistration: "/participant-registration",
   telegramOfficial: "https://t.me/rejuofficial",
@@ -54,13 +53,14 @@ export default function BuyPage() {
           </p>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#f5c26b]">
-            Choose Your Exchange and Lock Your REJU
+            The token is a door
           </h1>
 
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-left text-gray-300">
-            Find REJU in the wallets, exchanges, and market tools below. Lock REJU on Streamflow —
-            our non-custodial partner — so tokens stay in your wallet while you complete the Event.
-            Buying REJU is not the same as joining the program.
+            Find REJU in the wallets and tools below if you want Path B: lock $600 for six months on
+            Streamflow — non-custodial, you keep the keys — and that lock opens the Event and the
+            book. Buying REJU is not the same as joining the Event. See How you enter when you are
+            ready to enroll.
           </p>
         </section>
 

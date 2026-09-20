@@ -159,7 +159,7 @@ export default function DailyTransformationLog() {
           <p className="mt-4 text-xl text-gray-300">Enter your Participant ID (from registration) above — it will be used for all book chapters. One chapter at a time — you are the Author.</p>
           <div className="mt-4 flex flex-wrap justify-center gap-3">
             <a href="/program" className="text-sm text-[#f5c26b] hover:underline">← Back to Program</a>
-            <a href="/rejunomics" className="text-sm text-[#f5c26b] hover:underline">Learn Rejunomics</a>
+            <a href="/program" className="text-sm text-[#f5c26b] hover:underline">See the Event</a>
             <a href="/onboarding" className="text-sm text-[#f5c26b] hover:underline">Onboarding</a>
             <a href="/buy" className="text-sm text-[#f5c26b] hover:underline">Buy / Lock REJU</a>
           </div>

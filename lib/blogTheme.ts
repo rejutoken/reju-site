@@ -26,7 +26,7 @@ export const BLOG_THEME_COPY: Record<BlogTheme, BlogThemeCopy> = {
     title: "Crypto",
     kicker: "Transparent economics and long-horizon utility",
     description:
-      "Why most tokens fade, what Rejunomics discloses, and how REJU ties a 6-month lock to Event access, education, and a book you author.",
+      "The token is a door into the Rejuvenation Event. This desk is background, not the product.",
   },
 };
 

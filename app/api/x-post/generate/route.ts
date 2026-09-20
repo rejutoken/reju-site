@@ -29,8 +29,8 @@ export async function POST(req: NextRequest) {
     } = {};
 
     const shouldFetchLive =
-      body.fetchLiveResearch !== false &&
-      (!researchContext || researchContext.length === 0 || body.fetchLiveResearch === true);
+      body.fetchLiveResearch === true &&
+      (!researchContext || researchContext.length === 0);
 
     if (shouldFetchLive) {
       const live = await fetchWebResearch({
@@ -114,7 +114,7 @@ export async function GET() {
   if (auth instanceof NextResponse) return auth;
 
   const sample = generateHighQualityPost({
-    selectedThemes: ["rejunomics"],
+    selectedThemes: ["renew"],
     coreCategory: "crypto",
     customFocus: "",
     postType: "single",

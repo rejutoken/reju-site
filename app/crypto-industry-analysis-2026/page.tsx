@@ -11,7 +11,6 @@ const links = {
   buy: "/buy",
   onboarding: "/onboarding",
   program: "/program",
-  rejunomics: "/rejunomics",
   telegramOfficial: "https://t.me/rejuofficial",
 };
 
@@ -585,8 +584,8 @@ export default function IndustryAnalysisPage() {
           </p>
 
           <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
-            <a href={links.rejunomics} className={buttonClass}>
-              View Rejunomics™
+            <a href={links.program} className={buttonClass}>
+              See the Event
             </a>
             <a href={links.home} className={buttonClass}>
               Back to REJU

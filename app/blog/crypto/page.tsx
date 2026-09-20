@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Crypto Blog | REJU",
   description:
-    "REJU crypto research: token utility, Rejunomics, industry survival, and long-horizon ecosystem design.",
+    "The token is a door into the Rejuvenation Event. This desk is background, not the product.",
 };
 
 export default function CryptoBlogPage() {

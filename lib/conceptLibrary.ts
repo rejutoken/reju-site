@@ -470,7 +470,7 @@ export function buildConceptBridge(
   }
 
   if (category === "crypto") {
-    return `In Rejunomics, this ties to ${concept.name} — transparent economics beyond the launch window.`;
+    return `This ties to ${concept.name} — transparent economics beyond the launch window.`;
   }
 
   if (concept.source === "kats-legacy") {

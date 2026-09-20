@@ -31,7 +31,7 @@ export default function ProgramPage() {
           </h1>
 
           <h2 className="mt-4 text-xl text-[#f5c26b] sm:text-2xl">
-            A 6-Week Benchmark-Setting Rejuvenation Experience
+            Renew your health in 6 weeks. Leave with a book that is yours.
           </h2>
 
           <p className="mx-auto mt-6 max-w-3xl text-left text-lg leading-relaxed text-gray-300">
@@ -123,9 +123,11 @@ export default function ProgramPage() {
         </section>
 
         <section className="rounded-3xl border border-[#f5c26b]/25 bg-[#120904]/70 p-8 text-center">
-          <h2 className="text-2xl font-bold text-[#f5c26b]">Ready to Enter?</h2>
+          <h2 className="text-2xl font-bold text-[#f5c26b]">How you enter</h2>
           <p className="mx-auto mt-3 max-w-xl text-gray-300">
-            Onboarding handles your entry path, payment, registration, and next steps.
+            Pay $600, or lock $600 in REJU for six months — you keep the keys. Both paths include
+            Kat&apos;s Legacy ($69) and the book you author. Enrollment opens when the site says it is
+            open.
           </p>
           <div className="mt-8">
             <ProgramCtas />
@@ -140,10 +142,10 @@ function ProgramCtas() {
   return (
     <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
       <a href={links.onboarding} className={primaryButtonClass}>
-        Enter the Program
+        How you enter
       </a>
-      <a href={links.onboarding} className={buttonClass}>
-        Onboarding
+      <a href="/daily-transformation-log" className={buttonClass}>
+        Author your book
       </a>
     </div>
   );

@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "REJU | Participation-Driven Ecosystem",
-  description: "Lock REJU. Transform through the Rejuvenation Event. You Are Authoring your Personalized REJU Transformation Book. Sustained by transparent Rejunomics™.",
+  title: "REJU | Rejuvenation Event and Your Transformation Book",
+  description:
+    "Renew your health in a structured 6-week Rejuvenation Event. Leave with a Transformation Book you author. The token is one way to enter.",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",

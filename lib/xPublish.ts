@@ -58,10 +58,11 @@ export async function publishTweet(
 ): Promise<XPublishResult> {
   const body = text.trim();
   if (!body) return { posted: false, reason: "Empty post text.", account };
-  if (body.length > 280) {
+  const weightedLength = body.replace(/https?:\/\/\S+/gi, "x".repeat(23)).length;
+  if (weightedLength > 280) {
     return {
       posted: false,
-      reason: `Post is ${body.length} characters (max 280).`,
+      reason: `Post is ${weightedLength} characters (max 280).`,
       account,
     };
   }

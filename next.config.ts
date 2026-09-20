@@ -16,12 +16,26 @@ const nextConfig: NextConfig = {
         source: "/:path*",
         headers: securityHeaders,
       },
+      {
+        source: "/rejunomics",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }, ...securityHeaders],
+      },
     ];
   },
   async redirects() {
     return [
       { source: "/reju-access", destination: "/onboarding", permanent: true },
       { source: "/dailyjournal", destination: "/daily-transformation-log", permanent: true },
+      {
+        source: "/blog/the-clarity-act-bringing-much-needed-regulatory-clarity-to-crypto-and-why-reju-is-already-aligned",
+        destination: "/program",
+        permanent: true,
+      },
+      {
+        source: "/blog/rejunomics-the-disclosure-standard-investors-can-actually-read",
+        destination: "/program",
+        permanent: true,
+      },
     ];
   },
 };

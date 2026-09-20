@@ -23,20 +23,30 @@ interface RssItem {
   source: string;
 }
 
-function stripHtml(text: string): string {
+function decodeEntities(text: string): string {
   return text
-    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
-    .replace(/<a[^>]*>/gi, " ")
-    .replace(/<\/a>/gi, " ")
-    .replace(/<[^>]+>/g, " ")
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCharCode(parseInt(n, 16)))
     .replace(/&amp;/g, "&")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&nbsp;/g, " ")
     .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/https?:\/\/\S+/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
+    .replace(/&gt;/g, ">");
+}
+
+function stripHtml(text: string): string {
+  return decodeEntities(
+    text
+      .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
+      .replace(/<a[^>]*>/gi, " ")
+      .replace(/<\/a>/gi, " ")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/https?:\/\/\S+/g, "")
+      .replace(/\s+/g, " ")
+      .trim()
+  );
 }
 
 function truncate(text: string, max: number): string {
@@ -48,12 +58,21 @@ function truncate(text: string, max: number): string {
 }
 
 function decodeXmlEntities(text: string): string {
-  return text
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">");
+  return decodeEntities(text);
+}
+
+function cleanArticleUrl(url: string): string {
+  try {
+    const parsed = new URL(url);
+    for (const key of [...parsed.searchParams.keys()]) {
+      if (key.toLowerCase().startsWith("utm_") || key.toLowerCase() === "fbclid") {
+        parsed.searchParams.delete(key);
+      }
+    }
+    return parsed.toString();
+  } catch {
+    return url;
+  }
 }
 
 function extractTag(block: string, tag: string): string {
@@ -66,19 +85,33 @@ function extractTag(block: string, tag: string): string {
   return plainMatch?.[1] ? decodeXmlEntities(stripHtml(plainMatch[1])) : "";
 }
 
+function extractLink(block: string): string {
+  const orig = block.match(/<(?:feedburner:)?origLink[^>]*>(https?:\/\/[^<]+)</i);
+  if (orig?.[1]) return cleanArticleUrl(orig[1].trim());
+  const href = block.match(/<link[^>]*href=["']([^"']+)["'][^>]*>/i);
+  if (href?.[1] && /^https?:\/\//i.test(href[1])) return cleanArticleUrl(href[1].trim());
+  const tagged = block.match(/<link[^>]*>\s*(https?:\/\/[^<\s]+)\s*<\/link>/i);
+  if (tagged?.[1]) return cleanArticleUrl(tagged[1].trim());
+  const guid = block.match(/<guid[^>]*>\s*(https?:\/\/[^<\s]+)\s*<\/guid>/i);
+  if (guid?.[1]) return cleanArticleUrl(guid[1].trim());
+  return "";
+}
+
 function parseRssFeed(xml: string, feedSource: string, limit: number): RssItem[] {
   const items: RssItem[] = [];
   const itemBlocks = xml.match(/<item[\s\S]*?<\/item>/gi) ?? [];
+  const entryBlocks = xml.match(/<entry[\s\S]*?<\/entry>/gi) ?? [];
+  const blocks = itemBlocks.length > 0 ? itemBlocks : entryBlocks;
 
-  for (const block of itemBlocks.slice(0, limit * 3)) {
+  for (const block of blocks.slice(0, limit * 3)) {
     const title = extractTag(block, "title");
     if (!title) continue;
 
     items.push({
       title,
-      description: extractTag(block, "description"),
-      link: extractTag(block, "link"),
-      pubDate: extractTag(block, "pubDate"),
+      description: extractTag(block, "description") || extractTag(block, "summary") || extractTag(block, "content"),
+      link: extractLink(block),
+      pubDate: extractTag(block, "pubDate") || extractTag(block, "updated") || extractTag(block, "published"),
       source: feedSource,
     });
     if (items.length >= limit) break;
@@ -136,22 +169,51 @@ async function fetchRss(url: string, sourceLabel: string): Promise<RssItem[]> {
 
 async function fetchGoogleNews(query: string, limit = 8): Promise<ResearchNote[]> {
   const url = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
-  const items = await fetchRss(url, "Google News");
-  const filtered = items.filter((item) => matchesQuery(`${item.title} ${item.description}`, query));
-  const picked = (filtered.length > 0 ? filtered : items).slice(0, limit);
-  return rssToNotes(picked, "gnews");
+  const items = sortNewest(await fetchRss(url, "Google News"));
+  return rssToNotes(items.slice(0, limit), "gnews");
 }
 
 const CRYPTO_RSS_FEEDS = [
+  { url: "https://www.coindesk.com/arc/outboundfeeds/rss", label: "CoinDesk" },
   { url: "https://cointelegraph.com/rss", label: "Cointelegraph" },
   { url: "https://decrypt.co/feed", label: "Decrypt" },
+  { url: "https://www.theblock.co/rss.xml", label: "The Block" },
+  { url: "https://bitcoinmagazine.com/feed", label: "Bitcoin Magazine" },
+  { url: "https://blockworks.com/feed", label: "Blockworks" },
+  { url: "https://cryptoslate.com/feed", label: "CryptoSlate" },
+  { url: "https://news.bitcoin.com/feed/", label: "Bitcoin.com" },
 ];
 
-async function fetchCryptoRssNews(query: string, limit = 6): Promise<ResearchNote[]> {
+const CRYPTO_THEME_FILTERS: Record<string, RegExp> = {
+  bitcoin_news: /\b(bitcoin|btc)\b/i,
+  crypto_policy:
+    /\b(sec|cftc|congress|senate|regulat|lawmaker|legislation|bill\b|government|policy|fed\b|treasury|mica|ban|license|court|white house|parliament|ofac|irs|esma|fca|mas\b)\b/i,
+  crypto_international:
+    /\b(eu\b|europe|european|uk\b|britain|england|japan|china|hong kong|india|brazil|salvador|uae|dubai|australia|canada|mica|international|global|korea|singapore|nigeria|argentina|switzerland|france|germany)\b/i,
+};
+
+function itemMatchesTheme(item: RssItem, theme: string): boolean {
+  const filter = CRYPTO_THEME_FILTERS[theme];
+  if (!filter) return true;
+  return filter.test(`${item.title} ${item.description} ${item.source}`);
+}
+
+function publishedAtMs(value: string | undefined): number {
+  if (!value) return 0;
+  const ms = Date.parse(value);
+  return Number.isNaN(ms) ? 0 : ms;
+}
+
+function sortNewest(items: RssItem[]): RssItem[] {
+  return [...items].sort((a, b) => publishedAtMs(b.pubDate) - publishedAtMs(a.pubDate));
+}
+
+async function fetchCryptoRssNews(query: string, theme = "", limit = 8): Promise<ResearchNote[]> {
   const batches = await Promise.all(CRYPTO_RSS_FEEDS.map((f) => fetchRss(f.url, f.label)));
-  const merged = batches.flat();
-  const filtered = merged.filter((item) => matchesQuery(`${item.title} ${item.description}`, query));
-  const picked = (filtered.length > 0 ? filtered : merged).slice(0, limit);
+  const merged = sortNewest(batches.flat());
+  const themed = theme ? merged.filter((item) => itemMatchesTheme(item, theme)) : merged;
+  const queried = merged.filter((item) => matchesQuery(`${item.title} ${item.description}`, query));
+  const picked = (themed.length > 0 ? themed : queried.length > 0 ? queried : merged).slice(0, limit);
   return rssToNotes(picked, "crypto-rss");
 }
 
@@ -234,13 +296,18 @@ async function fetchCryptoTrending(): Promise<ResearchNote[]> {
 }
 
 const THEME_QUERIES: Record<string, string> = {
+  bitcoin_news: "Bitcoin news when:2d",
+  crypto_news: "(Bitcoin OR Ethereum OR cryptocurrency) news when:1d",
+  crypto_news_today: "(Bitcoin OR Ethereum OR cryptocurrency) news when:1d",
+  crypto_policy:
+    "(cryptocurrency OR bitcoin OR crypto) (SEC OR CFTC OR Congress OR regulation OR Senate OR Treasury OR Fed OR government) when:7d",
+  crypto_international:
+    "(cryptocurrency OR bitcoin) (EU OR MiCA OR UK OR Japan OR China OR India OR Brazil OR UAE OR Canada OR Australia OR Singapore) when:7d",
+  crypto_trends: "Bitcoin cryptocurrency market news when:2d",
   rejunomics: "cryptocurrency tokenomics transparency token release",
-  industry: "cryptocurrency project failure token launch 2026",
-  crypto: "crypto ecosystem web3 participation",
-  token_utility: "utility token real world adoption",
-  crypto_news: "cryptocurrency token news",
-  crypto_news_today: `cryptocurrency news ${new Date().toISOString().slice(0, 10)}`,
-  crypto_trends: "cryptocurrency market trends",
+  industry: "cryptocurrency regulation government policy news",
+  crypto: "cryptocurrency Bitcoin Ethereum news when:1d",
+  token_utility: "Bitcoin cryptocurrency news when:1d",
   health: "autophagy fasting longevity study",
   ketosis: "ketosis metabolic health fasting study",
   cellular_repair: "cellular repair autophagy aging research",
@@ -261,7 +328,7 @@ export function buildResearchQuery(
   if (primary && THEME_QUERIES[primary]) return THEME_QUERIES[primary];
 
   return category === "crypto"
-    ? "cryptocurrency news today"
+    ? "Bitcoin OR cryptocurrency news when:1d"
     : "autophagy fasting rejuvenation research";
 }
 
@@ -292,16 +359,19 @@ export async function fetchWebResearch(params: {
   const tasks: Array<{ label: string; run: () => Promise<ResearchNote[]> }> = [];
 
   if (category === "crypto") {
-    tasks.push({ label: "Google News", run: () => fetchGoogleNews(queryUsed, 8) });
-    tasks.push({ label: "Crypto RSS", run: () => fetchCryptoRssNews(queryUsed, 6) });
-
-    if (
-      primaryTheme === "crypto_trends" ||
-      primaryTheme === "crypto_news_today" ||
-      queryUsed.toLowerCase().includes("trend")
-    ) {
-      tasks.push({ label: "CoinGecko Trending", run: fetchCryptoTrending });
-    }
+    tasks.push({ label: "Google News", run: () => fetchGoogleNews(queryUsed, 10) });
+    tasks.push({
+      label: "Wire services",
+      run: () =>
+        fetchGoogleNews(
+          `${queryUsed} (site:reuters.com OR site:apnews.com OR site:bloomberg.com OR site:bbc.com)`,
+          6
+        ),
+    });
+    tasks.push({
+      label: "Crypto RSS",
+      run: () => fetchCryptoRssNews(queryUsed, primaryTheme, 10),
+    });
   } else {
     tasks.push({ label: "Google News", run: () => fetchGoogleNews(queryUsed, 6) });
     tasks.push({ label: "PubMed", run: () => fetchPubMedStudies(queryUsed, 5) });
@@ -315,7 +385,9 @@ export async function fetchWebResearch(params: {
     })
   );
 
-  const merged = dedupeNotes(results.flat());
+  const merged = dedupeNotes(results.flat()).sort(
+    (a, b) => publishedAtMs(b.publishedAt) - publishedAtMs(a.publishedAt)
+  );
 
   if (merged.length === 0) {
     throw new Error(
@@ -324,7 +396,7 @@ export async function fetchWebResearch(params: {
   }
 
   return {
-    notes: merged.slice(0, 10),
+    notes: merged.slice(0, 12),
     queryUsed,
     sourcesUsed,
     fetchedAt: new Date().toISOString(),
