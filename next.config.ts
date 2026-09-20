@@ -25,6 +25,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/reju-access", destination: "/onboarding", permanent: true },
+      { source: "/rejunomics", destination: "/program", permanent: true },
       { source: "/dailyjournal", destination: "/daily-transformation-log", permanent: true },
       {
         source: "/blog/the-clarity-act-bringing-much-needed-regulatory-clarity-to-crypto-and-why-reju-is-already-aligned",
