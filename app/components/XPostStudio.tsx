@@ -156,7 +156,7 @@ export default function XPostStudio({ entry = "admin" }: { entry?: XPostEntry })
         },
         {
           id: "seed2",
-          text: "Rejuvenation is not eleven protocols in a cart. It is one path: recover the baseline, renew the days, write them down. The Rejuvenation Event is that path. You leave with a Transformation Book that is yours. rejutkn.com/program",
+          text: "Rejuvenate in 6 weeks. That is the product: rejuvenation, done by renewing your health. One path. You leave with a Transformation Book that is yours. rejutkn.com/program",
           imagePrompt: "Calm figure at sunrise, journal open, gold light on dark ground. REJU recovery aesthetic. No URL.",
           hashtags: "#Rejuvenation #HealthReset #REJU",
           theme: "renew",

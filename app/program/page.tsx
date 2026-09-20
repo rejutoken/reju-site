@@ -31,7 +31,7 @@ export default function ProgramPage() {
           </h1>
 
           <h2 className="mt-4 text-xl text-[#f5c26b] sm:text-2xl">
-            Renew your health in 6 weeks. Leave with a book that is yours.
+            Rejuvenate in 6 weeks. Rejuvenation, by renewing your health.
           </h2>
 
           <p className="mx-auto mt-6 max-w-3xl text-left text-lg leading-relaxed text-gray-300">

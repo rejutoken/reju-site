@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "REJU | Rejuvenation Event and Your Transformation Book",
+  title: "REJU | Rejuvenate in 6 weeks",
   description:
-    "Renew your health in a structured 6-week Rejuvenation Event. Leave with a Transformation Book you author. The token is one way to enter.",
+    "Rejuvenation is the product. Rejuvenate in 6 weeks by renewing your health. Leave with a Transformation Book you author. The token is one way to enter.",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",

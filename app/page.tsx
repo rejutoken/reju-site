@@ -31,15 +31,16 @@ export default function Home() {
         </p>
 
         <h1 className="mt-6 text-4xl font-bold tracking-tight text-[#f5c26b] sm:text-6xl md:text-7xl">
-          Renew your health in 6 weeks.
+          Rejuvenate in 6 weeks.
         </h1>
         <h2 className="mx-auto mt-6 max-w-3xl text-xl font-semibold leading-relaxed text-[#f5c26b] sm:text-2xl">
-          Leave with a book that is yours.
+          Rejuvenation, by renewing your health.
         </h2>
         <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-gray-300">
-          The Rejuvenation Event™ is one structured path — recover the baseline, renew the days, and
-          write them down. You set a Health Benchmark™, follow the REJU Protocol™, and author a
-          publishable Transformation Book. REJU is the editorial partner. You are the author.
+          That is the product. The Rejuvenation Event™ is one structured path: you renew your health,
+          you document the days, and you leave with a Transformation Book that is yours. You set a
+          Health Benchmark™, follow the REJU Protocol™, and author the book. REJU is the editorial
+          partner. You are the author.
         </p>
 
         <SiteNewsBanner />
@@ -60,11 +61,11 @@ export default function Home() {
       <section className="px-6 py-12">
         <div className="mx-auto max-w-4xl rounded-3xl border border-[#f5c26b]/20 bg-[#120904]/80 p-8">
           <p className="text-sm font-bold uppercase tracking-[0.28em] text-[#f5c26b]">The Event</p>
-          <h2 className="mt-3 text-3xl font-bold text-[#f5c26b]">One path. About six weeks.</h2>
+          <h2 className="mt-3 text-3xl font-bold text-[#f5c26b]">Rejuvenate in 6 weeks.</h2>
           <p className="mt-5 text-left text-lg leading-relaxed text-gray-300">
-            Rejuvenation is not eleven protocols in a cart. It is one sequence: preparation, four
-            core weeks of the REJU Protocol™, then a week to see what you documented. You recover
-            and renew health with daily work — not a stack of disconnected programs.
+            Rejuvenation is the product. It is done by renewing your health — one sequence, not
+            eleven protocols in a cart: preparation, four core weeks of the REJU Protocol™, then a
+            week to see what you documented.
           </p>
           <ul className="mt-6 space-y-3 text-left text-lg text-gray-300">
             <li>Health Benchmark™ — your honest Day 1, same place, same light, same camera.</li>
@@ -99,8 +100,9 @@ export default function Home() {
           </p>
           <h2 className="mt-3 text-center text-3xl font-bold text-[#f5c26b]">The token is a door.</h2>
           <p className="mx-auto mt-4 max-w-3xl text-center text-lg text-gray-300">
-            We sell rejuvenation. The Event is the product. Holding REJU is optional. Paths B and C
-            also include Kat&apos;s Legacy ($69). Enrollment opens when this site says it is open.
+            We sell rejuvenation. Rejuvenate in 6 weeks by renewing your health. The token is a door,
+            not the product. Paths B and C also include Kat&apos;s Legacy ($69). Enrollment opens when
+            this site says it is open.
           </p>
           <div className="mt-8 grid gap-6 lg:grid-cols-3">
             <EntryCard
@@ -134,9 +136,9 @@ export default function Home() {
       </section>
 
       <section className="px-6 py-12 text-center">
-        <h2 className="text-3xl font-bold text-[#f5c26b]">Start with the Event</h2>
+        <h2 className="text-3xl font-bold text-[#f5c26b]">Rejuvenate in 6 weeks</h2>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-gray-300">
-          See the six weeks. Then choose how you enter. Then write the book.
+          Rejuvenation is the product. You do it by renewing your health. Then write the book.
         </p>
         <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
           <a href={links.program} className={primaryButtonClass}>

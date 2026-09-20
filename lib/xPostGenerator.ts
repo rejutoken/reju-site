@@ -303,9 +303,9 @@ function eventCopy(pillar: string, seed: number, enrollmentOpen: boolean): { tex
   return {
     text: pick(
       [
-        "Rejuvenation is not eleven protocols in a cart. It is one path: recover the baseline, renew the days, write them down. The Rejuvenation Event is that path. You leave with a Transformation Book that is yours.",
-        "Renew your health in a structured Event. Recover. Document. Leave with a book that is yours.",
-        "One sequence, about six weeks. Health Benchmark, daily work, then a book you authored. That is rejuvenation here.",
+        "Rejuvenate in 6 weeks. That is the product: rejuvenation, done by renewing your health. One path. You leave with a Transformation Book that is yours.",
+        "Rejuvenation is the product. You renew your health in a structured Event, document the days, and leave with a book you authored.",
+        "Rejuvenate in 6 weeks by renewing your health. Health Benchmark, daily work, then a book that is yours.",
       ],
       seed
     ),
@@ -363,7 +363,7 @@ function tokenCopy(pillar: string, seed: number, quoteEvent: boolean): { text: s
     text: pick(
       [
         "Most tokens end at launch week. REJU was built so month seven is a person in a Rejuvenation Event authoring their Transformation Book. Built to trust. You keep the keys. The Event → @REJUvenationTKN",
-        "We are not selling a coin as the product. The Event is the product. The token is a door. Built to trust. → @REJUvenationTKN",
+        "We are not selling a coin as the product. Rejuvenation is the product: rejuvenate in 6 weeks by renewing your health. The token is a door. → @REJUvenationTKN",
       ],
       seed
     ),
@@ -402,7 +402,7 @@ export function generateHighQualityPost(input: GeneratePostInput): GeneratedPost
   let text = withLink(built.text, link);
   if (BANNED.test(text)) {
     text = withLink(
-      "Renew your health in a structured Event. Leave with a book that is yours.",
+      "Rejuvenate in 6 weeks. Rejuvenation, by renewing your health.",
       PROGRAM_LINK
     );
   }
