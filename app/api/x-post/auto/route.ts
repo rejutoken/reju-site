@@ -115,13 +115,24 @@ async function handleAuto(req: NextRequest) {
     const now = new Date();
     const slot = resolvePostSlot(now, req.nextUrl.searchParams.get("slot"));
     const plan = getDualSlotPlan(now, slot);
-    const hourSeed = now.getUTCHours() * 1000 + now.getUTCDate() * 10;
-    const slotBias = plan.slot === "morning" ? 3 : 11;
 
+    if (plan.posts.length === 0) {
+      return NextResponse.json({
+        success: true,
+        allPosted: true,
+        failed: [],
+        slot: plan.slot,
+        relation: plan.relation,
+        schedule: "Once a day at 7:00 AM California (14:00 UTC). EVENT + TOKEN. Afternoon cron is retired.",
+        posts: [],
+      });
+    }
+
+    const hourSeed = now.getUTCHours() * 1000 + now.getUTCDate() * 10;
     const results = [];
     for (let i = 0; i < plan.posts.length; i += 1) {
       const spec = plan.posts[i];
-      const variantSeed = hourSeed + i * 17 + spec.category.length + slotBias * 997;
+      const variantSeed = hourSeed + i * 17 + spec.category.length;
       results.push(await generateAndPublish(spec, variantSeed, plan.slot));
     }
 
@@ -138,7 +149,7 @@ async function handleAuto(req: NextRequest) {
       slot: plan.slot,
       relation: plan.relation,
       schedule:
-        "One post per slot. Morning 14:00 UTC: @REJUvenationTKN Event voice. Afternoon 22:00 UTC: @rejutoken token-door into the same Event. No news. No Rejunomics. 7 posts/week per account.",
+        "Once a day at 7:00 AM California (14:00 UTC PDT). @REJUvenationTKN Event template + @rejutoken token-door template. No news. No Rejunomics.",
       meta: {
         generatedAt: now.toISOString(),
         day: plan.dayName,

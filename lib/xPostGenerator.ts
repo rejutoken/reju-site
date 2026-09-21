@@ -1,20 +1,17 @@
-// Two-account post engine: EVENT (@REJUvenationTKN) and TOKEN (@rejutoken).
-// Product is the Rejuvenation Event and the book. Token is a door.
+// Two-account engine. We sell rejuvenation. Token is a door.
+// Once a day at 7:00 AM California: EVENT (@REJUvenationTKN) + TOKEN (@rejutoken).
 
-import {
-  getBookSinglePostForTheme,
-  KATS_LEGACY_BOOK,
-  REJUVENATION_POST_INSTRUCTION,
-} from "./katsLegacyBook";
+import { KATS_LEGACY_BOOK, REJUVENATION_POST_INSTRUCTION } from "./katsLegacyBook";
 import type { ResearchNote } from "./postResearch";
+import { SITE_NEWS } from "./siteNews";
 
 const X_SINGLE_MAX = 280;
-const HOME_LINK = "rejutkn.com";
 const PROGRAM_LINK = "rejutkn.com/program";
 const ONBOARDING_LINK = "rejutkn.com/onboarding";
+const HOME_LINK = "rejutkn.com";
 
 const BANNED =
-  /rejunomics|allocation clarity|token intent|what happened in crypto today|clarity act/i;
+  /rejunomics|allocation clarity|token intent|what happened in crypto today|clarity act|kalshi|coinbase premium|pasted news/i;
 
 export { KATS_LEGACY_BOOK, REJUVENATION_POST_INSTRUCTION };
 export type { ResearchNote };
@@ -32,30 +29,20 @@ export type RejuvenationThemeId = (typeof EVENT_PILLARS)[number];
 export type CryptoThemeId = (typeof TOKEN_PILLARS)[number];
 
 export const THEMES_MAP: Record<string, string> = {
-  renew: "Renew / recover",
-  practice: "Practice from Kat's Legacy",
-  event_book: "Event + book",
-  enter: "How you enter",
-  vision: "Month seven is the Event",
-  trust_lock: "Lock / you keep the keys",
-  bridge: "Path B opens the Event",
-  question: "What a token should still be doing",
-  health: "Renew / recover",
-  ketosis: "Practice from Kat's Legacy",
-  cellular_repair: "Practice from Kat's Legacy",
-  immunity: "Practice from Kat's Legacy",
-  lymphatic: "Practice from Kat's Legacy",
-  event: "Event + book",
-  bitcoin_news: "Month seven is the Event",
-  crypto_news: "Month seven is the Event",
-  crypto_news_today: "Month seven is the Event",
-  crypto_policy: "Lock / you keep the keys",
-  crypto_international: "Path B opens the Event",
-  crypto_trends: "What a token should still be doing",
-  rejunomics: "Month seven is the Event",
-  industry: "Month seven is the Event",
-  crypto: "Month seven is the Event",
-  token_utility: "Lock / you keep the keys",
+  renew: "EVENT — renew",
+  practice: "EVENT — practice",
+  event_book: "EVENT — book",
+  enter: "EVENT — enter",
+  vision: "TOKEN — vision",
+  trust_lock: "TOKEN — lock",
+  bridge: "TOKEN — bridge",
+  question: "TOKEN — question",
+  health: "EVENT — renew",
+  ketosis: "EVENT — practice",
+  cellular_repair: "EVENT — practice",
+  immunity: "EVENT — practice",
+  lymphatic: "EVENT — practice",
+  event: "EVENT — book",
 };
 
 const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -79,6 +66,49 @@ const TOKEN_BY_DAY: CryptoThemeId[] = [
   "trust_lock",
   "bridge",
 ];
+
+const EVENT_TEMPLATES: Record<RejuvenationThemeId, string> = {
+  renew: `Rejuvenation is not eleven protocols in a cart.
+It is one path: recover the baseline, renew the days, write them down.
+The Rejuvenation Event is that path. You leave with a Transformation Book that is yours. ${PROGRAM_LINK}`,
+  event_book: `Every day of the Event becomes a chapter.
+Journal the day. Same place, same light, same camera. At the end you hold a publishable book — your recovery on paper.
+That is the work. ${PROGRAM_LINK}`,
+  practice: `The lymphatic system has no pump. It moves when you do — water and motion.
+Chapter 1 of Kat's Legacy starts there. The Event turns the page into a week you can finish. ${PROGRAM_LINK}`,
+  enter: `Two ways into the Rejuvenation Event:
+Pay $600. Or lock $600 in REJU for 6 months — you keep the keys.
+Both paths include Kat's Legacy ($69) and the book you author. Enrollment opens when rejutkn.com says it is open.`,
+};
+
+const TOKEN_TEMPLATES: Record<CryptoThemeId, string> = {
+  vision: `Most tokens end at launch week.
+REJU was built so month seven is a person in a Rejuvenation Event authoring their Transformation Book.
+Built to trust. You keep the keys. The Event → @REJUvenationTKN ${HOME_LINK}`,
+  trust_lock: `The token is a door.
+Lock $600 in REJU for 6 months on Streamflow. Non-custodial. It returns to your wallet. That lock opens the Event and the book.
+${ONBOARDING_LINK}`,
+  bridge: `Path B: lock $600 in REJU for 6 months. Non-custodial. You keep the keys.
+That lock opens the Rejuvenation Event and the book you author.
+The Event → @REJUvenationTKN ${ONBOARDING_LINK}`,
+  question: `What should a token still be doing after launch week?
+A living Event. Month seven is a person rejuvenating — renewing their health — and authoring their book.
+The Event → @REJUvenationTKN ${HOME_LINK}`,
+};
+
+const EVENT_IMAGES: Record<RejuvenationThemeId, string> = {
+  renew: "Calm figure at sunrise with a journal. Gold light on dark ground. REJU recovery. No URL.",
+  event_book: "Journal and hardcover book beside a simple same-place selfie setup. Gold-on-dark. No URL.",
+  practice: "Walking at dawn with water, gold light. Quiet lymphatic-motion wellness. No URL.",
+  enter: "Two quiet doors into a six-week path. Dark gold editorial. No URL.",
+};
+
+const TOKEN_IMAGES: Record<CryptoThemeId, string> = {
+  vision: "Launch-week fade versus month seven: a person with their book. Dark gold. No URL.",
+  trust_lock: "A lock as a ticket, keys remaining with the holder. Dark gold. No URL.",
+  bridge: "A door opening onto a six-week rejuvenation path. Dark gold. No URL.",
+  question: "A living program after launch week, not a chart. Dark gold. No URL.",
+};
 
 export interface ScheduledPostConfig {
   category: PostCategory;
@@ -146,8 +176,7 @@ export function resolveCoreCategory(
   explicit?: PostCategory
 ): PostCategory {
   if (explicit === "crypto" || explicit === "rejuvenation") return explicit;
-  const first = selectedThemes[0];
-  return getThemeCategory(first || "") || "rejuvenation";
+  return getThemeCategory(selectedThemes[0] || "") || "rejuvenation";
 }
 
 export function filterThemesForCategory(themes: string[], category: PostCategory): string[] {
@@ -162,249 +191,118 @@ function mapToPillar(themeId: string, category: PostCategory): string {
     return "renew";
   }
   if ((TOKEN_PILLARS as readonly string[]).includes(themeId)) return themeId;
-  if (themeId === "token_utility" || themeId === "trust_lock") return "trust_lock";
-  if (themeId === "question") return "question";
-  if (themeId === "bridge") return "bridge";
+  if (themeId === "token_utility") return "trust_lock";
   return "vision";
 }
 
 export function resolvePostSlot(now: Date = new Date(), query?: string | null): PostSlot {
   if (query === "morning" || query === "afternoon") return query;
-  return now.getUTCHours() < 19 ? "morning" : "afternoon";
+  return "morning";
 }
 
 export function isRejunomicsPromoDay(_now: Date): boolean {
   return false;
 }
 
-export function linkForAutoPost(
-  _now: Date,
-  category: PostCategory,
-  _slot?: PostSlot
-): string | null {
-  return category === "crypto" ? HOME_LINK : PROGRAM_LINK;
+export function linkForAutoPost(): string | null {
+  return null;
+}
+
+function dailyPosts(now: Date): SlotPostSpec[] {
+  const day = now.getDay();
+  const eventPillar = EVENT_BY_DAY[day];
+  const tokenPillar = TOKEN_BY_DAY[day];
+  return [
+    {
+      category: "rejuvenation",
+      themes: [eventPillar],
+      customFocus: THEMES_MAP[eventPillar],
+      account: "rejuvenation",
+      linkUrl: null,
+      investorDayCopy: false,
+      onboardingCopy: false,
+    },
+    {
+      category: "crypto",
+      themes: [tokenPillar],
+      customFocus: THEMES_MAP[tokenPillar],
+      account: "crypto",
+      linkUrl: null,
+      investorDayCopy: false,
+      onboardingCopy: false,
+    },
+  ];
 }
 
 export function getDualSlotPlan(now: Date = new Date(), slot?: PostSlot): DualSlotPlan {
   const resolved = slot ?? resolvePostSlot(now);
-  const day = now.getDay();
-  const eventPillar = EVENT_BY_DAY[day];
-  const tokenPillar = TOKEN_BY_DAY[day];
-
-  const eventPost: SlotPostSpec = {
-    category: "rejuvenation",
-    themes: [eventPillar],
-    customFocus: THEMES_MAP[eventPillar],
-    account: "rejuvenation",
-    linkUrl: eventPillar === "enter" ? ONBOARDING_LINK : PROGRAM_LINK,
-    investorDayCopy: false,
-    onboardingCopy: false,
-  };
-
-  const tokenPost: SlotPostSpec = {
-    category: "crypto",
-    themes: [tokenPillar],
-    customFocus: THEMES_MAP[tokenPillar],
-    account: "crypto",
-    linkUrl: tokenPillar === "trust_lock" || tokenPillar === "bridge" ? ONBOARDING_LINK : HOME_LINK,
-    investorDayCopy: false,
-    onboardingCopy: false,
-  };
-
   return {
     slot: resolved,
-    dayName: DAY_NAMES[day],
-    relation: "Same product, two doors: Event voice in the morning, token door in the afternoon.",
-    posts: resolved === "morning" ? [eventPost] : [tokenPost],
+    dayName: DAY_NAMES[now.getDay()],
+    relation: "Once a day at 7:00 AM California: Event voice and token door. Same product.",
+    posts: resolved === "afternoon" ? [] : dailyPosts(now),
   };
 }
 
 export function getScheduledPostConfig(date: Date = new Date()): ScheduledPostConfig {
   const day = date.getDay();
-  const morning = date.getUTCHours() < 19;
-  const themes = morning ? [EVENT_BY_DAY[day]] : [TOKEN_BY_DAY[day]];
   return {
-    category: morning ? "rejuvenation" : "crypto",
-    themes,
+    category: "rejuvenation",
+    themes: [EVENT_BY_DAY[day]],
     dayName: DAY_NAMES[day],
     shouldGenerate: true,
-    customFocus: THEMES_MAP[themes[0]],
+    customFocus: THEMES_MAP[EVENT_BY_DAY[day]],
   };
 }
 
-function smartComplete(text: string, max: number): string {
-  if (text.length <= max) return text;
-  let cut = text.slice(0, max - 3);
-  const lastBreak = Math.max(cut.lastIndexOf(". "), cut.lastIndexOf("\n"));
-  if (lastBreak > 80) cut = cut.slice(0, lastBreak + 1);
-  return cut.trim() + "...";
+function fitTweet(text: string): string {
+  const trimmed = text.replace(/\n{3,}/g, "\n\n").trim();
+  if (trimmed.length <= X_SINGLE_MAX) return trimmed;
+  return trimmed.slice(0, X_SINGLE_MAX - 1).trim();
 }
 
-function withLink(text: string, link: string | null): string {
-  const clean = text
-    .replace(/https?:\/\/(?:www\.)?rejutkn\.com(?:\/[^\s]*)?/gi, "")
-    .replace(/\brejutkn\.com(?:\/[^\s]*)?/gi, "")
-    .replace(/\s+/g, " ")
-    .trim();
-  if (!link) return clean.slice(0, X_SINGLE_MAX);
-  const tagged = `${clean} ${link}`;
-  return tagged.length <= X_SINGLE_MAX ? tagged : `${smartComplete(clean, X_SINGLE_MAX - link.length - 1)} ${link}`;
-}
-
-function pick<T>(items: T[], seed: number): T {
-  return items[Math.abs(seed) % items.length];
-}
-
-function eventCopy(pillar: string, seed: number, enrollmentOpen: boolean): { text: string; image: string; tags: string } {
-  if (pillar === "practice") {
-    const book =
-      getBookSinglePostForTheme("lymphatic", new Date(), seed) ||
-      getBookSinglePostForTheme("health", new Date(), seed) ||
-      "The lymphatic system has no pump. It moves when you do — water and motion.";
-    return {
-      text: `${book.replace(/→.*$/, "").trim()} The Event turns the page into a week you can finish.`,
-      image: "Quiet wellness photograph: walking at dawn, water, gold light. REJU rejuvenation aesthetic. No URL.",
-      tags: "#Rejuvenation #REJU #KatsLegacy",
-    };
-  }
-
-  if (pillar === "event_book") {
-    return {
-      text: pick(
-        [
-          "Every day of the Event becomes a chapter. Journal the day. Same place, same light, same camera. At the end you hold a publishable book — your recovery on paper.",
-          "You are the author. Daily input builds the Transformation Book. REJU is the editorial partner. That is the work.",
-          "Health Benchmark on day one. Journal and selfies through the weeks. At the end you hold the book you wrote.",
-        ],
-        seed
-      ),
-      image: "Person journaling at a table with a hardcover book and a simple selfie setup. Gold-on-dark REJU wellness. No URL.",
-      tags: "#RejuvenationEvent #TransformationBook #REJU",
-    };
-  }
-
+function eventText(pillar: string, enrollmentOpen: boolean): string {
   if (pillar === "enter") {
-    const openLine = enrollmentOpen
-      ? "Choose your path on the site when you are ready."
-      : "Enrollment opens when rejutkn.com says it is open.";
-    return {
-      text: pick(
-        [
-          `Two ways into the Rejuvenation Event: pay $600, or lock $600 in REJU for 6 months — you keep the keys. Both include Kat's Legacy ($69) and the book you author. ${openLine}`,
-          `The Event is the product. Enter with fiat or a 6-month lock. $69 for Kat's Legacy. Then you write the book. ${openLine}`,
-        ],
-        seed
-      ),
-      image: "Two quiet doors into a wellness program: a simple path, gold dark editorial. No URL.",
-      tags: "#RejuvenationEvent #REJU",
-    };
+    if (enrollmentOpen) {
+      return `Two ways into the Rejuvenation Event:
+Pay $600. Or lock $600 in REJU for 6 months — you keep the keys.
+Both paths include Kat's Legacy ($69) and the book you author. ${ONBOARDING_LINK}`;
+    }
+    return EVENT_TEMPLATES.enter;
   }
-
-  return {
-    text: pick(
-      [
-        "Rejuvenate in 6 weeks. That is the product: rejuvenation, done by renewing your health. One path. You leave with a Transformation Book that is yours.",
-        "Rejuvenation is the product. You renew your health in a structured Event, document the days, and leave with a book you authored.",
-        "Rejuvenate in 6 weeks by renewing your health. Health Benchmark, daily work, then a book that is yours.",
-      ],
-      seed
-    ),
-    image: "Calm figure at sunrise, journal open, gold light on dark ground. REJU recovery aesthetic. No URL.",
-    tags: "#Rejuvenation #HealthReset #REJU",
-  };
+  return EVENT_TEMPLATES[(pillar as RejuvenationThemeId) in EVENT_TEMPLATES ? (pillar as RejuvenationThemeId) : "renew"];
 }
 
-function tokenCopy(pillar: string, seed: number, quoteEvent: boolean): { text: string; image: string; tags: string } {
-  if (quoteEvent) {
-    return {
-      text: "Most tokens end at launch week. REJU was built so month seven is a person in a Rejuvenation Event authoring their Transformation Book. Built to trust. You keep the keys. The Event → @REJUvenationTKN",
-      image: "Month-seven calendar meeting a person with a hardcover book. Dark gold editorial. No URL.",
-      tags: "#REJU #RejuvenationEvent",
-    };
-  }
-
-  if (pillar === "trust_lock") {
-    return {
-      text: pick(
-        [
-          "The token is a door. Lock $600 in REJU for 6 months on Streamflow. Non-custodial. It returns to your wallet. That lock opens the Event and the book.",
-          "Built to trust. You keep the keys. A 6-month lock is the ticket into the Rejuvenation Event — not a listing week.",
-        ],
-        seed
-      ),
-      image: "Non-custodial lock as a ticket, keys remaining with the holder. Dark gold, no URL.",
-      tags: "#REJU #YouKeepTheKeys",
-    };
-  }
-
-  if (pillar === "bridge") {
-    return {
-      text: pick(
-        [
-          "Path B: lock $600 REJU for six months. That lock opens the Rejuvenation Event and the Transformation Book. The Event → @REJUvenationTKN",
-          "Crypto language, same product: lock opens the Event. Month seven is a person writing their book. → @REJUvenationTKN",
-        ],
-        seed
-      ),
-      image: "A door opening onto a six-week rejuvenation path. Dark gold editorial. No URL.",
-      tags: "#REJU #RejuvenationEvent",
-    };
-  }
-
-  if (pillar === "question") {
-    return {
-      text: "What should a token still be doing after incentives end? A living Event. Month seven is someone in the Rejuvenation Event authoring their book. → @REJUvenationTKN",
-      image: "A quiet question mark over a living program, not a chart. Dark gold. No URL.",
-      tags: "#REJU #RejuvenationEvent",
-    };
-  }
-
-  return {
-    text: pick(
-      [
-        "Most tokens end at launch week. REJU was built so month seven is a person in a Rejuvenation Event authoring their Transformation Book. Built to trust. You keep the keys. The Event → @REJUvenationTKN",
-        "We are not selling a coin as the product. Rejuvenation is the product: rejuvenate in 6 weeks by renewing your health. The token is a door. → @REJUvenationTKN",
-      ],
-      seed
-    ),
-    image: "Launch-week fade versus month seven: a person with their book. Dark gold. No URL.",
-    tags: "#REJU #RejuvenationEvent",
-  };
+function tokenText(pillar: string): string {
+  return TOKEN_TEMPLATES[(pillar as CryptoThemeId) in TOKEN_TEMPLATES ? (pillar as CryptoThemeId) : "vision"];
 }
 
 export function generateHighQualityPost(input: GeneratePostInput): GeneratedPost {
   const category = resolveCoreCategory(input.selectedThemes || [], input.coreCategory);
-  const seed = input.variantSeed !== undefined ? Math.abs(input.variantSeed) : Date.now();
   const rawTheme = (input.selectedThemes || [])[0] || (category === "crypto" ? "vision" : "renew");
   const pillar = mapToPillar(rawTheme, category);
-  const enrollmentOpen = Boolean(input.enrollmentOpen);
-  const quoteEvent = category === "crypto" && new Date().getDay() === 0;
+  const enrollmentOpen =
+    input.enrollmentOpen !== undefined ? Boolean(input.enrollmentOpen) : SITE_NEWS.enrollmentOpen;
 
   const built =
-    category === "crypto" ? tokenCopy(pillar, seed, quoteEvent) : eventCopy(pillar, seed, enrollmentOpen);
-
-  const defaultLink =
     category === "crypto"
-      ? pillar === "trust_lock" || pillar === "bridge"
-        ? ONBOARDING_LINK
-        : HOME_LINK
-      : pillar === "enter"
-        ? ONBOARDING_LINK
-        : PROGRAM_LINK;
+      ? {
+          text: tokenText(pillar),
+          image: TOKEN_IMAGES[(pillar as CryptoThemeId) in TOKEN_IMAGES ? (pillar as CryptoThemeId) : "vision"],
+          tags: "#REJU #RejuvenationEvent",
+        }
+      : {
+          text: eventText(pillar, enrollmentOpen),
+          image: EVENT_IMAGES[(pillar as RejuvenationThemeId) in EVENT_IMAGES ? (pillar as RejuvenationThemeId) : "renew"],
+          tags: "#Rejuvenation #REJU",
+        };
 
-  const link =
-    input.linkUrl !== undefined
-      ? input.linkUrl
-      : input.includeHomeLink === false
-        ? null
-        : defaultLink;
-
-  let text = withLink(built.text, link);
-  if (BANNED.test(text)) {
-    text = withLink(
-      "Rejuvenate in 6 weeks. Rejuvenation, by renewing your health.",
-      PROGRAM_LINK
-    );
+  let text = fitTweet(built.text);
+  if (BANNED.test(text) || (input.researchContext && input.researchContext.length > 0 && /news|headline|kalshi/i.test(text))) {
+    text =
+      category === "crypto"
+        ? fitTweet(TOKEN_TEMPLATES.vision)
+        : fitTweet(EVENT_TEMPLATES.renew);
   }
 
   return {

@@ -148,7 +148,7 @@ export default function XPostStudio({ entry = "admin" }: { entry?: XPostEntry })
       const starterDrafts: GeneratedPost[] = [
         {
           id: "seed1",
-          text: "Most tokens end at launch week. REJU was built so month seven is a person in a Rejuvenation Event authoring their Transformation Book. Built to trust. You keep the keys. The Event → @REJUvenationTKN rejutkn.com",
+          text: "Most tokens end at launch week.\nREJU was built so month seven is a person in a Rejuvenation Event authoring their Transformation Book.\nBuilt to trust. You keep the keys. The Event → @REJUvenationTKN rejutkn.com",
           imagePrompt: "Month-seven calendar meeting a person with a hardcover book. Dark gold editorial. No URL.",
           hashtags: "#REJU #RejuvenationEvent",
           theme: "vision",
@@ -156,7 +156,7 @@ export default function XPostStudio({ entry = "admin" }: { entry?: XPostEntry })
         },
         {
           id: "seed2",
-          text: "Rejuvenate in 6 weeks. That is the product: rejuvenation, done by renewing your health. One path. You leave with a Transformation Book that is yours. rejutkn.com/program",
+          text: "Rejuvenation is not eleven protocols in a cart.\nIt is one path: recover the baseline, renew the days, write them down.\nThe Rejuvenation Event is that path. You leave with a Transformation Book that is yours. rejutkn.com/program",
           imagePrompt: "Calm figure at sunrise, journal open, gold light on dark ground. REJU recovery aesthetic. No URL.",
           hashtags: "#Rejuvenation #HealthReset #REJU",
           theme: "renew",
@@ -450,16 +450,15 @@ export default function XPostStudio({ entry = "admin" }: { entry?: XPostEntry })
 
         <h1 className="text-4xl font-bold text-[#f5c26b] mb-2">X Post Generator &amp; Manager</h1>
         <p className="text-gray-400 mb-8 max-w-3xl">
-          Research relevant crypto transparency and health rejuvenation topics. Refine into high-quality, on-brand X posts and threads. 
-          Generate visuals. Export ready-to-post content.
+          Event templates for @REJUvenationTKN. Token-door templates for @rejutoken. No news. No Rejunomics.
           <br /><br />
           <strong>Same product, two doors:</strong> @REJUvenationTKN sells the Event, recovery, and the book. @rejutoken is the crypto door into that Event. No news. No Rejunomics.
           {!isCollaborator && (
             <>
               <br />
-              <strong>Automated schedule:</strong> One post per slot. Morning 14:00 UTC: Event voice to @REJUvenationTKN. Afternoon 22:00 UTC: token-door copy to @rejutoken. 7 posts/week per account.
+              <strong>Automated schedule:</strong> Once a day at 7:00 AM California (14:00 UTC). Both accounts: Event templates to @REJUvenationTKN, token-door templates to @rejutoken. No news.
               <br />
-              <strong>For automation:</strong> Vercel Cron hits <code>GET /api/x-post/auto</code> twice a day. The Grok bot should not duplicate these posts.
+              <strong>For automation:</strong> Vercel Cron hits <code>GET /api/x-post/auto</code> once a day. The Grok bot should not duplicate these posts.
             </>
           )}
           <br />
