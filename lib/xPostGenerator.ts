@@ -246,8 +246,9 @@ export function getDualSlotPlan(now: Date = new Date(), slot?: PostSlot): DualSl
     slot: resolved,
     dayName: DAY_NAMES[now.getDay()],
     relation:
-      "Once per day per account. Morning Event rejuvenation on @REJUvenationTKN. Afternoon light crypto door on @REJUTOKEN, program in mind.",
-    posts: resolved === "afternoon" ? [tokenPost(now)] : [eventPost(now)],
+      "Both accounts once daily at 7:00 AM California. Event on @REJUvenationTKN and light crypto door on @REJUTOKEN. Afternoon slot kept for later.",
+    // Afternoon schedule is off; keep slot code ready if we turn it back on.
+    posts: resolved === "afternoon" ? [] : [eventPost(now), tokenPost(now)],
   };
 }
 
