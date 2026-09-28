@@ -1,5 +1,7 @@
 // Two-account engine. We sell rejuvenation. Token is a door.
-// Once a day at 7:00 AM California: EVENT (@REJUvenationTKN) + TOKEN (@rejutoken).
+// Once per day per account:
+//   Morning ~7:00 AM California: @REJUvenationTKN (Event / rejuvenation)
+//   Afternoon ~3:00 PM California: @REJUTOKEN (light crypto, program in mind)
 
 import { KATS_LEGACY_BOOK, REJUVENATION_POST_INSTRUCTION } from "./katsLegacyBook";
 import type { ResearchNote } from "./postResearch";
@@ -11,7 +13,7 @@ const ONBOARDING_LINK = "rejutkn.com/onboarding";
 const HOME_LINK = "rejutkn.com";
 
 const BANNED =
-  /rejunomics|allocation clarity|token intent|what happened in crypto today|clarity act|kalshi|coinbase premium|pasted news/i;
+  /rejunomics|allocation clarity|token intent|what happened in crypto today|clarity act|kalshi|coinbase premium|pasted news|month seven is a person/i;
 
 export { KATS_LEGACY_BOOK, REJUVENATION_POST_INSTRUCTION };
 export type { ResearchNote };
@@ -68,32 +70,31 @@ const TOKEN_BY_DAY: CryptoThemeId[] = [
 ];
 
 const EVENT_TEMPLATES: Record<RejuvenationThemeId, string> = {
-  renew: `Rejuvenation is not eleven protocols in a cart.
-It is one path: recover the baseline, renew the days, write them down.
+  renew: `Rejuvenation is one path: recover the baseline, renew the days, write them down.
 The Rejuvenation Event is that path. You leave with a Transformation Book that is yours. ${PROGRAM_LINK}`,
   event_book: `Every day of the Event becomes a chapter.
-Journal the day. Same place, same light, same camera. At the end you hold a publishable book — your recovery on paper.
+Journal the day. Same place, same light, same camera. At the end you hold a publishable book, your recovery on paper.
 That is the work. ${PROGRAM_LINK}`,
-  practice: `The lymphatic system has no pump. It moves when you do — water and motion.
+  practice: `The lymphatic system has no pump. It moves when you do, water and motion.
 Chapter 1 of Kat's Legacy starts there. The Event turns the page into a week you can finish. ${PROGRAM_LINK}`,
   enter: `Two ways into the Rejuvenation Event:
-Pay $600. Or lock $600 in REJU for 6 months — you keep the keys.
+Pay $600. Or lock $600 in REJU for 6 months. You keep the keys.
 Both paths include Kat's Legacy ($69) and the book you author. Enrollment opens when rejutkn.com says it is open.`,
 };
 
 const TOKEN_TEMPLATES: Record<CryptoThemeId, string> = {
-  vision: `Most tokens end at launch week.
-REJU was built so month seven is a person in a Rejuvenation Event authoring their Transformation Book.
-Built to trust. You keep the keys. The Event → @REJUvenationTKN ${HOME_LINK}`,
+  vision: `REJU is the door into the Rejuvenation Event.
+Path A is pay. Path B is a 6-month lock. Same Event, same Transformation Book you author.
+Follow the Event at @REJUvenationTKN ${HOME_LINK}`,
   trust_lock: `The token is a door.
-Lock $600 in REJU for 6 months on Streamflow. Non-custodial. It returns to your wallet. That lock opens the Event and the book.
+Lock $600 in REJU for 6 months on Streamflow. Non-custodial. You keep the keys. That lock opens the Event and the book.
 ${ONBOARDING_LINK}`,
   bridge: `Path B: lock $600 in REJU for 6 months. Non-custodial. You keep the keys.
 That lock opens the Rejuvenation Event and the book you author.
-The Event → @REJUvenationTKN ${ONBOARDING_LINK}`,
+Follow the Event at @REJUvenationTKN ${ONBOARDING_LINK}`,
   question: `What should a token still be doing after launch week?
-A living Event. Month seven is a person rejuvenating — renewing their health — and authoring their book.
-The Event → @REJUvenationTKN ${HOME_LINK}`,
+Opening a living Rejuvenation Event where people renew and author their Transformation Book.
+Follow the Event at @REJUvenationTKN ${HOME_LINK}`,
 };
 
 const EVENT_IMAGES: Record<RejuvenationThemeId, string> = {
@@ -104,10 +105,10 @@ const EVENT_IMAGES: Record<RejuvenationThemeId, string> = {
 };
 
 const TOKEN_IMAGES: Record<CryptoThemeId, string> = {
-  vision: "Launch-week fade versus month seven: a person with their book. Dark gold. No URL.",
+  vision: "A door opening onto a six-week rejuvenation path and a finished book. Dark gold. No URL.",
   trust_lock: "A lock as a ticket, keys remaining with the holder. Dark gold. No URL.",
   bridge: "A door opening onto a six-week rejuvenation path. Dark gold. No URL.",
-  question: "A living program after launch week, not a chart. Dark gold. No URL.",
+  question: "A living program after launch week, person with journal. Dark gold. No URL.",
 };
 
 export interface ScheduledPostConfig {
@@ -197,6 +198,9 @@ function mapToPillar(themeId: string, category: PostCategory): string {
 
 export function resolvePostSlot(now: Date = new Date(), query?: string | null): PostSlot {
   if (query === "morning" || query === "afternoon") return query;
+  // Fallback when cron path has no ?slot=: UTC 14 = morning, UTC 22 = afternoon.
+  const hour = now.getUTCHours();
+  if (hour >= 19) return "afternoon";
   return "morning";
 }
 
@@ -208,30 +212,32 @@ export function linkForAutoPost(): string | null {
   return null;
 }
 
-function dailyPosts(now: Date): SlotPostSpec[] {
+function eventPost(now: Date): SlotPostSpec {
   const day = now.getDay();
   const eventPillar = EVENT_BY_DAY[day];
+  return {
+    category: "rejuvenation",
+    themes: [eventPillar],
+    customFocus: THEMES_MAP[eventPillar],
+    account: "rejuvenation",
+    linkUrl: null,
+    investorDayCopy: false,
+    onboardingCopy: false,
+  };
+}
+
+function tokenPost(now: Date): SlotPostSpec {
+  const day = now.getDay();
   const tokenPillar = TOKEN_BY_DAY[day];
-  return [
-    {
-      category: "rejuvenation",
-      themes: [eventPillar],
-      customFocus: THEMES_MAP[eventPillar],
-      account: "rejuvenation",
-      linkUrl: null,
-      investorDayCopy: false,
-      onboardingCopy: false,
-    },
-    {
-      category: "crypto",
-      themes: [tokenPillar],
-      customFocus: THEMES_MAP[tokenPillar],
-      account: "crypto",
-      linkUrl: null,
-      investorDayCopy: false,
-      onboardingCopy: false,
-    },
-  ];
+  return {
+    category: "crypto",
+    themes: [tokenPillar],
+    customFocus: THEMES_MAP[tokenPillar],
+    account: "crypto",
+    linkUrl: null,
+    investorDayCopy: false,
+    onboardingCopy: false,
+  };
 }
 
 export function getDualSlotPlan(now: Date = new Date(), slot?: PostSlot): DualSlotPlan {
@@ -239,8 +245,9 @@ export function getDualSlotPlan(now: Date = new Date(), slot?: PostSlot): DualSl
   return {
     slot: resolved,
     dayName: DAY_NAMES[now.getDay()],
-    relation: "Once a day at 7:00 AM California: Event voice and token door. Same product.",
-    posts: resolved === "afternoon" ? [] : dailyPosts(now),
+    relation:
+      "Once per day per account. Morning Event rejuvenation on @REJUvenationTKN. Afternoon light crypto door on @REJUTOKEN, program in mind.",
+    posts: resolved === "afternoon" ? [tokenPost(now)] : [eventPost(now)],
   };
 }
 
@@ -265,7 +272,7 @@ function eventText(pillar: string, enrollmentOpen: boolean): string {
   if (pillar === "enter") {
     if (enrollmentOpen) {
       return `Two ways into the Rejuvenation Event:
-Pay $600. Or lock $600 in REJU for 6 months — you keep the keys.
+Pay $600. Or lock $600 in REJU for 6 months. You keep the keys.
 Both paths include Kat's Legacy ($69) and the book you author. ${ONBOARDING_LINK}`;
     }
     return EVENT_TEMPLATES.enter;

@@ -123,7 +123,7 @@ async function handleAuto(req: NextRequest) {
         failed: [],
         slot: plan.slot,
         relation: plan.relation,
-        schedule: "Once a day at 7:00 AM California (14:00 UTC). EVENT + TOKEN. Afternoon cron is retired.",
+        schedule: "Once per day per account. Morning Event (@REJUvenationTKN). Afternoon TOKEN (@REJUTOKEN).",
         posts: [],
       });
     }
@@ -149,7 +149,7 @@ async function handleAuto(req: NextRequest) {
       slot: plan.slot,
       relation: plan.relation,
       schedule:
-        "Once a day at 7:00 AM California (14:00 UTC PDT). @REJUvenationTKN Event template + @rejutoken token-door template. No news. No Rejunomics.",
+        "Once per day per account: 7:00 AM PT Event rejuvenation, 3:00 PM PT light crypto door. Program in mind. No news. No Rejunomics. No month-seven-person copy.",
       meta: {
         generatedAt: now.toISOString(),
         day: plan.dayName,
