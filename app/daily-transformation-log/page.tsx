@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Nav from "../components/Nav";
+import { SITE_NEWS } from "../../lib/siteNews";
 import { PARTICIPANT_ID_STORAGE_KEY } from "../../lib/participantFlows";
 
 export default function DailyTransformationLog() {
@@ -188,6 +189,14 @@ export default function DailyTransformationLog() {
             </button>
             {bookUnlockStatus && <p className="mt-3 text-sm text-[#f5c26b]">{bookUnlockStatus}</p>}
             <p className="mt-4 text-[11px] text-gray-500">Password is changed by REJU after each event. Contact admin if you paid but do not have the current code.</p>
+            {!SITE_NEWS.enrollmentOpen && (
+              <p className="mt-3 text-sm text-gray-400">
+                Enrollment is not open yet.{" "}
+                <a href="/onboarding" className="text-[#f5c26b] hover:underline">How you enter</a>
+                {" · "}
+                <a href="https://t.me/rejuofficial" target="_blank" rel="noopener noreferrer" className="text-[#f5c26b] hover:underline">Telegram</a>
+              </p>
+            )}
           </div>
         ) : (
           <div className="max-w-md mx-auto mb-6 text-center text-emerald-400 text-sm">✓ Book authoring unlocked for this session</div>

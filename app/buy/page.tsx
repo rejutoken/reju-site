@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Nav from "../components/Nav";
+import { SITE_NEWS } from "../../lib/siteNews";
 
 const links = {
   home: "/",
@@ -58,7 +59,7 @@ export default function BuyPage() {
 
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-left text-gray-300">
             Find REJU in the wallets and tools below if you want Path B: lock $600 for six months on
-            Streamflow — non-custodial, you keep the keys — and that lock opens the Event and the
+            Streamflow (non-custodial, you keep the keys), and that lock opens the Event and the
             book. Buying REJU is not the same as joining the Event. See How you enter when you are
             ready to enroll.
           </p>
@@ -92,9 +93,15 @@ export default function BuyPage() {
             ]}
           />
           <div className="mt-4 text-center">
-            <a href="/daily-transformation-log" className={buttonClass}>
-              Go to Daily Journal
-            </a>
+            {SITE_NEWS.enrollmentOpen ? (
+              <a href="/daily-transformation-log" className={buttonClass}>
+                Go to Daily Journal
+              </a>
+            ) : (
+              <a href="/onboarding" className={`${buttonClass} opacity-70`}>
+                Daily Journal (enter first, not open yet)
+              </a>
+            )}
           </div>
         </section>
 		
@@ -138,15 +145,27 @@ export default function BuyPage() {
               </p>
             </button>
 
-            <a
-              href={links.streamflowLock}
-              className="rounded-xl border border-[#f5c26b] bg-black/30 p-3 text-center text-[#f5c26b] transition duration-300 hover:bg-[#f5c26b] hover:text-black"
-            >
-              <h3 className="text-xl font-bold">Lock REJU</h3>
-              <p className="mt-3 text-sm">
-                Lock REJU through Streamflow for program access, verification, or future ecosystem participation.
-              </p>
-            </a>
+            {SITE_NEWS.enrollmentOpen ? (
+              <a
+                href={links.streamflowLock}
+                className="rounded-xl border border-[#f5c26b] bg-black/30 p-3 text-center text-[#f5c26b] transition duration-300 hover:bg-[#f5c26b] hover:text-black"
+              >
+                <h3 className="text-xl font-bold">Lock REJU</h3>
+                <p className="mt-3 text-sm">
+                  Lock REJU through Streamflow for program access, verification, or future ecosystem participation.
+                </p>
+              </a>
+            ) : (
+              <a
+                href={links.onboarding}
+                className="rounded-xl border border-[#f5c26b]/40 bg-black/20 p-3 text-center text-gray-400 transition duration-300"
+              >
+                <h3 className="text-xl font-bold text-[#f5c26b]/70">Lock REJU (not open yet)</h3>
+                <p className="mt-3 text-sm">
+                  Enrollment is closed. See How you enter, or join Telegram for updates.
+                </p>
+              </a>
+            )}
           </div>
 
           <div className="mt-10 grid gap-6 md:grid-cols-2 md:grid-cols-2">
@@ -159,21 +178,39 @@ export default function BuyPage() {
        
 
         <section className="mt-6 text-center">
-          <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+          <div className="flex flex-col gap-4 sm:flex-row sm:justify-center sm:flex-wrap">
             <a href={links.onboarding} className={buttonClass}>
-              Go to Onboarding
+              How you enter
             </a>
 
-            <a href={links.streamflowLock} className={buttonClass}>
-              Lock Your REJU
-            </a>
-	
-			  <a href={links.participantRegistration} className={buttonClass}>
-              Complete Participant Registration
-            </a>
-            <p className="text-center text-[10px] text-gray-500 -mt-1">Password required (provided after payment)</p>
-						
+            {SITE_NEWS.enrollmentOpen ? (
+              <a href={links.streamflowLock} className={buttonClass}>
+                Lock Your REJU
+              </a>
+            ) : (
+              <span
+                className={`${buttonClass} cursor-not-allowed opacity-40 hover:bg-transparent hover:text-[#f5c26b]`}
+                title="Enrollment is not open yet"
+              >
+                Lock Your REJU (not open yet)
+              </span>
+            )}
+
+            {SITE_NEWS.enrollmentOpen ? (
+              <a href={links.participantRegistration} className={buttonClass}>
+                Complete Participant Registration
+              </a>
+            ) : (
+              <a href={links.telegramOfficial} className={`${buttonClass} opacity-70`} target="_blank" rel="noopener noreferrer">
+                Registration (not open yet, Telegram)
+              </a>
+            )}
           </div>
+          <p className="mt-3 text-center text-[10px] text-gray-500">
+            {SITE_NEWS.enrollmentOpen
+              ? "Password required (provided after payment)"
+              : "Enrollment is closed. Use How you enter or Telegram for updates."}
+          </p>
         </section>
       </div>
     </main>

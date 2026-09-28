@@ -15,8 +15,8 @@ const blogSubmenu: NavLink[] = [
 
 const navLinks: NavLink[] = [
   { href: "/program", label: "Event" },
-  { href: "/onboarding", label: "Enter" },
-  { href: "/daily-transformation-log", label: "Book" },
+  { href: "/onboarding", label: "How you enter" },
+  { href: "/daily-transformation-log", label: "Author your book" },
   { href: "/buy", label: "Token" },
   { href: "/blog", label: "Blog", children: blogSubmenu },
 ];
@@ -121,8 +121,8 @@ export default function Nav() {
   const linkClass =
     "hover:text-[#f5c26b] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#f5c26b] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0b0b0c] rounded";
 
-  const desktopLinkClass = `${linkClass} text-base text-gray-300`;
-  const mobileLinkClass = `${linkClass} text-xl text-gray-100 py-3 border-b border-[#f5c26b]/20 last:border-b-0`;
+  const desktopLinkClass = `${linkClass} text-lg md:text-xl font-semibold text-gray-100`;
+  const mobileLinkClass = `${linkClass} text-xl font-semibold text-gray-100 py-3 border-b border-[#f5c26b]/20 last:border-b-0`;
 
   return (
     <nav
@@ -150,8 +150,8 @@ export default function Nav() {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="13"
-              height="13"
+              width="21"
+              height="21"
               viewBox="0 0 1200 1227"
               fill="currentColor"
               aria-hidden="true"
@@ -176,7 +176,7 @@ export default function Nav() {
       </div>
 
       {/* Desktop Navigation */}
-      <div className="hidden md:flex items-center gap-6">
+      <div className="hidden md:flex items-center gap-8">
         {navLinks.map((link) =>
           link.children ? (
             <BlogMenu
@@ -283,8 +283,8 @@ export default function Nav() {
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="12"
-                      height="12"
+                      width="20"
+                      height="20"
                       viewBox="0 0 1200 1227"
                       fill="currentColor"
                       aria-hidden="true"
