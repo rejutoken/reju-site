@@ -7,11 +7,16 @@ import {
   type SlotPostSpec,
 } from "../../../../lib/xPostGenerator";
 import { SITE_NEWS } from "../../../../lib/siteNews";
+import { fetchWebResearch, type ResearchNote } from "../../../../lib/postResearch";
 import { publishTweet } from "../../../../lib/xPublish";
 import { hashPostText, recordPosted, wasRecentlyPosted } from "../../../../lib/xAutoLog";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
+
+/** Query tuned for headlines that can bridge to long-term utility / ecosystem claims. */
+const TOKEN_NEWS_QUERY =
+  '(cryptocurrency OR bitcoin OR ethereum OR RWA OR "real world asset" OR "token utility" OR "utility token" OR stablecoin OR ETF OR regulation OR institutional) when:2d';
 
 function verifyCronAuth(req: NextRequest): boolean {
   const secret = process.env.CRON_SECRET;
@@ -20,7 +25,26 @@ function verifyCronAuth(req: NextRequest): boolean {
   return auth === `Bearer ${secret}`;
 }
 
-async function generateAndPublish(spec: SlotPostSpec, variantSeed: number, slot: string) {
+async function fetchTokenNewsNotes(): Promise<ResearchNote[]> {
+  try {
+    const live = await fetchWebResearch({
+      category: "crypto",
+      themes: ["crypto_news"],
+      query: TOKEN_NEWS_QUERY,
+    });
+    return live.notes;
+  } catch (error) {
+    console.error("X AUTO TOKEN NEWS FETCH FAILED:", error);
+    return [];
+  }
+}
+
+async function generateAndPublish(
+  spec: SlotPostSpec,
+  variantSeed: number,
+  slot: string,
+  researchContext?: ResearchNote[]
+) {
   let post = generateHighQualityPost({
     selectedThemes: spec.themes,
     coreCategory: spec.category,
@@ -31,6 +55,7 @@ async function generateAndPublish(spec: SlotPostSpec, variantSeed: number, slot:
     variantSeed,
     linkUrl: spec.linkUrl,
     enrollmentOpen: SITE_NEWS.enrollmentOpen,
+    researchContext: spec.category === "crypto" ? researchContext : undefined,
   });
 
   for (let attempt = 0; attempt < 3; attempt += 1) {
@@ -46,6 +71,7 @@ async function generateAndPublish(spec: SlotPostSpec, variantSeed: number, slot:
       variantSeed: variantSeed + (attempt + 1) * 101,
       linkUrl: spec.linkUrl,
       enrollmentOpen: SITE_NEWS.enrollmentOpen,
+      researchContext: spec.category === "crypto" ? researchContext : undefined,
     });
   }
 
@@ -67,6 +93,7 @@ async function generateAndPublish(spec: SlotPostSpec, variantSeed: number, slot:
         linkUrl: spec.linkUrl,
       },
       researchQuery: spec.customFocus,
+      newsNotes: researchContext?.length ?? 0,
     };
   }
 
@@ -103,6 +130,7 @@ async function generateAndPublish(spec: SlotPostSpec, variantSeed: number, slot:
       linkUrl: spec.linkUrl,
     },
     researchQuery: spec.customFocus,
+    newsNotes: researchContext?.length ?? 0,
   };
 }
 
@@ -128,12 +156,22 @@ async function handleAuto(req: NextRequest) {
       });
     }
 
+    const needsTokenNews = plan.posts.some((p) => p.category === "crypto");
+    const tokenNews = needsTokenNews ? await fetchTokenNewsNotes() : [];
+
     const hourSeed = now.getUTCHours() * 1000 + now.getUTCDate() * 10;
     const results = [];
     for (let i = 0; i < plan.posts.length; i += 1) {
       const spec = plan.posts[i];
       const variantSeed = hourSeed + i * 17 + spec.category.length;
-      results.push(await generateAndPublish(spec, variantSeed, plan.slot));
+      results.push(
+        await generateAndPublish(
+          spec,
+          variantSeed,
+          plan.slot,
+          spec.category === "crypto" ? tokenNews : undefined
+        )
+      );
     }
 
     const failed = results.flatMap((item) =>
@@ -149,12 +187,13 @@ async function handleAuto(req: NextRequest) {
       slot: plan.slot,
       relation: plan.relation,
       schedule:
-        "Both accounts at 7:00 AM PT: Event rejuvenation + light crypto door. Program in mind. No news. No Rejunomics. No month-seven-person copy. Afternoon not scheduled.",
+        "Both accounts at 7:00 AM PT: Event rejuvenation + @REJUTOKEN news hook with long-term ecosystem bridge. No Rejunomics/Clarity. Afternoon not scheduled.",
       meta: {
         generatedAt: now.toISOString(),
         day: plan.dayName,
         bookSource: KATS_LEGACY_BOOK.title,
         enrollmentOpen: SITE_NEWS.enrollmentOpen,
+        tokenNewsCount: tokenNews.length,
       },
       posts: results,
     });
