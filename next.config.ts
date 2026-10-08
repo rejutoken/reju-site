@@ -10,6 +10,12 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+  // X image cards read fonts and the REJU mark from ./assets at runtime.
+  outputFileTracingIncludes: {
+    "/api/x-post/auto": ["./assets/fonts/**", "./assets/x-cards/**"],
+    "/api/x-post/health": ["./assets/fonts/**", "./assets/x-cards/**"],
+    "/api/x-card": ["./assets/fonts/**", "./assets/x-cards/**"],
+  },
   async headers() {
     return [
       {

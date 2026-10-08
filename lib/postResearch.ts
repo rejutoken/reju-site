@@ -3,6 +3,8 @@
 export interface ResearchNote {
   id: string;
   text: string;
+  /** Full article title, untruncated, source suffix removed (RSS notes only). */
+  title?: string;
   source: string;
   url?: string;
   publishedAt?: string;
@@ -146,6 +148,7 @@ function rssToNotes(items: RssItem[], prefix: string): ResearchNote[] {
     return {
       id: `${prefix}-${i}`,
       text: truncate(`${cleanTitle}${snippet}`, 280),
+      title: cleanTitle,
       source: item.source,
       url: item.link || undefined,
       publishedAt: item.pubDate || undefined,
@@ -158,6 +161,8 @@ async function fetchRss(url: string, sourceLabel: string): Promise<RssItem[]> {
     const res = await fetch(url, {
       headers: { "User-Agent": "REJU-XPost-Research/1.0" },
       cache: "no-store",
+      // One slow feed must never eat the cron's time budget.
+      signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) return [];
     const xml = await res.text();

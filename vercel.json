@@ -3,11 +3,25 @@
     {
       "path": "/api/x-post/auto",
       "schedule": "0 14 * * *"
+    },
+    {
+      "path": "/api/x-post/health",
+      "schedule": "0 16 * * *"
+    },
+    {
+      "path": "/api/x-post/metrics",
+      "schedule": "0 17 * * 1"
     }
   ],
   "functions": {
     "app/api/x-post/auto/route.ts": {
       "maxDuration": 60
+    },
+    "app/api/x-post/health/route.ts": {
+      "maxDuration": 60
+    },
+    "app/api/x-post/metrics/route.ts": {
+      "maxDuration": 30
     }
   }
 }

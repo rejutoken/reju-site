@@ -1,22 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  generateHighQualityPost,
-  getDualSlotPlan,
-  resolvePostSlot,
-  KATS_LEGACY_BOOK,
-  type SlotPostSpec,
-} from "../../../../lib/xPostGenerator";
+import { runAutoPost } from "../../../../lib/xAutoRunner";
 import { SITE_NEWS } from "../../../../lib/siteNews";
-import { fetchWebResearch, type ResearchNote } from "../../../../lib/postResearch";
-import { publishTweet } from "../../../../lib/xPublish";
-import { hashPostText, recordPosted, wasRecentlyPosted } from "../../../../lib/xAutoLog";
+import type { XAccount } from "../../../../lib/xPublish";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
-
-/** Query tuned for headlines that can bridge to long-term utility / ecosystem claims. */
-const TOKEN_NEWS_QUERY =
-  '(cryptocurrency OR bitcoin OR ethereum OR RWA OR "real world asset" OR "token utility" OR "utility token" OR stablecoin OR ETF OR regulation OR institutional) when:2d';
 
 function verifyCronAuth(req: NextRequest): boolean {
   const secret = process.env.CRON_SECRET;
@@ -25,175 +13,38 @@ function verifyCronAuth(req: NextRequest): boolean {
   return auth === `Bearer ${secret}`;
 }
 
-async function fetchTokenNewsNotes(): Promise<ResearchNote[]> {
-  try {
-    const live = await fetchWebResearch({
-      category: "crypto",
-      themes: ["crypto_news"],
-      query: TOKEN_NEWS_QUERY,
-    });
-    return live.notes;
-  } catch (error) {
-    console.error("X AUTO TOKEN NEWS FETCH FAILED:", error);
-    return [];
-  }
+function parseAccounts(value: string | null): XAccount[] | undefined {
+  if (value === "crypto" || value === "rejuvenation") return [value];
+  return undefined;
 }
 
-async function generateAndPublish(
-  spec: SlotPostSpec,
-  variantSeed: number,
-  slot: string,
-  researchContext?: ResearchNote[]
-) {
-  let post = generateHighQualityPost({
-    selectedThemes: spec.themes,
-    coreCategory: spec.category,
-    customFocus: spec.customFocus,
-    postType: "single",
-    tone: "Educational",
-    includeVisual: true,
-    variantSeed,
-    linkUrl: spec.linkUrl,
-    enrollmentOpen: SITE_NEWS.enrollmentOpen,
-    researchContext: spec.category === "crypto" ? researchContext : undefined,
-  });
-
-  for (let attempt = 0; attempt < 3; attempt += 1) {
-    const duplicate = await wasRecentlyPosted(spec.account, post.text);
-    if (!duplicate) break;
-    post = generateHighQualityPost({
-      selectedThemes: spec.themes,
-      coreCategory: spec.category,
-      customFocus: spec.customFocus,
-      postType: "single",
-      tone: "Educational",
-      includeVisual: true,
-      variantSeed: variantSeed + (attempt + 1) * 101,
-      linkUrl: spec.linkUrl,
-      enrollmentOpen: SITE_NEWS.enrollmentOpen,
-      researchContext: spec.category === "crypto" ? researchContext : undefined,
-    });
-  }
-
-  if (await wasRecentlyPosted(spec.account, post.text)) {
-    console.error(`X AUTO SKIPPED DUPLICATE account=${spec.account} slot=${slot}`);
-    return {
-      published: {
-        posted: false as const,
-        reason: "Skipped duplicate text for this account.",
-        account: spec.account,
-      },
-      post: {
-        text: post.text,
-        imagePrompt: post.imagePrompt,
-        hashtags: post.hashtags,
-        theme: post.theme,
-        category: post.category,
-        account: spec.account,
-        linkUrl: spec.linkUrl,
-      },
-      researchQuery: spec.customFocus,
-      newsNotes: researchContext?.length ?? 0,
-    };
-  }
-
-  let publish: Awaited<ReturnType<typeof publishTweet>>;
-  try {
-    publish = await publishTweet(post.text, spec.account);
-  } catch (error) {
-    console.error("X PUBLISH ERROR:", error);
-    publish = { posted: false, reason: "X API rejected the post.", account: spec.account };
-  }
-
-  if (!publish.posted) {
-    console.error(`X AUTO PUBLISH FAILED account=${spec.account} reason=${publish.reason}`);
-  } else {
-    await recordPosted({
-      account: spec.account,
-      textHash: hashPostText(post.text),
-      text: post.text,
-      tweetId: publish.tweetId,
-      slot,
-      at: new Date().toISOString(),
-    });
-  }
-
-  return {
-    published: publish,
-    post: {
-      text: post.text,
-      imagePrompt: post.imagePrompt,
-      hashtags: post.hashtags,
-      theme: post.theme,
-      category: post.category,
-      account: spec.account,
-      linkUrl: spec.linkUrl,
-    },
-    researchQuery: spec.customFocus,
-    newsNotes: researchContext?.length ?? 0,
-  };
-}
-
+/**
+ * Daily auto post, one per account (Vercel cron 14:00 UTC, about 7 AM Pacific).
+ * Query: ?dry=1 plans and renders without uploading or posting; ?account=crypto|rejuvenation
+ * runs one account. Requires Authorization: Bearer CRON_SECRET.
+ */
 async function handleAuto(req: NextRequest) {
   try {
     if (!verifyCronAuth(req)) {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });
     }
-
+    const dryRun = req.nextUrl.searchParams.get("dry") === "1";
+    const accounts = parseAccounts(req.nextUrl.searchParams.get("account"));
     const now = new Date();
-    const slot = resolvePostSlot(now, req.nextUrl.searchParams.get("slot"));
-    const plan = getDualSlotPlan(now, slot);
-
-    if (plan.posts.length === 0) {
-      return NextResponse.json({
-        success: true,
-        allPosted: true,
-        failed: [],
-        slot: plan.slot,
-        relation: plan.relation,
-        schedule: "Both accounts at 7:00 AM California (14:00 UTC). EVENT + TOKEN. Afternoon cron not scheduled.",
-        posts: [],
-      });
-    }
-
-    const needsTokenNews = plan.posts.some((p) => p.category === "crypto");
-    const tokenNews = needsTokenNews ? await fetchTokenNewsNotes() : [];
-
-    const hourSeed = now.getUTCHours() * 1000 + now.getUTCDate() * 10;
-    const results = [];
-    for (let i = 0; i < plan.posts.length; i += 1) {
-      const spec = plan.posts[i];
-      const variantSeed = hourSeed + i * 17 + spec.category.length;
-      results.push(
-        await generateAndPublish(
-          spec,
-          variantSeed,
-          plan.slot,
-          spec.category === "crypto" ? tokenNews : undefined
-        )
-      );
-    }
-
-    const failed = results.flatMap((item) =>
-      item.published.posted
-        ? []
-        : [{ account: item.published.account, reason: item.published.reason }]
-    );
+    const { results, newsCount } = await runAutoPost({ accounts, now, dryRun });
+    const failed = results.filter((r) => !r.posted && !r.dryRun).map((r) => ({ account: r.account, reason: r.reason }));
 
     return NextResponse.json({
       success: failed.length === 0,
-      allPosted: failed.length === 0,
+      allPosted: !dryRun && failed.length === 0,
+      dryRun,
       failed,
-      slot: plan.slot,
-      relation: plan.relation,
       schedule:
-        "Both accounts at 7:00 AM PT: Event rejuvenation + @REJUTOKEN news hook with long-term ecosystem bridge. No Rejunomics/Clarity. Afternoon not scheduled.",
+        "One post per account at 14:00 UTC (7 AM PDT / 6 AM PST). Every post carries a branded image card; text only if the upload fails.",
       meta: {
         generatedAt: now.toISOString(),
-        day: plan.dayName,
-        bookSource: KATS_LEGACY_BOOK.title,
         enrollmentOpen: SITE_NEWS.enrollmentOpen,
-        tokenNewsCount: tokenNews.length,
+        tokenNewsCount: newsCount,
       },
       posts: results,
     });
