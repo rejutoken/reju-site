@@ -58,8 +58,8 @@ export default function BuyPage() {
           </h1>
 
           <p className="mx-auto mt-6 max-w-3xl text-lg leading-relaxed text-left text-gray-300">
-            Find REJU in the wallets and tools below if you want Path B: lock $600 for six months on
-            Streamflow (non-custodial, you keep the keys), and that lock opens the Event and the
+            Find REJU in the wallets and tools below if you want Path B: lock $600 for six months
+            with a non-custodial Streamflow lock, and that lock opens the Event and the
             book. Buying REJU is not the same as joining the Event. See How you enter when you are
             ready to enroll.
           </p>

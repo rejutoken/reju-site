@@ -113,7 +113,7 @@ export default function Home() {
             <EntryCard
               letter="B"
               title="Lock $600 REJU"
-              text="Lock six months on Streamflow. Non-custodial — you keep the keys. That lock opens the Event and the book."
+              text="Lock $600 in REJU for six months with a non-custodial Streamflow lock. That lock opens the Event and the book."
             />
             <EntryCard
               letter="C"
@@ -122,7 +122,7 @@ export default function Home() {
             />
           </div>
           <p className="mx-auto mt-8 max-w-3xl text-center text-base text-gray-400">
-            Built to trust. Transparency. You keep the keys.
+            Built to trust. Transparency. A non-custodial lock.
           </p>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
             <a href={links.onboarding} className={buttonClass}>

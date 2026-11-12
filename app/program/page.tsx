@@ -125,7 +125,7 @@ export default function ProgramPage() {
         <section className="rounded-3xl border border-[#f5c26b]/25 bg-[#120904]/70 p-8 text-center">
           <h2 className="text-2xl font-bold text-[#f5c26b]">How you enter</h2>
           <p className="mx-auto mt-3 max-w-xl text-gray-300">
-            Pay $600, or lock $600 in REJU for six months — you keep the keys. Both paths include
+            Pay $600, or lock $600 in REJU for six months with a non-custodial Streamflow lock. Both paths include
             Kat&apos;s Legacy ($69) and the book you author. Enrollment opens when the site says it is
             open.
           </p>
