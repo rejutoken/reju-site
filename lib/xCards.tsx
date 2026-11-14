@@ -758,7 +758,7 @@ export function buildPinnedElement(account: CardSpec["account"]): ReactElement {
           <div style={{ display: "flex", flexDirection: "column" }}>
             <FlowBox title="Path A" body="Pay $600." />
             <div style={{ display: "flex", height: 22 }} />
-            <FlowBox title="Path B" body="Lock $600 in REJU for 6 months. Keep your keys." highlight />
+            <FlowBox title="Path B" body="Lock $600 in REJU for 6 months. Non-custodial lock." highlight />
           </div>
           <Arrow />
           <div style={{ display: "flex", flexDirection: "column", width: 290, alignItems: "center", textAlign: "center" }}>

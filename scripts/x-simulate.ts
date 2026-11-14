@@ -297,6 +297,11 @@ function staticChecks() {
     ["Big news for crypto\u2026 more soon", "ellipsis character"],
     ["Allocation Clarity and Token Intent explained.", "banned phrase"],
     ["Month seven is a person.", "banned phrase"],
+    ["Path B, and you keep the keys.", "keys custody wording"],
+    ["Lock $600. Keys in your hands.", "keys custody wording"],
+    ["With Path B, your keys stay with you.", "keys custody wording"],
+    ["Keeping your own keys is a skill worth building.", "keys custody wording"],
+    ["REJU is a Renewable Economic Engine for holders.", "banned phrase"],
     ["Fasting cures disease, says the book.", "medical claim"],
   ];
   const missed = bad.filter(([t]) => checkPost(t, { account: "crypto", now, history: [] }).ok);

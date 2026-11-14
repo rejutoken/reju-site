@@ -63,6 +63,7 @@ const FORBIDDEN_LITERALS: Array<{ needle: string; caseSensitive?: boolean; label
   { needle: "allocation clarity", label: 'contains "Allocation Clarity"' },
   { needle: "token intent", label: 'contains "Token Intent"' },
   { needle: "month seven", label: 'contains "month seven"' },
+  { needle: "renewable economic engine", label: 'contains "Renewable Economic Engine"' },
   { needle: "lorem", label: "contains placeholder text" },
   { needle: "undefined", caseSensitive: true, label: 'contains "undefined"' },
   { needle: "null", caseSensitive: true, label: 'contains "null"' },
@@ -81,6 +82,11 @@ const STYLE_PATTERNS: Array<{ pattern: RegExp; label: string }> = [
   { pattern: /\b(100x|moon(ing)?|to the moon|get rich)\b/i, label: "hype language" },
   { pattern: /\bwhat happened in crypto today\b/i, label: "banned framing" },
   { pattern: /--/, label: "double hyphen used as a dash" },
+  {
+    pattern:
+      /\b(?:(?:keep|keeps|kept|keeping|hold|holds|holding)\s+(?:your|the|their|our|his|her|own)\s+(?:own\s+)?keys|keys\s+in\s+your\s+hands|keys\s+stay\s+with\s+you|your\s+keys)\b/i,
+    label: "keys custody wording",
+  },
 ];
 
 const ENROLLMENT_OPEN_CLAIMS = /\b(enroll(ment)? (is )?(now )?open|enroll now|enroll today|sign up now|doors are open)\b/i;

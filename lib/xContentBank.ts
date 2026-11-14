@@ -399,7 +399,7 @@ export const EVENT_BANK: BankPost<EventPillar>[] = [
   {
     id: "ev-status-paths",
     pillar: "status",
-    text: "Two ways into the Event once enrollment opens: pay $600, or lock $600 in REJU for 6 months and keep your keys. Both paths include Kat's Legacy ($69) and the book you author.",
+    text: "Two ways into the Event once enrollment opens: pay $600, or lock $600 in REJU for 6 months with a non-custodial Streamflow lock. Both paths include Kat's Legacy ($69) and the book you author.",
     cardLine: "Two paths in. One Transformation Book out.",
     cardKicker: "Event status",
   },
@@ -487,7 +487,7 @@ export const TAKES: Take[] = [
   { id: "tk-pay-1", category: "payments", text: "Everyday use is the real test for any token.", standalone: true },
   { id: "tk-pay-2", category: "payments", text: "Payments are where crypto meets daily life." },
   { id: "tk-sec-1", category: "security", text: "Self-custody habits matter more every year.", standalone: true },
-  { id: "tk-sec-2", category: "security", text: "Keeping your own keys is a skill worth building.", standalone: true },
+  { id: "tk-sec-2", category: "security", text: "Non-custodial habits are a skill worth building.", standalone: true },
   { id: "tk-rwa-1", category: "realworld", text: "Tokens tied to something real keep gaining ground." },
   { id: "tk-rwa-2", category: "realworld", text: "Real-world use is where a token earns its place.", standalone: true },
   { id: "tk-adopt-1", category: "adoption", text: "Adoption grows one useful product at a time.", standalone: true },
@@ -527,8 +527,8 @@ export const TOKEN_BRIDGES: BridgeLine[] = [
   },
   {
     id: "br-keys",
-    text: "REJU Path B is a 6-month lock where you keep your keys, and the lock opens the Rejuvenation Event.",
-    cardLine: "Lock for 6 months. Keep your keys.",
+    text: "REJU Path B is a 6-month non-custodial Streamflow lock, and the lock opens the Rejuvenation Event.",
+    cardLine: "Lock for 6 months. Non-custodial lock.",
     affinity: ["security", "policy"],
   },
   {
@@ -539,7 +539,7 @@ export const TOKEN_BRIDGES: BridgeLine[] = [
   },
   {
     id: "br-seasons",
-    text: "REJU is designed for holders who think in seasons: lock, keep your keys, and step into a 6-week Event.",
+    text: "REJU is designed for holders who think in seasons: a non-custodial lock, and a 6-week Event.",
     cardLine: "Designed for holders who think in seasons.",
     affinity: ["market", "institutional"],
   },
@@ -563,7 +563,7 @@ export const TOKEN_BRIDGES: BridgeLine[] = [
   },
   {
     id: "br-ticket",
-    text: "REJU turns a 6-month lock into a ticket: your keys stay with you and the Rejuvenation Event opens.",
+    text: "REJU turns a 6-month non-custodial lock into a ticket, and the Rejuvenation Event opens.",
     cardLine: "Your lock becomes your ticket.",
     affinity: ["security", "payments"],
   },
@@ -594,7 +594,7 @@ export const TOKEN_BANK: BankPost<TokenPillar>[] = [
   {
     id: "tk-build-onboarding",
     pillar: "build",
-    text: "Build update: the onboarding page shows both paths into the Event on one screen. Path A pays $600. Path B locks $600 in REJU for 6 months on Streamflow, and your keys stay with you.",
+    text: "Build update: the onboarding page shows both paths into the Event on one screen. Path A pays $600. Path B locks $600 in REJU for 6 months with a non-custodial Streamflow lock.",
     cardLine: "Both paths, one screen.",
     cardKicker: "Build update",
   },
@@ -638,7 +638,7 @@ export const TOKEN_BANK: BankPost<TokenPillar>[] = [
   {
     id: "tk-pathb-steps",
     pillar: "path_b",
-    text: "Path B in three steps: buy about $600 of REJU, lock it on Streamflow for 6 months, add Kat's Legacy ($69). Your keys stay with you, and the lock opens the Event.",
+    text: "Path B in three steps: buy about $600 of REJU, lock it for 6 months with a non-custodial Streamflow lock, add Kat's Legacy ($69). The lock opens the Event.",
     cardLine: "Path B in three steps.",
     cardKicker: "Path B",
   },
@@ -652,7 +652,7 @@ export const TOKEN_BANK: BankPost<TokenPillar>[] = [
   {
     id: "tk-pathb-same-event",
     pillar: "path_b",
-    text: "Path A or Path B, same Event. Pay $600, or lock $600 in REJU for 6 months and keep your keys. Both include Kat's Legacy ($69) and the Transformation Book you author.",
+    text: "Path A or Path B, same Event. Pay $600, or lock $600 in REJU for 6 months with a non-custodial Streamflow lock. Both include Kat's Legacy ($69) and the Transformation Book you author.",
     cardLine: "Path A or Path B. Same Event.",
     cardKicker: "Path B",
   },
@@ -673,7 +673,7 @@ export const TOKEN_BANK: BankPost<TokenPillar>[] = [
   {
     id: "tk-pathb-patience",
     pillar: "path_b",
-    text: "Path B asks one thing of holders: patience. Six months in a REJU lock, keys in your hands, and a seat in the Rejuvenation Event.",
+    text: "Path B asks one thing of holders: patience. Six months in a non-custodial REJU lock, and a seat in the Rejuvenation Event.",
     cardLine: "Path B asks for patience.",
     cardKicker: "Path B",
   },
@@ -721,7 +721,7 @@ export const TOKEN_BANK: BankPost<TokenPillar>[] = [
   {
     id: "tk-q-keys",
     pillar: "question",
-    text: "Do you keep your tokens on an exchange or in your own wallet? With the REJU Path B lock, your keys stay with you the whole time.",
+    text: "Do you keep your tokens on an exchange or in your own wallet? Path B uses a non-custodial Streamflow lock, and that lock opens the Rejuvenation Event.",
     cardLine: "Exchange or your own wallet?",
     cardKicker: "Question",
     linkOk: false,

@@ -57,8 +57,8 @@ const REJUVENATION_THEMES = [
 ];
 
 const CRYPTO_THEMES = [
-  { id: "vision", label: "Month seven is the Event" },
-  { id: "trust_lock", label: "Lock / you keep the keys" },
+  { id: "vision", label: "Built for the Event" },
+  { id: "trust_lock", label: "Lock / non-custodial lock" },
   { id: "bridge", label: "Path B opens the Event" },
   { id: "question", label: "What a token should still be doing" },
 ];
@@ -148,8 +148,8 @@ export default function XPostStudio({ entry = "admin" }: { entry?: XPostEntry })
       const starterDrafts: GeneratedPost[] = [
         {
           id: "seed1",
-          text: "Most tokens end at launch week.\nREJU was built so month seven is a person in a Rejuvenation Event authoring their Transformation Book.\nBuilt to trust. You keep the keys. The Event → @REJUvenationTKN rejutkn.com",
-          imagePrompt: "Month-seven calendar meeting a person with a hardcover book. Dark gold editorial. No URL.",
+          text: "Most tokens end at launch week.\nREJU was built so a holder can walk into a Rejuvenation Event and author their Transformation Book.\nBuilt to trust. A non-custodial lock. The Event → @REJUvenationTKN rejutkn.com",
+          imagePrompt: "A person with a hardcover book beside a calendar. Dark gold editorial. No URL.",
           hashtags: "#REJU #RejuvenationEvent",
           theme: "vision",
           createdAt: new Date().toISOString(),

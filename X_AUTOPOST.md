@@ -26,7 +26,7 @@ All three require `Authorization: Bearer $CRON_SECRET` (Vercel adds it to cron c
 4. Every third post per account carries a link (rejutkn.com/program for the Event, rejutkn.com for the token), decided from the log so it is deterministic.
 5. "Follow @REJUvenationTKN for the Event." appears on at most 2 token posts in any 7 days, never on a post that already has a link.
 
-Quality gate rejects: "...", "…", square brackets, "ready to paste", "(or their", TODO, double spaces, em and en dashes, Clarity, Rejunomics, Allocation Clarity, Token Intent, month seven, enrollment-open claims, disease or guarantee claims, more than 280 weighted characters, a second post on the same account within 6h, an exact repeat within 45 days, more than 60% word overlap with any post in the last 30 days, and headlines that are cut off, older than 36h, carry a past month or year, or were already used.
+Quality gate rejects: "...", "…", square brackets, "ready to paste", "(or their", TODO, double spaces, em and en dashes, Clarity, Rejunomics, Allocation Clarity, Token Intent, month seven, Renewable Economic Engine, keys custody wording, enrollment-open claims, disease or guarantee claims, more than 280 weighted characters, a second post on the same account within 6h, an exact repeat within 45 days, more than 60% word overlap with any post in the last 30 days, and headlines that are cut off, older than 36h, carry a past month or year, or were already used.
 
 ## Images (`lib/xCards.tsx`, `lib/xCardVariants.ts`)
 
